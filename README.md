@@ -10,7 +10,7 @@ Made with KShare itself, of course :)
 ![](http://i.imgur.com/ffWvCun.png)
 
 ## Usage
-See the [wiki](https://github.com/ArsenArsen/KShare/wiki).
+See the [wiki](https://gitlab.com/ArsenArsen/KShare/wiki).
 
 ## Dependencies
 * Qt 5 Widgets
@@ -26,7 +26,7 @@ See the [wiki](https://github.com/ArsenArsen/KShare/wiki).
 Despite the name implying so, this project does not depend on the KDE API at all.
 
 ## Goals
-See the [projects](https://github.com/ArsenArsen/KShare/projects)
+See the [project board](https://gitlab.com/ArsenArsen/KShare/boards)
 
 ## Install
 
@@ -45,7 +45,7 @@ For other UNIX-like platforms, and MSYS2 (for Windows):
 
 You have to obtain the dependencies though.
 ```bash
-git clone https://github.com/ArsenArsen/KShare.git
+git clone https://gitlab.com/ArsenArsen/KShare.git
 cd KShare
 qmake // Might be qmake-qt5 on your system
 make
