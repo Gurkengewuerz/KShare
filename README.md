@@ -10,7 +10,7 @@ Made with KShare itself, of course :)
 ![](http://i.imgur.com/ffWvCun.png)
 
 ## Usage
-See the [wiki](https://gitlab.com/ArsenArsen/KShare/wiki).
+See the [wiki](https://gitlab.com/ArsenArsen/KShare/wikis/home).
 
 ## Dependencies
 * Qt 5 Widgets
