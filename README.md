@@ -1,9 +1,11 @@
 # KShare
-A [ShareX](https://getsharex.com/) inspired cross platform utility written with Qt.
+A [ShareX](https://getsharex.com/) inspired cross platform utility written with Qt.  
+Originally written by [ArsenArsen](https://github.com/ArsenArsen) and here enhanced with [these](https://github.com/Gurkengewuerz/KShare/projects/1) features.
 
 |Linux|Windows|
 |:---:|:-----:|
-|[![Build Status](https://nativeci.arsenarsen.com/job/KShare%20(dev)/badge/icon)](https://nativeci.arsenarsen.com/job/KShare%20(dev))|[![Build status](https://ci.appveyor.com/api/projects/status/7wa4f0bl6u62lo6v?svg=true)](https://ci.appveyor.com/project/ArsenArsen/kshare)|
+|[![Build Status](https://nativeci.arsenarsen.com/job/KShare%20(dev)/badge/icon)](https://nativeci.arsenarsen.com/job/KShare%20(dev))|[![Build status](https://ci.appveyor.com/api/projects/status/ujxmg1dk7f5p8ijh?svg=true)](https://ci.appveyor.com/project/Gurkengewuerz/kshare)
+|
 ## Screenshot
 Made with KShare itself, of course :)
 ![](http://i.imgur.com/ffWvCun.png)
@@ -54,11 +56,4 @@ You can attempt to `curl https://raw.githubusercontent.com/ArsenArsen/KShare/mas
 
 You can find more details [here](https://blog.arsenarsen.com/posts/compiling-kshare-on-linux-mac-os-x-and-windows-final-revision)
 
-## Support (and contact)
-There's a few ways to get support, you can:
-* join `#kshare` on [Freenode](https://webchat.freenode.net/?channels=kshare)
-* open an issue
-
-If someone can answer, they probably will.
-
-###### Started on 19th of April 2017 to bring some attention and improvement to Linux screenshotting.
+###### Started on 19th of April 2017 by [ArsenArsen](https://github.com/ArsenArsen) to bring some attention and improvement to Linux screenshotting.
