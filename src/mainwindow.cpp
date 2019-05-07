@@ -55,7 +55,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     tray->setToolTip("KShare");
     tray->setVisible(true);
     menu = new QMenu(this);
-    QAction *quit = ACTION(tr("Quit"), menu);
     QAction *shtoggle = ACTION(tr("Show/Hide"), menu);
     QAction *fullscreen = ACTION(tr("Take fullscreen shot"), menu);
     QAction *area = ACTION(tr("Take area shot"), menu);
@@ -68,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     QAction *rec = ACTION(tr("Record screen"), menu);
     QAction *recoff = ACTION(tr("Stop recording"), menu);
     QAction *recabort = ACTION(tr("Abort recording"), menu);
-    menu->addActions({ quit, shtoggle, picker });
+    menu->addActions({ shtoggle, picker });
     menu->addSeparator();
     menu->addActions({ fullscreen, area });
 #ifdef PLATFORM_CAPABILITY_ACTIVEWINDOW
@@ -76,6 +75,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 #endif
     menu->addSeparator();
     menu->addActions({ rec, recoff, recabort });
+    
+    QAction *quit = ACTION(tr("Quit"), menu);
+    QAction *about = ACTION(tr("About"), menu);
+    menu->addSeparator();
+    menu->addActions({ about, quit });
+    
     connect(quit, &QAction::triggered, this, &MainWindow::quit);
     connect(shtoggle, &QAction::triggered, this, &MainWindow::toggleVisible);
     connect(picker, &QAction::triggered, [] { ColorPickerScene::showPicker(); });
