@@ -21,6 +21,8 @@ cd packages/windows
 cp ../../KShare.exe . || exit 3
 7z a -tzip portable.zip KShare.exe
 
+cp /c/Windows/System32/msvcr120.dll /c/projects/kshare/packages/windows/
+
 sed "s/;VER;/$ver/" installer.iss.pattern.top > installer.iss
 
 addFile ../../build/QtAV-depends-windows-x86+x64/bin/avcodec-57.dll
@@ -42,7 +44,8 @@ addFile /c/Qt/5.9/mingw53_32/bin/LIBGCC_S_DW2-1.DLL
 
 addFile /c/OpenSSL-Win32/bin/libeay32.dll
 addFile /c/OpenSSL-Win32/bin/ssleay32.dll
-addFile /c/OpenSSL-Win32/bin/msvcr120.dll
+#addFile /c/OpenSSL-Win32/bin/msvcr120.dll
+addFile /c/Windows/System32/msvcr120.dll
 
 echo -----------------
 ls /c/OpenSSL-Win32/bin/ -R
