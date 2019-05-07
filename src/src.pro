@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network widgets svg
+QT       += core gui network widgets svg multimedia
 
 TARGET = kshare
 TEMPLATE = app
@@ -191,6 +191,7 @@ FORMS    += mainwindow.ui \
 
 RESOURCES += \
     icon.qrc \
+    sounds.qrc \
     translations.qrc
 
 QMAKE_CFLAGS_DEBUG += -g

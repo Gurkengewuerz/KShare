@@ -18,6 +18,7 @@ Please note that KShare is not compatiable with Wayland due to some permission i
 * Qt 5 Widgets
 * Qt 5 GUI
 * Qt 5 Network
+* Qt 5 Multimedia
 * Qt 5 X11Extras | Winextras
 * [QHotkey](https://github.com/Skycoder42/QHotkey)
 * libavformat

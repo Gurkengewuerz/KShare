@@ -12,6 +12,7 @@
 #include <logger.hpp>
 #include <notifications.hpp>
 #include <settings.hpp>
+#include "mainwindow.hpp"
 
 UploaderSingleton::UploaderSingleton() : QObject() {
     updateSaveSettings();
@@ -68,6 +69,7 @@ void UploaderSingleton::upload(QPixmap pixmap) {
         file = new QTemporaryFile();
     }
     if (file->open(QFile::ReadWrite)) {
+        playSound();
         pixmap.save(file, format.toLocal8Bit().constData(), settings::settings().value("imageQuality", -1).toInt());
         file->seek(0);
         u->doUpload(file->readAll(), format);
@@ -88,6 +90,7 @@ void UploaderSingleton::upload(QByteArray img, QString format) {
         file = new QTemporaryFile();
     }
     if (file->open(QFile::WriteOnly)) {
+        playSound();
         file->write(img);
         file->close();
     }
@@ -101,6 +104,7 @@ void UploaderSingleton::upload(QFile &img, QString format) {
     if (!saveImages || img.rename(saveDir.absoluteFilePath(
         formatter::format(settings::settings().value("fileFormat", "Screenshot %(yyyy-MM-dd HH-mm-ss)date.%ext").toString(),
                           format.toLower())))) {
+        playSound();
         if (img.open(QFile::ReadWrite))
             uploaders.value(uploader)->doUpload(img.readAll(), format);
         else
@@ -167,4 +171,15 @@ void UploaderSingleton::updateSaveSettings() {
             qFatal("Could not create the path %s to store images in!", saveDir.absolutePath().toLocal8Bit().constData());
         }
     }
+}
+
+void UploaderSingleton::playSound() {
+    mediaPlayer = new QMediaPlayer(MainWindow::inst());
+    mediaPlayer->setMedia(QUrl("qrc:/capturesound.wav"));
+    mediaPlayer->setVolume(50);
+    mediaPlayer->play();
+
+    if(mediaPlayer->error() != QMediaPlayer::NoError && mediaPlayer->error() != QMediaPlayer::ServiceMissingError)
+        notifications::notify(QString::number(mediaPlayer->error()), mediaPlayer->errorString(), QSystemTrayIcon::Warning);
+
 }

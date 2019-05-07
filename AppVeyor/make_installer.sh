@@ -35,6 +35,7 @@ addFile /c/Qt/5.9/mingw53_32/bin/Qt5Network.dll
 addFile /c/Qt/5.9/mingw53_32/bin/Qt5Gui.dll
 addFile /c/Qt/5.9/mingw53_32/bin/Qt5Widgets.dll
 addFile /c/Qt/5.9/mingw53_32/bin/Qt5WinExtras.dll
+addFile /c/Qt/5.9/mingw53_32/bin/Qt5Multimedia.dll
 
 addFileIn /c/Qt/5.9/mingw53_32/plugins/platforms/qwindows.dll platforms
 
