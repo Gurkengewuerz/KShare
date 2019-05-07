@@ -2,10 +2,11 @@
 A [ShareX](https://getsharex.com/) inspired cross platform utility written with Qt.  
 Originally written by [ArsenArsen](https://github.com/ArsenArsen) and here enhanced with [these](https://github.com/Gurkengewuerz/KShare/projects/1) features.
 
-|Linux|Windows|
-|:---:|:-----:|
-|[![Build Status](https://nativeci.arsenarsen.com/job/KShare%20(dev)/badge/icon)](https://nativeci.arsenarsen.com/job/KShare%20(dev))|[![Build status](https://ci.appveyor.com/api/projects/status/ujxmg1dk7f5p8ijh?svg=true)](https://ci.appveyor.com/project/Gurkengewuerz/kshare)
-|
+|  | Linux | Windows |
+|--------|-------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| master | [![CircleCI](https://circleci.com/gh/Gurkengewuerz/KShare/tree/master.svg?style=svg)](https://circleci.com/gh/Gurkengewuerz/KShare/tree/master) | [![Build status](https://ci.appveyor.com/api/projects/status/ujxmg1dk7f5p8ijh/branch/master?svg=true)](https://ci.appveyor.com/project/Gurkengewuerz/kshare/branch/master) |
+| dev | [![CircleCI](https://circleci.com/gh/Gurkengewuerz/KShare/tree/dev.svg?style=svg)](https://circleci.com/gh/Gurkengewuerz/KShare/tree/dev) | [![Build status](https://ci.appveyor.com/api/projects/status/ujxmg1dk7f5p8ijh/branch/dev?svg=true)](https://ci.appveyor.com/project/Gurkengewuerz/kshare/branch/dev) |
+
 ## Screenshot
 Made with KShare itself, of course :)
 ![](http://i.imgur.com/ffWvCun.png)
