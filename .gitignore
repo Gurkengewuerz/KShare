@@ -51,3 +51,6 @@ vgcore.*
 *.Release
 
 .*_history
+
+.idea/
+build/
