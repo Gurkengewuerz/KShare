@@ -12,6 +12,8 @@
 #include <formatter.hpp>
 #include <io/ioutils.hpp>
 #include <notifications.hpp>
+#include <QMediaPlayer>
+#include "mainwindow.hpp"
 
 using formats::normalFormatFromName;
 using formats::normalFormatMIME;
@@ -212,6 +214,7 @@ void CustomUploader::parseResult(QJsonDocument result, QByteArray data, QString 
     if (result.isObject()) {
         QString url
         = formatter::format(urlPrepend, "") + parsePathspec(result, returnPathspec) + formatter::format(urlAppend, "");
+        playSuccessSound();
         if (!url.isEmpty()) {
             QApplication::clipboard()->setText(url);
             notifications::notify(tr("KShare Custom Uploader ") + name, tr("Copied upload link to clipboard!"));
@@ -220,6 +223,7 @@ void CustomUploader::parseResult(QJsonDocument result, QByteArray data, QString 
             QApplication::clipboard()->setText(data);
         }
     } else {
+        playErrorSound();
         notifications::notify(tr("KShare Custom Uploader ") + name,
                               tr("Upload done, but result is not JSON Object! Result in clipboard."));
         QApplication::clipboard()->setText(data);
@@ -338,6 +342,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
                                                QApplication::clipboard()->setText(QString::fromUtf8(result));
                                                for (auto buffer : buffersToDelete) buffer->deleteLater();
                                                for (auto arr : arraysToDelete) delete arr;
+                                               playSuccessSound();
                                                notifications::notify(tr("KShare Custom Uploader ") + name(),
                                                                      tr("Copied upload result to clipboard!"));
                                            });
@@ -355,6 +360,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
     }
     }
     if (limit > 0 && data.size() > limit) {
+        playErrorSound();
         notifications::notify(tr("KShare Custom Uploader ") + name(), tr("File limit exceeded!"));
         return;
     }
@@ -363,6 +369,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
         if (returnPathspec == "|") {
             ioutils::postData(target, h, data, [&](QByteArray result, QNetworkReply *) {
                 QApplication::clipboard()->setText(QString::fromUtf8(result));
+                playSuccessSound();
                 notifications::notify(tr("KShare Custom Uploader ") + name(), tr("Copied upload result to clipboard!"));
             });
         } else {
@@ -372,4 +379,24 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
         }
         break;
     }
+}
+
+void CustomUploader::playSuccessSound() {
+    QMediaPlayer* mediaPlayer = new QMediaPlayer(MainWindow::inst());
+    mediaPlayer->setMedia(QUrl("qrc:/successsound.wav"));
+    mediaPlayer->setVolume(50);
+    mediaPlayer->play();
+
+    if(mediaPlayer->error() != QMediaPlayer::NoError && mediaPlayer->error() != QMediaPlayer::ServiceMissingError)
+        notifications::notify(QString::number(mediaPlayer->error()), mediaPlayer->errorString(), QSystemTrayIcon::Warning);
+}
+
+void CustomUploader::playErrorSound() {
+    QMediaPlayer* mediaPlayer = new QMediaPlayer(MainWindow::inst());
+    mediaPlayer->setMedia(QUrl("qrc:/errorsound.wav"));
+    mediaPlayer->setVolume(50);
+    mediaPlayer->play();
+
+    if(mediaPlayer->error() != QMediaPlayer::NoError && mediaPlayer->error() != QMediaPlayer::ServiceMissingError)
+        notifications::notify(QString::number(mediaPlayer->error()), mediaPlayer->errorString(), QSystemTrayIcon::Warning);
 }

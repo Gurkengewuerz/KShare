@@ -20,6 +20,8 @@ public:
 
 private:
     void handleSend(QString auth, QString mime, QByteArray byteArray);
+    void playSuccessSound();
+    void playErrorSound();
 };
 
 #endif // IMGURUPLOADER_HPP

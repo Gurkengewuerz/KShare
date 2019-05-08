@@ -33,6 +33,8 @@ private:
     QString returnPathspec;
     QString urlPrepend, urlAppend;
     void parseResult(QJsonDocument result, QByteArray data, QString returnPathspec, QString name);
+    void playSuccessSound();
+    void playErrorSound();
 };
 
 #endif // CUSTOMUPLOADER_HPP
