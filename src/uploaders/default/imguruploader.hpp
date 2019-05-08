@@ -15,11 +15,11 @@ public:
     QString description() override {
         return "imgur.com uploader";
     }
-    void doUpload(QByteArray byteArray, QString) override;
+    void doUpload(QByteArray byteArray, QString, QString filename) override;
     void showSettings() override;
 
 private:
-    void handleSend(QString auth, QString mime, QByteArray byteArray);
+    void handleSend(QString auth, QString mime, QByteArray byteArray, QString filename);
     void playSuccessSound();
     void playErrorSound();
 };

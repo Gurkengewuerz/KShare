@@ -4,6 +4,9 @@
 #include <io/ioutils.hpp>
 #include <utils.hpp>
 
+#include "mainwindow.hpp"
+#include "ui_mainwindow.h"
+
 // $type $url $status $time
 // $type = GET POST PATCH DELETE etc
 // $url = request target
@@ -37,6 +40,7 @@ void requestlogging::addEntry(RequestContext context) {
 
     QTextStream(&requestFile) << ioutils::methodString(context.reply->operation()) << " "   // $type
                               << context.reply->url().toString().replace(" ", "%20") << " " // $url
+                              << context.filename.replace(" ", "_") << " " // $filename
                               << context.reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() << " " // $status
                               << timeNow.replace(" ", "_") << endl
                               << flush; // $time
@@ -57,9 +61,11 @@ QList<LoggedRequest> requestlogging::getRequests() {
         QTextStream stream(&line);
         stream >> r.type;
         stream >> r.url;
+        stream >> r.filename;
         stream >> r.responseCode;
         stream >> r.time;
         r.time = r.time.replace("_", " ");
+        r.filename = r.filename.replace("_", " ");
         ret.append(r);
     }
 

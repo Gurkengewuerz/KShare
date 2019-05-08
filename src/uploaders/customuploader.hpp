@@ -18,7 +18,7 @@ public:
     CustomUploader(QString absFilePath);
     QString name();
     QString description();
-    void doUpload(QByteArray imgData, QString format);
+    void doUpload(QByteArray imgData, QString format, QString filename);
 
 private:
     double limit = -1;

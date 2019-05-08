@@ -3,6 +3,7 @@
 
 #include <QByteArray>
 #include <QNetworkReply>
+#include <QString>
 #include <settings.hpp>
 
 
@@ -10,6 +11,7 @@ namespace requestlogging {
     struct RequestContext {
         QByteArray response;
         QNetworkReply *reply;
+        QString filename;
     };
 
     class LoggedRequest {
@@ -18,6 +20,9 @@ namespace requestlogging {
     public:
         QString getUrl() {
             return url;
+        }
+        QString getFilename() {
+            return filename;
         }
         QString getType() {
             return type;
@@ -34,6 +39,7 @@ namespace requestlogging {
 
     private:
         QString url;
+        QString filename;
         QString type;
         QString time;
         int responseCode;

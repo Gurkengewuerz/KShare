@@ -30,7 +30,8 @@ private slots:
     void on_actionAbout_triggered();
     void on_actionActive_window_triggered();
     void on_actionAbort_triggered();
-    void on_history_clicked();
+    void openScreenshotFolder();
+    void on_treeWidget_doubleClicked(const QModelIndex &);
 
 public:
     static MainWindow *inst();

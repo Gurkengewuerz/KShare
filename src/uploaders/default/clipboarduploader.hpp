@@ -15,7 +15,7 @@ public:
         return "Copies the image to clipboard";
     }
 
-    void doUpload(QByteArray imgData, QString format);
+    void doUpload(QByteArray imgData, QString format, QString filename);
 };
 
 #endif // CLIPBOARDUPLOADER_HPP

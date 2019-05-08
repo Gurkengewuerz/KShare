@@ -10,13 +10,21 @@
 #include <formats.hpp>
 #include <hotkeying.hpp>
 #include <logger.hpp>
-#include <logs/historydialog.hpp>
 #include <platformbackend.hpp>
 #include <recording/recordingformats.hpp>
 #include <settings.hpp>
 #include <uploaders/uploadersingleton.hpp>
+#include <QBuffer>
+#include <QDir>
+#include <QFile>
+#include <QStandardPaths>
+#include <QDesktopServices>
+#include <logs/requestlogging.hpp>
+#include <monospacetextdialog.hpp>
 
 MainWindow *MainWindow::instance;
+
+using requestlogging::LoggedRequest;
 
 void MainWindow::rec() {
     if (controller->isRunning()) return;
@@ -94,7 +102,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(recoff, &QAction::triggered, controller, &RecordingController::end);
     connect(recabort, &QAction::triggered, controller, &RecordingController::abort);
     connect(about, &QAction::triggered, this, &MainWindow::on_actionAbout_triggered);
-    connect(ui->settings, &QPushButton::clicked, this, &MainWindow::on_actionSettings_triggered);
+
+    connect(ui->settingsButton, &QPushButton::clicked, this, &MainWindow::on_actionSettings_triggered);
+    connect(ui->fullscreenButton, &QPushButton::clicked, this, [] { screenshotter::fullscreenDelayed(); });
+    connect(ui->areaButton, &QPushButton::clicked, this, [] { screenshotter::areaDelayed(); });
+    connect(ui->aboutButton, &QPushButton::clicked, this, &MainWindow::on_actionAbout_triggered);
+    connect(ui->screenshotFolderButton, &QPushButton::clicked, this, &MainWindow::openScreenshotFolder);
+    connect(ui->colorPickerButton, &QPushButton::clicked, this, [] { ColorPickerScene::showPicker(); });
 
     tray->setContextMenu(menu);
 
@@ -110,6 +124,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     for (auto err : errors) ui->logBox->addItem(QString("ERROR: ") + err.what());
     setWindowTitle("KShare v" + QApplication::applicationVersion());
     val = true;
+
+    QList<LoggedRequest> requests = requestlogging::getRequests();
+    for (LoggedRequest req : requests) {
+        ui->treeWidget->addTopLevelItem(
+                new QTreeWidgetItem({ QString::number(req.getResponseCode()), req.getFilename(), req.getUrl(), req.getTime() + " UTC" }));
+    }
 }
 
 MainWindow::~MainWindow() {
@@ -189,9 +209,41 @@ void MainWindow::on_actionAbort_triggered() {
     controller->abort();
 }
 
-void MainWindow::on_history_clicked() {
-    HistoryDialog *dialog = new HistoryDialog;
+void MainWindow::on_treeWidget_doubleClicked(const QModelIndex &) {
+    QString file = ui->treeWidget->currentItem()->text(3);
+    file = settings::dir().absoluteFilePath("responses/" + file.left(file.length() - 4));
+
+    QFile dataFile(file);
+    if (!dataFile.open(QIODevice::ReadOnly)) return;
+    MonospaceTextDialog *dialog = new MonospaceTextDialog(file, dataFile.readAll());
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->show();
+}
+
+void MainWindow::openScreenshotFolder() {
+    QDir saveDir;
+    switch (settings::settings().value("saveLocation", 1).toInt()) {
+        case 0:
+            saveDir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+            if (QStandardPaths::writableLocation(QStandardPaths::PicturesLocation).isEmpty()) {
+                qFatal("%s", tr("Cannot determine location for pictures").toLocal8Bit().constData());
+            }
+            break;
+        case 1:
+            if (QStandardPaths::writableLocation(QStandardPaths::HomeLocation).isEmpty()) {
+                qFatal("%s", tr("Cannot determine location of your home directory").toLocal8Bit().constData());
+            }
+            saveDir = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/Screenshots";
+            break;
+        default:
+            qFatal("%s", tr("Invalid config [saveLocation not int or is not in range]").toLocal8Bit().constData());
+            return;
+        case 2:
+            // Do not Save images
+            return;
+    }
+
+    QDesktopServices::openUrl(QUrl::fromLocalFile(saveDir.absolutePath()));
 }
 
 void MainWindow::setTrayIcon(QIcon icon) {

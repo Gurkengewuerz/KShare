@@ -5,6 +5,7 @@
 #include <QBuffer>
 #include <QDir>
 #include <QFile>
+#include <QFileInfo>
 #include <QStandardPaths>
 #include <QTemporaryFile>
 #include <formats.hpp>
@@ -72,7 +73,8 @@ void UploaderSingleton::upload(QPixmap pixmap) {
         playSound();
         pixmap.save(file, format.toLocal8Bit().constData(), settings::settings().value("imageQuality", -1).toInt());
         file->seek(0);
-        u->doUpload(file->readAll(), format);
+        QFileInfo fileInfo(file->fileName());
+        u->doUpload(file->readAll(), format, fileInfo.fileName());
     } else
         notifications::notify(tr("KShare - Failed to save picture"), file->errorString(), QSystemTrayIcon::Warning);
     delete file;
@@ -94,8 +96,9 @@ void UploaderSingleton::upload(QByteArray img, QString format) {
         file->write(img);
         file->close();
     }
+    QFileInfo fileInfo(file->fileName());
     delete file;
-    uploaders.value(uploader)->doUpload(img, format);
+    uploaders.value(uploader)->doUpload(img, format, fileInfo.fileName());
 }
 
 void UploaderSingleton::upload(QFile &img, QString format) {
@@ -105,8 +108,9 @@ void UploaderSingleton::upload(QFile &img, QString format) {
         formatter::format(settings::settings().value("fileFormat", "Screenshot %(yyyy-MM-dd HH-mm-ss)date.%ext").toString(),
                           format.toLower())))) {
         playSound();
+        QFileInfo fileInfo(img.fileName());
         if (img.open(QFile::ReadWrite))
-            uploaders.value(uploader)->doUpload(img.readAll(), format);
+            uploaders.value(uploader)->doUpload(img.readAll(), format, fileInfo.fileName());
         else
             notifications::notify(tr("KShare - Failed to save picture"), img.errorString(), QSystemTrayIcon::Warning);
     } else

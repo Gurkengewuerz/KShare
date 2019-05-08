@@ -67,7 +67,6 @@ SOURCES += main.cpp\
     uploaders/default/imgursettingsdialog.cpp \
     filenamevalidator.cpp \
     logs/requestlogging.cpp \
-    logs/historydialog.cpp \
     monospacetextdialog.cpp \
     cropeditor/selectionrectangle.cpp \
     screenoverlay/screenoverlayview.cpp \
@@ -119,7 +118,6 @@ HEADERS  += mainwindow.hpp \
     uploaders/default/imgursettingsdialog.hpp \
     filenamevalidator.hpp \
     logs/requestlogging.hpp \
-    logs/historydialog.hpp \
     monospacetextdialog.hpp \
     cropeditor/selectionrectangle.hpp \
     screenoverlay/screenoverlayview.hpp \
@@ -185,7 +183,6 @@ FORMS    += mainwindow.ui \
     aboutbox.ui \
     hotkeyinputdialog.ui \
     uploaders/default/imgursettingsdialog.ui \
-    logs/historydialog.ui \
     monospacetextdialog.ui \
     screenoverlay/screenoverlaysettings.ui
 
