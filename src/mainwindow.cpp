@@ -17,9 +17,11 @@
 #include <QBuffer>
 #include <QDir>
 #include <QFile>
+#include <QIcon>
 #include <QStandardPaths>
 #include <QDesktopServices>
 #include <logs/requestlogging.hpp>
+#include "io/ioutils.hpp"
 #include <monospacetextdialog.hpp>
 
 MainWindow *MainWindow::instance;
@@ -108,7 +110,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->areaButton, &QPushButton::clicked, this, [] { screenshotter::areaDelayed(); });
     connect(ui->aboutButton, &QPushButton::clicked, this, &MainWindow::on_actionAbout_triggered);
     connect(ui->screenshotFolderButton, &QPushButton::clicked, this, &MainWindow::openScreenshotFolder);
+    connect(ui->clipboardButton, &QPushButton::clicked, this, &MainWindow::openScreenshotFolder);
     connect(ui->colorPickerButton, &QPushButton::clicked, this, [] { ColorPickerScene::showPicker(); });
+
+    ui->aboutButton->setFocus();
 
     tray->setContextMenu(menu);
 
@@ -127,8 +132,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     QList<LoggedRequest> requests = requestlogging::getRequests();
     for (LoggedRequest req : requests) {
-        ui->treeWidget->addTopLevelItem(
-                new QTreeWidgetItem({ QString::number(req.getResponseCode()), req.getFilename(), req.getUrl(), req.getTime() + " UTC" }));
+        QString httpStatus = ioutils::httpString(req.getResponseCode());
+        QTreeWidgetItem* tw = new QTreeWidgetItem({ QString::number(req.getResponseCode()) + " " + httpStatus, req.getFilename(), req.getUrl(), req.getTime() + " UTC" });
+
+        if(req.getResponseCode() >= 200 && req.getResponseCode() < 300) {
+            tw->setIcon(0, *(new QIcon(":/icons/checked.png")));
+        } else {
+            tw->setIcon(0, *(new QIcon(":/icons/error.png")));
+        }
+
+        ui->treeWidget->addTopLevelItem(tw);
     }
 }
 

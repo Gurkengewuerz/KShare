@@ -31,6 +31,7 @@ namespace ioutils {
                            QString filename,
                            std::function<void(QByteArray, QNetworkReply *)> callback);
     QString methodString(QNetworkAccessManager::Operation operation);
+    QString httpString(int responseCode);
 } // namespace ioutils
 
 #endif // IOUTILS_HPP

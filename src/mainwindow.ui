@@ -6,9 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>760</width>
-    <height>363</height>
+    <width>819</width>
+    <height>388</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>12</pointsize>
+   </font>
   </property>
   <property name="windowTitle">
    <string notr="true">KShare</string>
@@ -39,12 +44,18 @@
         <property name="text">
          <string>Copy Clipboard</string>
         </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item row="6" column="0">
        <widget class="QPushButton" name="settingsButton">
         <property name="text">
          <string>Settings</string>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -53,12 +64,18 @@
         <property name="text">
          <string>Area</string>
         </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item row="4" column="0">
        <widget class="QPushButton" name="colorPickerButton">
         <property name="text">
          <string>Open color picker</string>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -67,6 +84,15 @@
         <property name="text">
          <string>About</string>
         </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item row="0" column="0">
@@ -74,12 +100,18 @@
         <property name="text">
          <string>Fullscreen</string>
         </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item row="5" column="0">
        <widget class="QPushButton" name="screenshotFolderButton">
         <property name="text">
          <string>Open Screenshot Folder</string>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -97,6 +129,9 @@
        <layout class="QGridLayout" name="gridLayout_5">
         <item row="0" column="0">
          <widget class="QTreeWidget" name="treeWidget">
+          <property name="indentation">
+           <number>0</number>
+          </property>
           <property name="rootIsDecorated">
            <bool>true</bool>
           </property>
@@ -160,8 +195,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>760</width>
-     <height>23</height>
+     <width>819</width>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

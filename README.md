@@ -8,8 +8,8 @@ Originally written by [ArsenArsen](https://github.com/ArsenArsen) and here enhan
 | dev | [![CircleCI](https://circleci.com/gh/Gurkengewuerz/KShare/tree/dev.svg?style=svg)](https://circleci.com/gh/Gurkengewuerz/KShare/tree/dev) | [![Build status](https://ci.appveyor.com/api/projects/status/ujxmg1dk7f5p8ijh/branch/dev?svg=true)](https://ci.appveyor.com/project/Gurkengewuerz/kshare/branch/dev) |
 
 ## Screenshot
-Made with KShare itself, of course :)
-![](http://i.imgur.com/ffWvCun.png)
+Made with KShare itself, of course :)  
+![](https://i.imgur.com/oJrCNkq.png)
 
 ## Usage
 See the [wiki](https://github.com/ArsenArsen/KShare/wiki).

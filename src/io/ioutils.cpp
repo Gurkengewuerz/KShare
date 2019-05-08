@@ -146,17 +146,32 @@ void ioutils::postData(QUrl target,
 
 QString ioutils::methodString(QNetworkAccessManager::Operation operation) {
     switch (operation) {
-    case QNetworkAccessManager::GetOperation:
-        return "GET";
-    case QNetworkAccessManager::PostOperation:
-        return "POST";
-    case QNetworkAccessManager::PutOperation:
-        return "PUT";
-    case QNetworkAccessManager::DeleteOperation:
-        return "DELETE";
-    case QNetworkAccessManager::HeadOperation:
-        return "HEAD";
-    default:
-        return "Unknown";
+        case QNetworkAccessManager::GetOperation:
+            return "GET";
+        case QNetworkAccessManager::PostOperation:
+            return "POST";
+        case QNetworkAccessManager::PutOperation:
+            return "PUT";
+        case QNetworkAccessManager::DeleteOperation:
+            return "DELETE";
+        case QNetworkAccessManager::HeadOperation:
+            return "HEAD";
+        default:
+            return "Unknown";
+    }
+}
+
+QString ioutils::httpString(int responseCode) {
+    switch (responseCode) {
+        case 200:
+            return "OK";
+        case 201:
+            return "CREATED";
+        case 500:
+            return "Internal Server Error";
+        case 503:
+            return "Service Unavailable";
+        default:
+            return "Unknown";
     }
 }

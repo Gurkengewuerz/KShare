@@ -19,5 +19,7 @@
         <file>icons/circle.png</file>
         <file>icons/highlighter.png</file>
         <file>icons/infinity.png</file>
+        <file>icons/checked.png</file>
+        <file>icons/error.png</file>
     </qresource>
 </RCC>
