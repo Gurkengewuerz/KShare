@@ -93,6 +93,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(rec, &QAction::triggered, this, &MainWindow::rec);
     connect(recoff, &QAction::triggered, controller, &RecordingController::end);
     connect(recabort, &QAction::triggered, controller, &RecordingController::abort);
+    connect(about, &QAction::triggered, this, &MainWindow::on_actionAbout_triggered);
     connect(ui->settings, &QPushButton::clicked, this, &MainWindow::on_actionSettings_triggered);
 
     tray->setContextMenu(menu);
