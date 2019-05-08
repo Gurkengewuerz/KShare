@@ -39,6 +39,7 @@ public:
     ~MainWindow();
     bool valid();
     void setTrayIcon(QIcon icon);
+    void addResponse(int httpCode, QString filename, QString url, QString time);
     RecordingController *controller = new RecordingController;
 
     QSystemTrayIcon *tray;

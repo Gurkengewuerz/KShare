@@ -45,6 +45,12 @@ void requestlogging::addEntry(RequestContext context) {
                               << timeNow.replace(" ", "_") << endl
                               << flush; // $time
     requestFile.close();
+
+    MainWindow::inst()->addResponse(
+            context.reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(),
+            context.filename,
+            context.reply->url().toString(),
+            timeNow);
 }
 
 using requestlogging::LoggedRequest;

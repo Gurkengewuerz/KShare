@@ -132,16 +132,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     QList<LoggedRequest> requests = requestlogging::getRequests();
     for (LoggedRequest req : requests) {
-        QString httpStatus = ioutils::httpString(req.getResponseCode());
-        QTreeWidgetItem* tw = new QTreeWidgetItem({ QString::number(req.getResponseCode()) + " " + httpStatus, req.getFilename(), req.getUrl(), req.getTime() + " UTC" });
-
-        if(req.getResponseCode() >= 200 && req.getResponseCode() < 300) {
-            tw->setIcon(0, *(new QIcon(":/icons/checked.png")));
-        } else {
-            tw->setIcon(0, *(new QIcon(":/icons/error.png")));
-        }
-
-        ui->treeWidget->addTopLevelItem(tw);
+        addResponse(req.getResponseCode(), req.getFilename(), req.getUrl(), req.getTime());
     }
 }
 
@@ -261,4 +252,17 @@ void MainWindow::openScreenshotFolder() {
 
 void MainWindow::setTrayIcon(QIcon icon) {
     tray->setIcon(icon);
+}
+
+void MainWindow::addResponse(int httpCode, QString filename, QString url, QString time) {
+    QString httpStatus = ioutils::httpString(httpCode);
+    QTreeWidgetItem* tw = new QTreeWidgetItem({ QString::number(httpCode) + " " + httpStatus, filename, url, time + " UTC" });
+
+    if(httpCode >= 200 && httpCode < 300) {
+        tw->setIcon(0, *(new QIcon(":/icons/checked.png")));
+    } else {
+        tw->setIcon(0, *(new QIcon(":/icons/error.png")));
+    }
+
+    ui->treeWidget->addTopLevelItem(tw);
 }
