@@ -7,3 +7,5 @@ Then open and edit the file in Qt Linguist.
 When you're done editing the file, save it and run `lrelease <your .ts file>` and add an entry into `../src/translations.qrc` for the newly produced `.qm` file (if there isn't one).
 
 That's all, thank you!
+
+**Dont't forget to install** `qttools5-dev-tools`

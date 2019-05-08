@@ -329,13 +329,12 @@
 	If you do not it will not close.</source>
         <translation>Drücke F1 um diesen Hinweis ein/auszublenden
 	Halte Shift um den Mauszeiger zu verlangsamen
-	Ctrl+Ziehe etwas um es herumzubewegen
-	Alt+Klicke eine Zeichnung um sie zu löschen
-	Drücke Eingabe/Enter zum Fertigstellen
+	Ctrl+Linksklick um Objekte herumzubewegen
+	Alt+Linksklick um Objekte zu löschen
+	Drücke Enter zum hochladen
 	Drücke ESC zum Abbrechen
-	Benutze die Menüleiste um zu zeichnen
 	HINWEIS: Du musst &apos;Zuschneiden&apos; auswählen before du den Editor schließt
-	Wenn due dies nicht machst, wird sich der Editor nicht schließen.</translation>
+	Wenn du dies nicht machst, wird sich der Editor nicht schließen.</translation>
     </message>
 </context>
 <context>
