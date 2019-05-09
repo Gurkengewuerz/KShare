@@ -19,6 +19,8 @@ private slots:
     void on_buttonBox_accepted();
     void on_setHighlight_pressed();
     void on_fgColor_pressed();
+    void on_overlayAlphaSpinner_valueChanged(int arg);
+    void on_overlayAlphaSlider_sliderMoved(int arg);
 
 private:
     Ui::ScreenOverlaySettings *ui;

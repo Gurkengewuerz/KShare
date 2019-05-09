@@ -105,8 +105,7 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
     poly.append(prect.bottomRight());
     poly.append(prect.bottomLeft());
     polyItem = new QGraphicsPolygonItem(poly);
-    // TODO: Add Alpha Setting in screen overlay setting
-    polyItem->setBrush(QBrush(QColor(0, 0, 0, 96)));
+    polyItem->setBrush(QBrush(QColor(0, 0, 0, settings::settings().value("overlayAlpha", 96).toInt())));
     polyItem->setPen(QPen(Qt::NoPen));
     polyItem->setZValue(1);
     addItem(polyItem);
