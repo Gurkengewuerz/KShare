@@ -224,10 +224,31 @@ void MainWindow::on_actionOpenURL_triggered() {
 }
 
 void MainWindow::on_actionOpenLocalFile_triggered() {
+    // TODO: Cleanup code, because this switch function is used 3 times
     QString file = ui->treeWidget->currentItem()->text(1);
-    file = settings::dir().absoluteFilePath("responses/" + file.left(file.length() - 4));
+    QDir saveDir;
+    switch (settings::settings().value("saveLocation", 1).toInt()) {
+        case 0:
+            saveDir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+            if (QStandardPaths::writableLocation(QStandardPaths::PicturesLocation).isEmpty()) {
+                qFatal("%s", tr("Cannot determine location for pictures").toLocal8Bit().constData());
+            }
+            break;
+        case 1:
+            if (QStandardPaths::writableLocation(QStandardPaths::HomeLocation).isEmpty()) {
+                qFatal("%s", tr("Cannot determine location of your home directory").toLocal8Bit().constData());
+            }
+            saveDir = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/Screenshots";
+            break;
+        default:
+            qFatal("%s", tr("Invalid config [saveLocation not int or is not in range]").toLocal8Bit().constData());
+            return;
+        case 2:
+            // Do not Save images
+            return;
+    }
 
-    QDesktopServices::openUrl(QUrl::fromLocalFile(file));
+    QDesktopServices::openUrl(QUrl::fromLocalFile(saveDir.absoluteFilePath(file)));
 }
 
 void MainWindow::on_actionCopyLinktoClipboard_triggered() {
