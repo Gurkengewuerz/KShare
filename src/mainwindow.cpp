@@ -218,7 +218,11 @@ void MainWindow::on_treeWidget_doubleClicked(const QModelIndex &) {
     file = settings::dir().absoluteFilePath("responses/" + file.left(file.length() - 4));
 
     QFile dataFile(file);
-    if (!dataFile.open(QIODevice::ReadOnly)) return;
+    if (!dataFile.open(QIODevice::ReadOnly)) {
+        logger::info(file);
+        logger::error(dataFile.errorString());
+        return;
+    }
     MonospaceTextDialog *dialog = new MonospaceTextDialog(file, dataFile.readAll());
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->show();

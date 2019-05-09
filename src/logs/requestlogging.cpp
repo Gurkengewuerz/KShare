@@ -5,7 +5,6 @@
 #include <utils.hpp>
 
 #include "mainwindow.hpp"
-#include "ui_mainwindow.h"
 
 // $type $url $status $time
 // $type = GET POST PATCH DELETE etc
@@ -50,7 +49,7 @@ void requestlogging::addEntry(RequestContext context) {
             context.reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(),
             context.filename,
             context.reply->url().toString(),
-            timeNow);
+            timeNow.replace("_", " "));
 }
 
 using requestlogging::LoggedRequest;
