@@ -210,7 +210,7 @@ QString parsePathspec(QJsonDocument &response, QString &pathspec) {
     return "";
 }
 
-void CustomUploader::parseResult(QJsonDocument result, QByteArray data, QString returnPathspec, QString name) {
+void CustomUploader::parseResult(QNetworkReply *r, QJsonDocument result, QByteArray data, QString returnPathspec, QString name, QString filename) {
     if (result.isObject()) {
         QString url
         = formatter::format(urlPrepend, "") + parsePathspec(result, returnPathspec) + formatter::format(urlAppend, "");
@@ -218,19 +218,22 @@ void CustomUploader::parseResult(QJsonDocument result, QByteArray data, QString 
         if (!url.isEmpty()) {
             QApplication::clipboard()->setText(url);
             notifications::notify(tr("KShare Custom Uploader ") + name, tr("Copied upload link to clipboard!"));
+            ioutils::addLogEntry(r, data, url, filename);
         } else {
             notifications::notify(tr("KShare Custom Uploader ") + name, tr("Upload done, but result empty!"));
             QApplication::clipboard()->setText(data);
+            ioutils::addLogEntry(r, data, "", filename);
         }
     } else {
         playErrorSound();
         notifications::notify(tr("KShare Custom Uploader ") + name,
                               tr("Upload done, but result is not JSON Object! Result in clipboard."));
         QApplication::clipboard()->setText(data);
+        ioutils::addLogEntry(r, data, "", filename);
     }
 }
 
-QByteArray substituteArgs(QByteArray arr, QString format, QByteArray imgData = QByteArray()) {
+QByteArray substituteArgs(QByteArray arr, QString format, QString filename, QByteArray imgData = QByteArray()) {
     QString mime = normalFormatMIME(normalFormatFromName(format));
     if (mime.isEmpty()) mime = recordingFormatMIME(recordingFormatFromName(format));
     if (arr.startsWith("/") && arr.endsWith("/")) {
@@ -240,6 +243,9 @@ QByteArray substituteArgs(QByteArray arr, QString format, QByteArray imgData = Q
                                 { { "format", format.toLower() }, { "FORMAT", format }, { "contenttype", mime } })
               .toUtf8();
 
+        QByteArray fA = filename.toLocal8Bit();
+        arr.replace("%filename", fA.data());
+
         if (imgData.isNull()) return arr;
         return arr.replace("%imagedata", imgData);
     } else
@@ -247,17 +253,17 @@ QByteArray substituteArgs(QByteArray arr, QString format, QByteArray imgData = Q
 }
 
 
-QJsonObject recurseAndReplace(QJsonObject &body, QByteArray &data, QString format) {
+QJsonObject recurseAndReplace(QJsonObject &body, QByteArray &data, QString format, QString filename) {
     QJsonObject o;
     for (QString s : body.keys()) {
         QJsonValue v = body[s];
         if (v.isObject()) {
             QJsonObject vo = v.toObject();
-            o.insert(s, recurseAndReplace(vo, data, format));
+            o.insert(s, recurseAndReplace(vo, data, format, filename));
         } else if (v.isString()) {
             QString str = v.toString();
             if (str.startsWith("/") && str.endsWith("/")) {
-                o.insert(s, QString::fromUtf8(substituteArgs(str.toUtf8(), format, data)));
+                o.insert(s, QString::fromUtf8(substituteArgs(str.toUtf8(), format, filename, data)));
             } else
                 o.insert(s, v);
         } else
@@ -277,10 +283,10 @@ void CustomUploader::doUpload(QByteArray imgData, QString format, QString filena
     } break;
     case RequestFormat::JSON: {
         if (body.isString()) {
-            data = substituteArgs(body.toString().toUtf8(), format, imgData);
+            data = substituteArgs(body.toString().toUtf8(), format, filename, imgData);
         } else {
             QJsonObject vo = body.toObject();
-            data = QJsonDocument::fromVariant(recurseAndReplace(vo, imgData, format).toVariantMap()).toJson();
+            data = QJsonDocument::fromVariant(recurseAndReplace(vo, imgData, format, filename).toVariantMap()).toJson();
         }
     } break;
     case RequestFormat::X_WWW_FORM_URLENCODED: {
@@ -288,7 +294,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format, QString filena
         for (QString key : body.keys()) {
             QJsonValue val = body[key];
             if (val.isString()) {
-                data.append(QUrl::toPercentEncoding(key)).append('=').append(substituteArgs(val.toString().toUtf8(), format, imgData));
+                data.append(QUrl::toPercentEncoding(key)).append('=').append(substituteArgs(val.toString().toUtf8(), format, filename, imgData));
             } else {
                 if (!data.isEmpty()) data.append('&');
                 data.append(QUrl::toPercentEncoding(key))
@@ -307,7 +313,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format, QString filena
             QHttpPart part;
             QJsonValue bd = valo["body"];
             if (bd.isString()) {
-                QByteArray body = substituteArgs(bd.toString().toUtf8(), format, imgData);
+                QByteArray body = substituteArgs(bd.toString().toUtf8(), format, filename, imgData);
                 QByteArray *bodyHeap = new QByteArray;
                 body.swap(*bodyHeap);
                 QBuffer *buffer = new QBuffer(bodyHeap);
@@ -317,7 +323,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format, QString filena
                 arraysToDelete.append(bodyHeap);
             } else {
                 auto bdo = bd.toObject();
-                QJsonObject result = recurseAndReplace(bdo, imgData, format);
+                QJsonObject result = recurseAndReplace(bdo, imgData, format, filename);
                 part.setBody(QJsonDocument::fromVariant(result.toVariantMap()).toJson());
             }
             QByteArray cdh("form-data");
@@ -325,11 +331,11 @@ void CustomUploader::doUpload(QByteArray imgData, QString format, QString filena
                 if (headerVal.startsWith("__")) {
                     headerVal = headerVal.mid(2);
                     QByteArray str = valo["__" + headerVal].toString().toUtf8();
-                    if (str.startsWith("/") && str.endsWith("/")) str = substituteArgs(str, format);
+                    if (str.startsWith("/") && str.endsWith("/")) str = substituteArgs(str, format, filename);
                     part.setRawHeader(headerVal.toLatin1(), str);
                 } else if (headerVal != "body")
                     cdh += "; " + headerVal + "=\""
-                           + substituteArgs(valo[headerVal].toString().toUtf8(), format).replace("\"", "\\\"") + "\"";
+                           + substituteArgs(valo[headerVal].toString().toUtf8(), format, filename).replace("\"", "\\\"") + "\"";
             }
             part.setHeader(QNetworkRequest::ContentDispositionHeader, cdh);
             multipart->append(part);
@@ -337,8 +343,9 @@ void CustomUploader::doUpload(QByteArray imgData, QString format, QString filena
         switch (method) {
         case HttpMethod::POST:
             if (returnPathspec == "|") {
-                ioutils::postMultipartData(target, h, multipart, filename,
-                                           [&, buffersToDelete, arraysToDelete](QByteArray result, QNetworkReply *) {
+                ioutils::postMultipartData(target, h, multipart,
+                                           [&, buffersToDelete, arraysToDelete, filename](QByteArray result, QNetworkReply *r) {
+                                               ioutils::addLogEntry(r, result, QString::fromUtf8(result), filename);
                                                QApplication::clipboard()->setText(QString::fromUtf8(result));
                                                for (auto buffer : buffersToDelete) buffer->deleteLater();
                                                for (auto arr : arraysToDelete) delete arr;
@@ -347,11 +354,11 @@ void CustomUploader::doUpload(QByteArray imgData, QString format, QString filena
                                                                      tr("Copied upload result to clipboard!"));
                                            });
             } else {
-                ioutils::postMultipart(target, h, multipart, filename,
-                                       [&, buffersToDelete, arraysToDelete](QJsonDocument result, QByteArray data, QNetworkReply *) {
+                ioutils::postMultipart(target, h, multipart,
+                                       [&, buffersToDelete, arraysToDelete, filename](QJsonDocument result, QByteArray data, QNetworkReply *r) {
                                            for (auto buffer : buffersToDelete) buffer->deleteLater();
                                            for (auto arr : arraysToDelete) delete arr;
-                                           parseResult(result, data, returnPathspec, name());
+                                           parseResult(r, result, data, returnPathspec, name(), filename);
                                        });
             }
             break;
@@ -367,14 +374,15 @@ void CustomUploader::doUpload(QByteArray imgData, QString format, QString filena
     switch (method) {
     case HttpMethod::POST:
         if (returnPathspec == "|") {
-            ioutils::postData(target, h, data, filename, [&](QByteArray result, QNetworkReply *) {
+            ioutils::postData(target, h, data, [&, filename](QByteArray result, QNetworkReply *r) {
+                ioutils::addLogEntry(r, result, QString::fromUtf8(result), filename);
                 QApplication::clipboard()->setText(QString::fromUtf8(result));
                 playSuccessSound();
                 notifications::notify(tr("KShare Custom Uploader ") + name(), tr("Copied upload result to clipboard!"));
             });
         } else {
-            ioutils::postJson(target, h, data, filename, [&](QJsonDocument result, QByteArray data, QNetworkReply *) {
-                parseResult(result, data, returnPathspec, name());
+            ioutils::postJson(target, h, data, [&, filename](QJsonDocument result, QByteArray data, QNetworkReply *r) {
+                parseResult(r, result, data, returnPathspec, name(), filename);
             });
         }
         break;

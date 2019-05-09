@@ -4,6 +4,8 @@
 #include "settingsdialog.hpp"
 #include "ui_mainwindow.h"
 #include "utils.hpp"
+#include <QApplication>
+#include <QClipboard>
 #include <QMessageBox>
 #include <QShortcut>
 #include <colorpicker/colorpickerscene.hpp>
@@ -113,6 +115,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->clipboardButton, &QPushButton::clicked, this, &MainWindow::openScreenshotFolder);
     connect(ui->colorPickerButton, &QPushButton::clicked, this, [] { ColorPickerScene::showPicker(); });
 
+    ui->treeWidget->addAction(ui->actionOpenURL);
+    ui->treeWidget->addAction(ui->actionOpenLocalFile);
+    ui->treeWidget->addAction(ui->actionOpenRequest);
+    ui->treeWidget->addAction(ui->actionCopyLinktoClipboard);
+
     ui->aboutButton->setFocus();
 
     tray->setContextMenu(menu);
@@ -132,7 +139,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     QList<LoggedRequest> requests = requestlogging::getRequests();
     for (LoggedRequest req : requests) {
-        addResponse(req.getResponseCode(), req.getFilename(), req.getUrl(), req.getTime());
+        addResponse(req.getResponseCode(), req.getFilename(), req.getResult(), req.getUrl(), req.getTime());
     }
 }
 
@@ -173,24 +180,12 @@ void MainWindow::on_actionQuit_triggered() {
     quit();
 }
 
-void MainWindow::on_actionFullscreen_triggered() {
-    screenshotter::fullscreenDelayed();
-}
-
-void MainWindow::on_actionArea_triggered() {
-    screenshotter::areaDelayed();
-}
-
 void MainWindow::on_actionStart_triggered() {
     rec();
 }
 
 void MainWindow::on_actionStop_triggered() {
     controller->end();
-}
-
-void MainWindow::on_actionColor_Picker_triggered() {
-    ColorPickerScene::showPicker();
 }
 
 void MainWindow::on_actionSettings_triggered() {
@@ -205,16 +200,12 @@ void MainWindow::on_actionAbout_triggered() {
     box->show();
 }
 
-void MainWindow::on_actionActive_window_triggered() {
-    screenshotter::activeDelayed();
-}
-
 void MainWindow::on_actionAbort_triggered() {
     controller->abort();
 }
 
-void MainWindow::on_treeWidget_doubleClicked(const QModelIndex &) {
-    QString file = ui->treeWidget->currentItem()->text(3);
+void MainWindow::on_actionOpenRequest_triggered() {
+    QString file = ui->treeWidget->currentItem()->text(4);
     file = settings::dir().absoluteFilePath("responses/" + file.left(file.length() - 4));
 
     QFile dataFile(file);
@@ -226,6 +217,25 @@ void MainWindow::on_treeWidget_doubleClicked(const QModelIndex &) {
     MonospaceTextDialog *dialog = new MonospaceTextDialog(file, dataFile.readAll());
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->show();
+}
+
+void MainWindow::on_actionOpenURL_triggered() {
+    QDesktopServices::openUrl(QUrl(ui->treeWidget->currentItem()->text(2)));
+}
+
+void MainWindow::on_actionOpenLocalFile_triggered() {
+    QString file = ui->treeWidget->currentItem()->text(1);
+    file = settings::dir().absoluteFilePath("responses/" + file.left(file.length() - 4));
+
+    QDesktopServices::openUrl(QUrl::fromLocalFile(file));
+}
+
+void MainWindow::on_actionCopyLinktoClipboard_triggered() {
+    QApplication::clipboard()->setText(ui->treeWidget->currentItem()->text(2));
+}
+
+void MainWindow::on_treeWidget_doubleClicked(const QModelIndex &) {
+    on_actionOpenURL_triggered();
 }
 
 void MainWindow::openScreenshotFolder() {
@@ -258,9 +268,9 @@ void MainWindow::setTrayIcon(QIcon icon) {
     tray->setIcon(icon);
 }
 
-void MainWindow::addResponse(int httpCode, QString filename, QString url, QString time) {
+void MainWindow::addResponse(int httpCode, QString filename, QString result, QString url, QString time) {
     QString httpStatus = ioutils::httpString(httpCode);
-    QTreeWidgetItem* tw = new QTreeWidgetItem({ QString::number(httpCode) + " " + httpStatus, filename, url, time + " UTC" });
+    QTreeWidgetItem* tw = new QTreeWidgetItem({ QString::number(httpCode) + " " + httpStatus, filename, result, url, time + " UTC" });
 
     if(httpCode >= 200 && httpCode < 300) {
         tw->setIcon(0, *(new QIcon(":/icons/checked.png")));

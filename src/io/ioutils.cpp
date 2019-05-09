@@ -8,11 +8,12 @@
 
 QNetworkAccessManager ioutils::networkManager;
 
-void addLogEntry(QNetworkReply *reply, QByteArray data, QString filename) {
+void ioutils::addLogEntry(QNetworkReply* reply, QByteArray data, QString result, QString filename) {
     requestlogging::RequestContext ctx;
 
     ctx.reply = reply;
     ctx.response = data;
+    ctx.result = result;
     ctx.filename = filename;
 
     requestlogging::addEntry(ctx);
@@ -31,7 +32,6 @@ void removeTask() {
 void ioutils::postMultipart(QUrl target,
                             QList<QPair<QString, QString>> headers,
                             QHttpMultiPart *body,
-                            QString filename,
                             std::function<void(QJsonDocument, QByteArray, QNetworkReply *)> callback) {
     QNetworkRequest req(target);
     for (auto header : headers) {
@@ -39,10 +39,9 @@ void ioutils::postMultipart(QUrl target,
     }
     QNetworkReply *reply = networkManager.post(req, body);
     addTask();
-    QObject::connect(reply, &QNetworkReply::finished, [reply, callback, filename] {
+    QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
         removeTask();
         QByteArray data = reply->readAll();
-        addLogEntry(reply, data, filename);
         callback(QJsonDocument::fromJson(data), data, reply);
         delete reply;
     });
@@ -51,7 +50,6 @@ void ioutils::postMultipart(QUrl target,
 void ioutils::postMultipartData(QUrl target,
                                 QList<QPair<QString, QString>> headers,
                                 QHttpMultiPart *body,
-                                QString filename,
                                 std::function<void(QByteArray, QNetworkReply *)> callback) {
     QNetworkRequest req(target);
     for (auto header : headers) {
@@ -59,10 +57,9 @@ void ioutils::postMultipartData(QUrl target,
     }
     QNetworkReply *reply = networkManager.post(req, body);
     addTask();
-    QObject::connect(reply, &QNetworkReply::finished, [reply, callback, filename] {
+    QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
         removeTask();
         QByteArray data = reply->readAll();
-        addLogEntry(reply, data, filename);
         callback(data, reply);
         delete reply;
     });
@@ -70,7 +67,6 @@ void ioutils::postMultipartData(QUrl target,
 
 void ioutils::getJson(QUrl target,
                       QList<QPair<QString, QString>> headers,
-                      QString filename,
                       std::function<void(QJsonDocument, QByteArray, QNetworkReply *)> callback) {
     QNetworkRequest req(target);
     for (auto header : headers) {
@@ -78,10 +74,9 @@ void ioutils::getJson(QUrl target,
     }
     QNetworkReply *reply = networkManager.get(req);
     addTask();
-    QObject::connect(reply, &QNetworkReply::finished, [reply, callback, filename] {
+    QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
         removeTask();
         QByteArray data = reply->readAll();
-        addLogEntry(reply, data, filename);
         callback(QJsonDocument::fromJson(data), data, reply);
         reply->deleteLater();
     });
@@ -90,7 +85,6 @@ void ioutils::getJson(QUrl target,
 void ioutils::postJson(QUrl target,
                        QList<QPair<QString, QString>> headers,
                        QByteArray body,
-                       QString filename,
                        std::function<void(QJsonDocument, QByteArray, QNetworkReply *)> callback) {
     QNetworkRequest req(target);
     for (auto header : headers) {
@@ -98,26 +92,24 @@ void ioutils::postJson(QUrl target,
     }
     QNetworkReply *reply = networkManager.post(req, body);
     addTask();
-    QObject::connect(reply, &QNetworkReply::finished, [reply, callback, filename] {
+    QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
         removeTask();
         QByteArray data = reply->readAll();
-        addLogEntry(reply, data, filename);
         callback(QJsonDocument::fromJson(data), data, reply);
         delete reply;
     });
 }
 
-void ioutils::getData(QUrl target, QList<QPair<QString, QString>> headers, QString filename, std::function<void(QByteArray, QNetworkReply *)> callback) {
+void ioutils::getData(QUrl target, QList<QPair<QString, QString>> headers, std::function<void(QByteArray, QNetworkReply *)> callback) {
     QNetworkRequest req(target);
     for (auto header : headers) {
         req.setRawHeader(header.first.toUtf8(), header.second.toUtf8());
     }
     QNetworkReply *reply = networkManager.get(req);
     addTask();
-    QObject::connect(reply, &QNetworkReply::finished, [reply, callback, filename] {
+    QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
         removeTask();
         QByteArray data = reply->readAll();
-        addLogEntry(reply, data, filename);
         callback(data, reply);
         delete reply;
     });
@@ -126,7 +118,6 @@ void ioutils::getData(QUrl target, QList<QPair<QString, QString>> headers, QStri
 void ioutils::postData(QUrl target,
                        QList<QPair<QString, QString>> headers,
                        QByteArray body,
-                       QString filename,
                        std::function<void(QByteArray, QNetworkReply *)> callback) {
     QNetworkRequest req(target);
     for (auto header : headers) {
@@ -134,10 +125,9 @@ void ioutils::postData(QUrl target,
     }
     QNetworkReply *reply = networkManager.post(req, body);
     addTask();
-    QObject::connect(reply, &QNetworkReply::finished, [reply, callback, filename] {
+    QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
         removeTask();
         QByteArray data = reply->readAll();
-        addLogEntry(reply, data, filename);
         callback(data, reply);
         delete reply;
     });

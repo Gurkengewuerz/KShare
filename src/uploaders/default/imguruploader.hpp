@@ -20,6 +20,7 @@ public:
 
 private:
     void handleSend(QString auth, QString mime, QByteArray byteArray, QString filename);
+    void handleSend(QString auth, QString mime, QByteArray byteArray);
     void playSuccessSound();
     void playErrorSound();
 };

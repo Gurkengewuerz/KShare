@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>819</width>
-    <height>388</height>
+    <width>931</width>
+    <height>386</height>
    </rect>
   </property>
   <property name="font">
@@ -129,6 +129,9 @@
        <layout class="QGridLayout" name="gridLayout_5">
         <item row="0" column="0">
          <widget class="QTreeWidget" name="treeWidget">
+          <property name="contextMenuPolicy">
+           <enum>Qt::ActionsContextMenu</enum>
+          </property>
           <property name="indentation">
            <number>0</number>
           </property>
@@ -154,6 +157,11 @@
           <column>
            <property name="text">
             <string>URL</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Request</string>
            </property>
           </column>
           <column>
@@ -195,7 +203,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>819</width>
+     <width>931</width>
      <height>29</height>
     </rect>
    </property>
@@ -227,21 +235,6 @@
     <string notr="true">Ctrl+Q</string>
    </property>
   </action>
-  <action name="actionFullscreen">
-   <property name="text">
-    <string>&amp;Fullscreen</string>
-   </property>
-  </action>
-  <action name="actionArea">
-   <property name="text">
-    <string>&amp;Area</string>
-   </property>
-  </action>
-  <action name="actionColor_Picker">
-   <property name="text">
-    <string>&amp;Color Picker</string>
-   </property>
-  </action>
   <action name="actionStart">
    <property name="text">
     <string>&amp;Start</string>
@@ -262,14 +255,29 @@
     <string>&amp;About</string>
    </property>
   </action>
-  <action name="actionActive_window">
-   <property name="text">
-    <string>Active &amp;window</string>
-   </property>
-  </action>
   <action name="actionAbort">
    <property name="text">
     <string>&amp;Abort</string>
+   </property>
+  </action>
+  <action name="actionOpenURL">
+   <property name="text">
+    <string>Open URL</string>
+   </property>
+  </action>
+  <action name="actionOpenLocalFile">
+   <property name="text">
+    <string>Open Local File</string>
+   </property>
+  </action>
+  <action name="actionOpenRequest">
+   <property name="text">
+    <string>Open Request</string>
+   </property>
+  </action>
+  <action name="actionCopyLinktoClipboard">
+   <property name="text">
+    <string>Copy Link to Clipboard</string>
    </property>
   </action>
  </widget>

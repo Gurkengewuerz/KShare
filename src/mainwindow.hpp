@@ -21,15 +21,15 @@ private slots:
     void toggleVisible();
 
     void on_actionQuit_triggered();
-    void on_actionFullscreen_triggered();
-    void on_actionArea_triggered();
     void on_actionStart_triggered();
     void on_actionStop_triggered();
     void on_actionSettings_triggered();
-    void on_actionColor_Picker_triggered();
     void on_actionAbout_triggered();
-    void on_actionActive_window_triggered();
     void on_actionAbort_triggered();
+    void on_actionOpenRequest_triggered();
+    void on_actionOpenURL_triggered();
+    void on_actionOpenLocalFile_triggered();
+    void on_actionCopyLinktoClipboard_triggered();
     void openScreenshotFolder();
     void on_treeWidget_doubleClicked(const QModelIndex &);
 
@@ -39,7 +39,7 @@ public:
     ~MainWindow();
     bool valid();
     void setTrayIcon(QIcon icon);
-    void addResponse(int httpCode, QString filename, QString url, QString time);
+    void addResponse(int httpCode, QString filename, QString result, QString url, QString time);
     RecordingController *controller = new RecordingController;
 
     QSystemTrayIcon *tray;

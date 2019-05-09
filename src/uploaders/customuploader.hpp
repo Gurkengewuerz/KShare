@@ -6,6 +6,7 @@
 #include <QJsonObject>
 #include <QMap>
 #include <QUrl>
+#include <QNetworkReply>
 
 enum class HttpMethod { POST };
 
@@ -32,7 +33,7 @@ private:
     bool base64 = false;
     QString returnPathspec;
     QString urlPrepend, urlAppend;
-    void parseResult(QJsonDocument result, QByteArray data, QString returnPathspec, QString name);
+    void parseResult(QNetworkReply *r, QJsonDocument result, QByteArray data, QString returnPathspec, QString name, QString filename);
     void playSuccessSound();
     void playErrorSound();
 };

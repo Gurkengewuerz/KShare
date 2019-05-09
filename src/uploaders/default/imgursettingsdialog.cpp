@@ -45,7 +45,6 @@ void ImgurSettingsDialog::on_authorize_clicked() {
     ioutils::postJson(QUrl("https://api.imgur.com/oauth2/token"),
                       QList<QPair<QString, QString>>({ QPair<QString, QString>("Content-Type", "applicaton/json") }),
                       QJsonDocument::fromVariant(object.toVariantMap()).toJson(),
-                      "",
                       [&](QJsonDocument response, QByteArray, QNetworkReply *r) {
                           if (r->error() != QNetworkReply::NoError || !response.isObject()) {
                               ui->buttonBox->setEnabled(true);

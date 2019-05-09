@@ -12,6 +12,7 @@ namespace requestlogging {
         QByteArray response;
         QNetworkReply *reply;
         QString filename;
+        QString result;
     };
 
     class LoggedRequest {
@@ -27,6 +28,9 @@ namespace requestlogging {
         QString getType() {
             return type;
         }
+        QString getResult() {
+            return result;
+        }
         QString getTime() {
             return time;
         }
@@ -40,6 +44,7 @@ namespace requestlogging {
     private:
         QString url;
         QString filename;
+        QString result;
         QString type;
         QString time;
         int responseCode;
