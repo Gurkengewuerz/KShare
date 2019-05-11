@@ -58,7 +58,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Se
 #ifdef PLATFORM_CAPABILITY_ACTIVEWINDOW
     addHotkeyItem(ui->hotkeys, tr("Active window"), "active", [&] { screenshotter::active(); });
 #endif
-    addHotkeyItem(ui->hotkeys, tr("Copy Clipboard"), "clipboard", [] { clipboardcopy::copyClipboard(); });
+    addHotkeyItem(ui->hotkeys, tr("Copy from Clipboard"), "clipboard", [] { clipboardcopy::copyClipboard(); });
     addHotkeyItem(ui->hotkeys, tr("Color picker"), "picker", [] { ColorPickerScene::showPicker(); });
     addHotkeyItem(ui->hotkeys, tr("Stop Recording"), "recordingstop", [&] { MainWindow::inst()->controller->end(); });
     addHotkeyItem(ui->hotkeys, tr("Start Recording"), "recordingstart", [&] { MainWindow::inst()->rec(); });

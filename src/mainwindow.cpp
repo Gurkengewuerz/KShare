@@ -76,13 +76,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     QAction *active = ACTION(tr("Screenshot active window"), menu);
     connect(active, &QAction::triggered, this, [] { screenshotter::activeDelayed(); });
 #endif
+    QAction *copyClipboard = ACTION(tr("Copy from Clipbaord"), menu);
     QAction *picker = ACTION(tr("Show color picker"), menu);
     QAction *rec = ACTION(tr("Record screen"), menu);
     QAction *recoff = ACTION(tr("Stop recording"), menu);
     QAction *recabort = ACTION(tr("Abort recording"), menu);
     menu->addActions({ shtoggle, picker });
     menu->addSeparator();
-    menu->addActions({ fullscreen, area });
+    menu->addActions({ fullscreen, area, copyClipboard });
 #ifdef PLATFORM_CAPABILITY_ACTIVEWINDOW
     menu->addAction(active);
 #endif
@@ -103,6 +104,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     });
     connect(fullscreen, &QAction::triggered, this, [] { screenshotter::fullscreenDelayed(); });
     connect(area, &QAction::triggered, this, [] { screenshotter::areaDelayed(); });
+    connect(copyClipboard, &QAction::triggered, this, &clipboardcopy::copyClipboard);
     connect(rec, &QAction::triggered, this, &MainWindow::rec);
     connect(recoff, &QAction::triggered, controller, &RecordingController::end);
     connect(recabort, &QAction::triggered, controller, &RecordingController::abort);
