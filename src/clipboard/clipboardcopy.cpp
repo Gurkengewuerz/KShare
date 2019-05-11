@@ -26,13 +26,17 @@ void clipboardcopy::copyClipboard() {
     if(mimeData->hasImage()) {
         QPixmap map = qvariant_cast<QPixmap>(mimeData->imageData());
     } else if(mimeData->hasText()) {
+#ifdef Q_OS_WIN
+        QUrl fileUrl(mimeData->text());
+        QFileInfo fileInfo(fileUrl.toLocalFile());
+#else
         QFileInfo fileInfo(mimeData->text());
+#endif
         if(fileInfo.exists() && fileInfo.isReadable() && fileInfo.isFile()) {
             QMimeDatabase db;
             QMimeType mimeType = db.mimeTypeForFile(fileInfo);
             QString type = mimeType.name();
             QFile file(fileInfo.absoluteFilePath());
-            logger::info(type);
             UploaderSingleton::inst().upload(file);
         } else if (fileInfo.exists() && fileInfo.isReadable() && fileInfo.isDir()) {
             notifications::notify("KShare - Directory is not uploadable", fileInfo.absolutePath(), QSystemTrayIcon::Warning);
@@ -42,6 +46,7 @@ void clipboardcopy::copyClipboard() {
             tmpFile.setAutoRemove(true);
             if(tmpFile.open()) {
                 QTextStream stream(&tmpFile);
+                stream.setCodec("UTF-8");
                 stream << mimeData->text();
                 stream.flush();
                 tmpFile.seek(0);
