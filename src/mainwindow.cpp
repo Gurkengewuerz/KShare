@@ -303,5 +303,5 @@ void MainWindow::addResponse(int httpCode, QString filename, QString result, QSt
         tw->setIcon(0, *(new QIcon(":/icons/error.png")));
     }
 
-    ui->treeWidget->addTopLevelItem(tw);
+    ui->treeWidget->insertTopLevelItem(0, tw);
 }
