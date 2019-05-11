@@ -105,8 +105,8 @@ void UploaderSingleton::upload(QFile &img, QString format) {
     updateSaveSettings();
     if (img.size() <= 0) return;
     if (!saveImages || img.rename(saveDir.absoluteFilePath(
-        formatter::format(settings::settings().value("fileFormat", "Screenshot %(yyyy-MM-dd HH-mm-ss)date.%ext").toString(),
-                          format.toLower())))) {
+            formatter::format(settings::settings().value("fileFormat", "Screenshot %(yyyy-MM-dd HH-mm-ss)date.%ext").toString(),
+                              format.toLower())))) {
         playSound();
         QFileInfo fileInfo(img.fileName());
         if (img.open(QFile::ReadWrite))
@@ -115,6 +115,16 @@ void UploaderSingleton::upload(QFile &img, QString format) {
             notifications::notify(tr("KShare - Failed to save picture"), img.errorString(), QSystemTrayIcon::Warning);
     } else
         notifications::notify(tr("KShare - Failed to save picture"), img.errorString(), QSystemTrayIcon::Warning);
+}
+
+void UploaderSingleton::upload(QFile &img) {
+    updateSaveSettings();
+    if (img.size() <= 0) return;
+    QFileInfo fileInfo(img.fileName());
+    if (img.open(QFile::ReadWrite))
+        uploaders.value(uploader)->doUpload(img.readAll(), "", fileInfo.fileName());
+    else
+        notifications::notify(tr("KShare - Failed to open File"), img.errorString(), QSystemTrayIcon::Warning);
 }
 
 void UploaderSingleton::showSettings() {

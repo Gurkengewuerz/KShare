@@ -25,6 +25,7 @@
 #include <logs/requestlogging.hpp>
 #include "io/ioutils.hpp"
 #include <monospacetextdialog.hpp>
+#include <clipboard/clipboardcopy.hpp>
 
 MainWindow *MainWindow::instance;
 
@@ -112,7 +113,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->areaButton, &QPushButton::clicked, this, [] { screenshotter::areaDelayed(); });
     connect(ui->aboutButton, &QPushButton::clicked, this, &MainWindow::on_actionAbout_triggered);
     connect(ui->screenshotFolderButton, &QPushButton::clicked, this, &MainWindow::openScreenshotFolder);
-    connect(ui->clipboardButton, &QPushButton::clicked, this, &MainWindow::openScreenshotFolder);
+    connect(ui->clipboardButton, &QPushButton::clicked, this, &clipboardcopy::copyClipboard);
     connect(ui->colorPickerButton, &QPushButton::clicked, this, [] { ColorPickerScene::showPicker(); });
 
     ui->treeWidget->addAction(ui->actionOpenURL);
@@ -128,6 +129,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     addHotkey("area", [] { screenshotter::area(); });
     addHotkey("active", [] { screenshotter::active(); });
     addHotkey("picker", [] { ColorPickerScene::showPicker(); });
+    addHotkey("clipboard", [] { clipboardcopy::copyClipboard(); });
     addHotkey("recordingstop", [&] { controller->end(); });
     addHotkey("recordingabort", [&] { controller->abort(); });
     addHotkey("recordingstart", [&] { this->rec(); });

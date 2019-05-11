@@ -19,6 +19,7 @@ It has many features, including:
 * Hotkeys,
 * Color picker, and last but not least,
 * Custom upload destinations
+* Upload from clipboard
 
 ## Enough talking, show us how it looks
 The main window is rather simple, with only a log, and a button in it:  

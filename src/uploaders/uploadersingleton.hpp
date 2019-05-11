@@ -17,6 +17,7 @@ public:
     void upload(QPixmap pixmap);
     void upload(QByteArray img, QString format);
     void upload(QFile &img, QString format);
+    void upload(QFile &img);
     void showSettings();
     QList<Uploader *> uploaderList();
     void set(QString uploader);
