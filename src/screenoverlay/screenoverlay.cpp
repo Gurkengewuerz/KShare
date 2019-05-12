@@ -186,36 +186,40 @@ void ScreenOverlay::keyPressEvent(QKeyEvent *e) {
             }
         }
     }
+
+    int modifier = 1;
+    if(e->modifiers() == Qt::ShiftModifier) modifier = 10;
+
     switch (movementPattern()) {
     case MP_JKL:
         if (e->key() == Qt::Key_J)
-            moveMouseBy(QPoint(-1, 0), selectActive);
+            moveMouseBy(QPoint(-1 * modifier, 0), selectActive);
         else if (e->key() == Qt::Key_K)
-            moveMouseBy(QPoint(0, 1), selectActive);
+            moveMouseBy(QPoint(0, 1 * modifier), selectActive);
         else if (e->key() == Qt::Key_L)
-            moveMouseBy(QPoint(0, -1), selectActive);
+            moveMouseBy(QPoint(0, -1 * modifier), selectActive);
         else if (e->key() == Qt::Key_Semicolon)
-            moveMouseBy(QPoint(1, 0), selectActive);
+            moveMouseBy(QPoint(1 * modifier, 0), selectActive);
         break;
     case MP_HJKL:
         if (e->key() == Qt::Key_H)
-            moveMouseBy(QPoint(-1, 0), selectActive);
+            moveMouseBy(QPoint(-1 * modifier, 0), selectActive);
         else if (e->key() == Qt::Key_J)
-            moveMouseBy(QPoint(0, 1), selectActive);
+            moveMouseBy(QPoint(0, 1 * modifier), selectActive);
         else if (e->key() == Qt::Key_K)
-            moveMouseBy(QPoint(0, -1), selectActive);
+            moveMouseBy(QPoint(0, -1 * modifier), selectActive);
         else if (e->key() == Qt::Key_L)
-            moveMouseBy(QPoint(1, 0), selectActive);
+            moveMouseBy(QPoint(1 * modifier, 0), selectActive);
         break;
     case MP_ARROWS:
         if (e->key() == Qt::Key_Left)
-            moveMouseBy(QPoint(-1, 0), selectActive);
+            moveMouseBy(QPoint(-1 * modifier, 0), selectActive);
         else if (e->key() == Qt::Key_Down)
-            moveMouseBy(QPoint(0, 1), selectActive);
+            moveMouseBy(QPoint(0, 1 * modifier), selectActive);
         else if (e->key() == Qt::Key_Up)
-            moveMouseBy(QPoint(0, -1), selectActive);
+            moveMouseBy(QPoint(0, -1 * modifier), selectActive);
         else if (e->key() == Qt::Key_Right)
-            moveMouseBy(QPoint(1, 0), selectActive);
+            moveMouseBy(QPoint(1 * modifier, 0), selectActive);
         break;
     }
     e->accept();
