@@ -14,6 +14,9 @@ extern "C" {
 #include <QListWidget>
 #include <QTranslator>
 #include <QStyleFactory>
+#include <QSettings>
+#include <QPalette>
+#include <QColor>
 #include <notifications.hpp>
 #include <worker/worker.hpp>
 
