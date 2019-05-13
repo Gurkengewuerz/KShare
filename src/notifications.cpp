@@ -3,6 +3,7 @@
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 #include <QStatusBar>
+#include <QApplication>
 
 #ifdef Q_OS_LINUX
 #undef signals
@@ -26,6 +27,11 @@ void notifications::notify(QString title, QString body, QSystemTrayIcon::Message
 }
 
 void notifications::notifyNolog(QString title, QString body, QSystemTrayIcon::MessageIcon icon) {
+
+    if(icon == QSystemTrayIcon::Critical) {
+        QApplication::alert(MainWindow::inst());
+    }
+
 #ifdef Q_OS_LINUX
     NotifyNotification *n = notify_notification_new(title.toLocal8Bit(), body.toLocal8Bit(), 0);
     notify_notification_set_timeout(n, 5000);
