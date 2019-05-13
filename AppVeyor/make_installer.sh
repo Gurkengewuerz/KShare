@@ -38,6 +38,7 @@ addFile /c/Qt/5.9/mingw53_32/bin/Qt5WinExtras.dll
 addFile /c/Qt/5.9/mingw53_32/bin/Qt5Multimedia.dll
 
 addFileIn /c/Qt/5.9/mingw53_32/plugins/platforms/qwindows.dll platforms
+addFileIn /c/Qt/5.9/mingw53_32/plugins/mediaservice/dsengine.dll mediaservice
 
 addFile /c/Qt/5.9/mingw53_32/bin/LIBSTDC++-6.DLL
 addFile /c/Qt/5.9/mingw53_32/bin/LIBWINPTHREAD-1.DLL
