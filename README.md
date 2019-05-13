@@ -31,6 +31,7 @@ Additionally, on Linux, you require:
 * XCB
 * XCB xfixes
 * XCB cursor
+* libnotify
 
 Despite the name implying so, this project does not depend on the KDE API at all.
 

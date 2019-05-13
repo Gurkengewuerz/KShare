@@ -109,6 +109,8 @@ int main(int argc, char *argv[]) {
     }
 #endif
 
+    notifications::init();
+
     QCommandLineParser parser;
     parser.addHelpOption();
 

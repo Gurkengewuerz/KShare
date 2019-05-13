@@ -18,8 +18,11 @@ It has many features, including:
 * Automatic upload/clipboard copying,
 * Hotkeys,
 * Color picker, and last but not least,
-* Custom upload destinations
-* Upload from clipboard
+* Custom upload destinations,
+* Upload from clipboard,
+* Upload History,
+* Crossplatform,
+* Windows 10 Darkmode
 
 ## Enough talking, show us how it looks
 The main window is rather simple, with only a log, and a button in it:  

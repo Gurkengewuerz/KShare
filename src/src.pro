@@ -146,6 +146,9 @@ nopkg {
 } else {
     CONFIG += link_pkgconfig
     PKGCONFIG += libavformat libavcodec libswscale libavutil
+    unix {
+        PKGCONFIG += libnotify
+    }
 }
 
 mac {
