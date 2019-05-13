@@ -64,9 +64,7 @@ jobs:
           name: Build Debian Package
           command: |
             cd packages/;
-            pwd;
-            ls -lah;
-            /root/project/packages/makedebian.sh ci;
+            ./makedeb.sh ci;
             cp *.deb /kshare/
       - store_artifacts:
           path: /kshare/
