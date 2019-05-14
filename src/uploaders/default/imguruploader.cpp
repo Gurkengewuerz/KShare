@@ -96,6 +96,7 @@ void ImgurUploader::handleSend(QString auth, QString mime, QByteArray byteArray,
                               notifications::notify(tr("KShare imgur Uploader"), tr("Uploaded to imgur!"));
                               playSuccessSound();
                           } else {
+                              ioutils::addLogEntry(r, data, result, filename);
                               notifications::notify(tr("KShare imgur Uploader "),
                                                     QString(tr("Failed upload! imgur said: HTTP %1: %2"))
                                                     .arg(r->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt())
