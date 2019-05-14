@@ -73,7 +73,8 @@ SOURCES += main.cpp\
     screenoverlay/screenoverlay.cpp \
     screenoverlay/screenoverlaysettings.cpp \
     logger.cpp \
-    clipboard/clipboardcopy.cpp
+    clipboard/clipboardcopy.cpp \
+    systemnotification.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -125,7 +126,8 @@ HEADERS  += mainwindow.hpp \
     screenoverlay/screenoverlay.hpp \
     screenoverlay/screenoverlaysettings.hpp \
     logger.hpp \
-    clipboard/clipboardcopy.hpp
+    clipboard/clipboardcopy.hpp \
+    systemnotification.h
 
 nopkg {
 #    win32 {
@@ -146,9 +148,6 @@ nopkg {
 } else {
     CONFIG += link_pkgconfig
     PKGCONFIG += libavformat libavcodec libswscale libavutil
-    unix {
-        PKGCONFIG += libnotify
-    }
 }
 
 mac {
@@ -157,6 +156,7 @@ mac {
     HEADERS += $$PWD/platformspecifics/mac/macbackend.hpp
     LIBS += -framework Carbon
     QMAKE_INFO_PLIST = $$PWD/../packages/macos/Info.plist
+    QT += dbus
     warning(Mac is on TODO);
 } else:win32 {
     RC_FILE = $$PWD/icon.rc
@@ -168,7 +168,7 @@ mac {
     RC_FILE = $$PWD/icon.rc
     SOURCES += $$PWD/platformspecifics/x11/x11backend.cpp
     HEADERS += $$PWD/platformspecifics/x11/x11backend.hpp
-    QT += x11extras
+    QT += x11extras dbus
     LIBS += -lxcb-cursor -lxcb-xfixes -lxcb
 
     target.path = bin/
