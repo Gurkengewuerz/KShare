@@ -34,8 +34,6 @@ private:
     QString returnPathspec;
     QString urlPrepend, urlAppend;
     void parseResult(QNetworkReply *r, QJsonDocument result, QByteArray data, QString returnPathspec, QString name, QString filename);
-    void playSuccessSound();
-    void playErrorSound();
 };
 
 #endif // CUSTOMUPLOADER_HPP

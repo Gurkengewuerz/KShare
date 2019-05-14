@@ -12,8 +12,6 @@
 #include <formatter.hpp>
 #include <io/ioutils.hpp>
 #include <notifications.hpp>
-#include <QMediaPlayer>
-#include "mainwindow.hpp"
 
 using formats::normalFormatFromName;
 using formats::normalFormatMIME;
@@ -214,7 +212,7 @@ void CustomUploader::parseResult(QNetworkReply *r, QJsonDocument result, QByteAr
     if (result.isObject()) {
         QString url
         = formatter::format(urlPrepend, "") + parsePathspec(result, returnPathspec) + formatter::format(urlAppend, "");
-        playSuccessSound();
+        notifications::playSound(notifications::Sound::SUCCESS);
         if (!url.isEmpty()) {
             QApplication::clipboard()->setText(url);
             notifications::notify(tr("KShare Custom Uploader ") + name, tr("Copied upload link to clipboard!"));
@@ -225,7 +223,7 @@ void CustomUploader::parseResult(QNetworkReply *r, QJsonDocument result, QByteAr
             ioutils::addLogEntry(r, data, "", filename);
         }
     } else {
-        playErrorSound();
+        notifications::playSound(notifications::Sound::ERROR);
         notifications::notify(tr("KShare Custom Uploader ") + name,
                               tr("Upload done, but result is not JSON Object! Result in clipboard."));
         QApplication::clipboard()->setText(data);
@@ -349,7 +347,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format, QString filena
                                                QApplication::clipboard()->setText(QString::fromUtf8(result));
                                                for (auto buffer : buffersToDelete) buffer->deleteLater();
                                                for (auto arr : arraysToDelete) delete arr;
-                                               playSuccessSound();
+                                               notifications::playSound(notifications::Sound::SUCCESS);
                                                notifications::notify(tr("KShare Custom Uploader ") + name(),
                                                                      tr("Copied upload result to clipboard!"));
                                            });
@@ -367,7 +365,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format, QString filena
     }
     }
     if (limit > 0 && data.size() > limit) {
-        playErrorSound();
+        notifications::playSound(notifications::Sound::ERROR);
         notifications::notify(tr("KShare Custom Uploader ") + name(), tr("File limit exceeded!"));
         return;
     }
@@ -377,7 +375,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format, QString filena
             ioutils::postData(target, h, data, [&, filename](QByteArray result, QNetworkReply *r) {
                 ioutils::addLogEntry(r, result, QString::fromUtf8(result), filename);
                 QApplication::clipboard()->setText(QString::fromUtf8(result));
-                playSuccessSound();
+                notifications::playSound(notifications::Sound::SUCCESS);
                 notifications::notify(tr("KShare Custom Uploader ") + name(), tr("Copied upload result to clipboard!"));
             });
         } else {
@@ -387,24 +385,4 @@ void CustomUploader::doUpload(QByteArray imgData, QString format, QString filena
         }
         break;
     }
-}
-
-void CustomUploader::playSuccessSound() {
-    QMediaPlayer* mediaPlayer = new QMediaPlayer(MainWindow::inst());
-    mediaPlayer->setMedia(QUrl("qrc:/successsound.wav"));
-    mediaPlayer->setVolume(50);
-    mediaPlayer->play();
-
-    if(mediaPlayer->error() != QMediaPlayer::NoError && mediaPlayer->error() != QMediaPlayer::ServiceMissingError)
-        notifications::notify(QString::number(mediaPlayer->error()), mediaPlayer->errorString(), QSystemTrayIcon::Warning);
-}
-
-void CustomUploader::playErrorSound() {
-    QMediaPlayer* mediaPlayer = new QMediaPlayer(MainWindow::inst());
-    mediaPlayer->setMedia(QUrl("qrc:/errorsound.wav"));
-    mediaPlayer->setVolume(50);
-    mediaPlayer->play();
-
-    if(mediaPlayer->error() != QMediaPlayer::NoError && mediaPlayer->error() != QMediaPlayer::ServiceMissingError)
-        notifications::notify(QString::number(mediaPlayer->error()), mediaPlayer->errorString(), QSystemTrayIcon::Warning);
 }

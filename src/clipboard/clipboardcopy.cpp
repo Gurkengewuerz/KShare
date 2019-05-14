@@ -11,13 +11,11 @@
 #include <QTemporaryFile>
 #include <QIODevice>
 #include <QTextStream>
-#include <QMediaPlayer>
 #include <QUrl>
 #include <logger.hpp>
 #include <io/ioutils.hpp>
 #include <notifications.hpp>
 #include <uploaders/uploadersingleton.hpp>
-#include "mainwindow.hpp"
 
 void clipboardcopy::copyClipboard() {
     const QClipboard *clipboard = QApplication::clipboard();
@@ -40,7 +38,7 @@ void clipboardcopy::copyClipboard() {
             UploaderSingleton::inst().upload(file);
         } else if (fileInfo.exists() && fileInfo.isReadable() && fileInfo.isDir()) {
             notifications::notify("KShare - Directory is not uploadable", fileInfo.absolutePath(), QSystemTrayIcon::Warning);
-            playErrorSound();
+            notifications::playSound(notifications::Sound::ERROR);
         } else {
             QTemporaryFile tmpFile;
             tmpFile.setAutoRemove(true);
@@ -53,21 +51,11 @@ void clipboardcopy::copyClipboard() {
                 UploaderSingleton::inst().upload(tmpFile);
             } else {
                 logger::warn("Can not open tmp file");
-                playErrorSound();
+                notifications::playSound(notifications::Sound::ERROR);
             }
         }
     } else {
         notifications::notify("Unsupported File Format", "Can not upload clipboard", QSystemTrayIcon::Warning);
-        playErrorSound();
+        notifications::playSound(notifications::Sound::ERROR);
     }
-}
-
-void clipboardcopy::playErrorSound() {
-    QMediaPlayer*mediaPlayer = new QMediaPlayer(MainWindow::inst());
-    mediaPlayer->setMedia(QUrl("qrc:/errorsound.wav"));
-    mediaPlayer->setVolume(50);
-    mediaPlayer->play();
-
-    if(mediaPlayer->error() != QMediaPlayer::NoError && mediaPlayer->error() != QMediaPlayer::ServiceMissingError)
-        notifications::notify(QString::number(mediaPlayer->error()), mediaPlayer->errorString(), QSystemTrayIcon::Warning);
 }

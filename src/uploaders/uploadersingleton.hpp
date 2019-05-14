@@ -4,7 +4,6 @@
 #include "uploader.hpp"
 #include <QDir>
 #include <QMap>
-#include <QMediaPlayer>
 
 class UploaderSingleton : public QObject {
     Q_OBJECT
@@ -32,12 +31,10 @@ signals:
 
 private:
     void updateSaveSettings();
-    void playSound();
     QDir saveDir;
     bool saveImages = true;
     QMap<QString, Uploader *> uploaders;
     QString uploader = "imgur";
-    QMediaPlayer *mediaPlayer;
     QList<std::runtime_error> errs;
     UploaderSingleton();
 };

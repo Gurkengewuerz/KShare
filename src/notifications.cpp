@@ -4,6 +4,7 @@
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 #include <QApplication>
+#include <QMediaPlayer>
 
 void notifications::notify(QString title, QString body, QSystemTrayIcon::MessageIcon icon) {
     if (!MainWindow::inst() || !MainWindow::inst()->valid()) return;
@@ -20,4 +21,32 @@ void notifications::notifyNolog(QString title, QString body, QSystemTrayIcon::Me
     SystemNotification().sendMessage(body, title, icon);
 
     MainWindow::inst()->statusBar()->showMessage(title + ": " + body);
+}
+
+void notifications::playSound(notifications::Sound soundType) {
+    QMediaPlayer*mediaPlayer = new QMediaPlayer(MainWindow::inst());
+
+    switch (soundType) {
+    case notifications::Sound::CAPTURE:
+        mediaPlayer->setMedia(QUrl("qrc:/capturesound.wav"));
+        break;
+
+    case notifications::Sound::SUCCESS:
+        mediaPlayer->setMedia(QUrl("qrc:/successsound.wav"));
+        break;
+
+    case notifications::Sound::ERROR:
+        mediaPlayer->setMedia(QUrl("qrc:/errorsound.wav"));
+        break;
+
+    default:
+        break;
+    }
+
+    mediaPlayer->setVolume(25);
+    mediaPlayer->play();
+
+    if(mediaPlayer->error() != QMediaPlayer::NoError && mediaPlayer->error() != QMediaPlayer::ServiceMissingError)
+        notifications::notify(QString::number(mediaPlayer->error()), mediaPlayer->errorString(), QSystemTrayIcon::Warning);
+
 }

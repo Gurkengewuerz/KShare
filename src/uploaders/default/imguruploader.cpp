@@ -11,8 +11,6 @@
 #include <notifications.hpp>
 #include <settings.hpp>
 #include <utils.hpp>
-#include <QMediaPlayer>
-#include "mainwindow.hpp"
 
 struct SegfaultWorkaround { // I'm a scrub for doing this
     SegfaultWorkaround(QByteArray a, ImgurUploader *u, QString m) : byteArray(), dis(u), mime(m) {
@@ -94,38 +92,18 @@ void ImgurUploader::handleSend(QString auth, QString mime, QByteArray byteArray,
                               ioutils::addLogEntry(r, data, result, filename);
                               utils::toClipboard(result);
                               notifications::notify(tr("KShare imgur Uploader"), tr("Uploaded to imgur!"));
-                              playSuccessSound();
+                              notifications::playSound(notifications::Sound::SUCCESS);
                           } else {
                               ioutils::addLogEntry(r, data, result, filename);
                               notifications::notify(tr("KShare imgur Uploader "),
                                                     QString(tr("Failed upload! imgur said: HTTP %1: %2"))
                                                     .arg(r->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt())
                                                     .arg(r->errorString()));
-                              playErrorSound();
+                              notifications::playSound(notifications::Sound::ERROR);
                           }
                       });
 }
 
 void ImgurUploader::handleSend(QString auth, QString mime, QByteArray byteArray) {
     handleSend(auth, mime, byteArray);
-}
-
-void ImgurUploader::playSuccessSound() {
-    QMediaPlayer* mediaPlayer = new QMediaPlayer(MainWindow::inst());
-    mediaPlayer->setMedia(QUrl("qrc:/successsound.wav"));
-    mediaPlayer->setVolume(50);
-    mediaPlayer->play();
-
-    if(mediaPlayer->error() != QMediaPlayer::NoError && mediaPlayer->error() != QMediaPlayer::ServiceMissingError)
-        notifications::notify(QString::number(mediaPlayer->error()), mediaPlayer->errorString(), QSystemTrayIcon::Warning);
-}
-
-void ImgurUploader::playErrorSound() {
-    QMediaPlayer*mediaPlayer = new QMediaPlayer(MainWindow::inst());
-    mediaPlayer->setMedia(QUrl("qrc:/errorsound.wav"));
-    mediaPlayer->setVolume(50);
-    mediaPlayer->play();
-
-    if(mediaPlayer->error() != QMediaPlayer::NoError && mediaPlayer->error() != QMediaPlayer::ServiceMissingError)
-        notifications::notify(QString::number(mediaPlayer->error()), mediaPlayer->errorString(), QSystemTrayIcon::Warning);
 }

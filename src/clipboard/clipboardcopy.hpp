@@ -4,7 +4,6 @@
 
 namespace clipboardcopy {
     void copyClipboard();
-    void playErrorSound();
 }
 
 
