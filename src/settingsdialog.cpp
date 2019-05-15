@@ -45,6 +45,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Se
     // Set filename scheme
     setScheme(settings::settings().value("fileFormat", "Screenshot %(yyyy-MM-dd HH-mm-ss)date.%ext").toString());
 
+    ui->folderFormat->setText(settings::settings().value("folderFormat", "%(yyyy-MM)date").toString());
+
     // Set delay
     if ((settings::settings().contains("delay")))
         ui->delay->setValue(settings::settings().value("delay").toDouble());
@@ -120,6 +122,10 @@ void SettingsDialog::on_uploaderList_doubleClicked(const QModelIndex &) {
 
 void SettingsDialog::on_nameScheme_textChanged(const QString &arg1) {
     settings::settings().setValue("fileFormat", arg1);
+}
+
+void SettingsDialog::on_folderFormat_textChanged(const QString &arg1) {
+    settings::settings().setValue("folderFormat", arg1);
 }
 
 void SettingsDialog::on_delay_valueChanged(double arg1) {

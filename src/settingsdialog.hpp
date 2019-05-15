@@ -30,6 +30,7 @@ private slots:
     void on_imageFormatBox_currentIndexChanged(int index);
     void on_pushButton_clicked();
     void on_nameScheme_textChanged(const QString &arg1);
+    void on_folderFormat_textChanged(const QString &arg1);
     void newUploader(Uploader *u);
     void uploaderChanged(QString newName);
     void on_saveLocation_currentIndexChanged(int index);
