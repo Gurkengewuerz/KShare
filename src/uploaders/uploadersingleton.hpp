@@ -4,6 +4,7 @@
 #include "uploader.hpp"
 #include <QDir>
 #include <QMap>
+#include <logs/screenshotfile.h>
 
 class UploaderSingleton : public QObject {
     Q_OBJECT
@@ -31,6 +32,8 @@ signals:
 
 private:
     void updateSaveSettings();
+    QString getFormattedSubfolder();
+    ScreenshotFile getScreenshotFile(QFile &f);
     QDir saveDir;
     bool saveImages = true;
     QMap<QString, Uploader *> uploaders;

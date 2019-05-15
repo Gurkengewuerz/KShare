@@ -26,6 +26,7 @@
 #include "io/ioutils.hpp"
 #include <monospacetextdialog.hpp>
 #include <clipboard/clipboardcopy.hpp>
+#include <logs/screenshotfile.h>
 
 MainWindow *MainWindow::instance;
 
@@ -143,7 +144,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     QList<LoggedRequest> requests = requestlogging::getRequests();
     for (LoggedRequest req : requests) {
-        addResponse(req.getResponseCode(), req.getFilename(), req.getResult(), req.getUrl(), req.getTime());
+        addResponse(req.getResponseCode(), req.getScreenshotFile(), req.getResult(), req.getUrl(), req.getTime());
     }
 }
 
@@ -293,9 +294,9 @@ void MainWindow::setTrayIcon(QIcon icon) {
     tray->setIcon(icon);
 }
 
-void MainWindow::addResponse(int httpCode, QString filename, QString result, QString url, QString time) {
+void MainWindow::addResponse(int httpCode, ScreenshotFile sf, QString result, QString url, QString time) {
     QString httpStatus = ioutils::httpString(httpCode);
-    QTreeWidgetItem* tw = new QTreeWidgetItem({ QString::number(httpCode) + " " + httpStatus, filename, result, url, time + " UTC" });
+    QTreeWidgetItem* tw = new QTreeWidgetItem({ QString::number(httpCode) + " " + httpStatus, sf.getSubfolder() + QDir::separator() + sf.getFilename(), result, url, time + " UTC" });
 
     if(httpCode >= 200 && httpCode < 300) {
         tw->setIcon(0, *(new QIcon(":/icons/checked.png")));

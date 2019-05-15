@@ -5,16 +5,17 @@
 #include <QNetworkRequest>
 #include <thread>
 #include <logs/requestlogging.hpp>
+#include <logs/screenshotfile.h>
 
 QNetworkAccessManager ioutils::networkManager;
 
-void ioutils::addLogEntry(QNetworkReply* reply, QByteArray data, QString result, QString filename) {
+void ioutils::addLogEntry(QNetworkReply* reply, QByteArray data, QString result, ScreenshotFile sf) {
     requestlogging::RequestContext ctx;
 
     ctx.reply = reply;
     ctx.response = data;
     ctx.result = result;
-    ctx.filename = filename;
+    ctx.screenshotFile = sf;
 
     requestlogging::addEntry(ctx);
 }

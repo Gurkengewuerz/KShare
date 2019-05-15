@@ -5,13 +5,13 @@
 #include <QNetworkReply>
 #include <QString>
 #include <settings.hpp>
-
+#include <logs/screenshotfile.h>
 
 namespace requestlogging {
     struct RequestContext {
         QByteArray response;
         QNetworkReply *reply;
-        QString filename;
+        ScreenshotFile screenshotFile;
         QString result;
     };
 
@@ -22,8 +22,8 @@ namespace requestlogging {
         QString getUrl() {
             return url;
         }
-        QString getFilename() {
-            return filename;
+        ScreenshotFile getScreenshotFile() {
+            return screenshotFile;
         }
         QString getType() {
             return type;
@@ -43,7 +43,7 @@ namespace requestlogging {
 
     private:
         QString url;
-        QString filename;
+        ScreenshotFile screenshotFile;
         QString result;
         QString type;
         QString time;

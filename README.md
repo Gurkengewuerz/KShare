@@ -31,7 +31,7 @@ Additionally, on Linux, you require:
 * XCB
 * XCB xfixes
 * XCB cursor
-* libnotify
+* Notifications Daemon with org.freedesktop.notifications DBus support (like dunst)
 
 Despite the name implying so, this project does not depend on the KDE API at all.
 

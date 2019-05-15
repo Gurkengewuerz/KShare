@@ -2,6 +2,7 @@
 #include <QDateTime>
 #include <mainwindow.hpp>
 #include <io/ioutils.hpp>
+#include <logs/screenshotfile.h>
 #include <utils.hpp>
 
 #include "mainwindow.hpp"
@@ -37,10 +38,13 @@ void requestlogging::addEntry(RequestContext context) {
     responseFile.write("\n\n" + context.response);
     responseFile.close();
 
+    ScreenshotFile sf = context.screenshotFile;
+
     QTextStream(&requestFile) << ioutils::methodString(context.reply->operation()) << " "   // $type
                               << context.reply->url().toString().replace(" ", "%20") << " " // $url
                               << context.result.replace(" ", "%20") << " " // $result
-                              << context.filename.replace(" ", "_") << " " // $filename
+                              << sf.getSubfolder().replace(" ", "_") << " " // $subfolder
+                              << sf.getFilename().replace(" ", "_") << " " // $filename
                               << context.reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() << " " // $status
                               << timeNow.replace(" ", "_") << endl
                               << flush; // $time
@@ -48,7 +52,7 @@ void requestlogging::addEntry(RequestContext context) {
 
     MainWindow::inst()->addResponse(
             context.reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(),
-            context.filename,
+            sf,
             context.result,
             context.reply->url().toString(),
             timeNow.replace("_", " "));
@@ -66,14 +70,18 @@ QList<LoggedRequest> requestlogging::getRequests() {
     while ((line = requestFile.readLine()).size() != 0) {
         LoggedRequest r;
         QTextStream stream(&line);
+        ScreenshotFile sf;
         stream >> r.type;
         stream >> r.url;
         stream >> r.result;
-        stream >> r.filename;
+        stream >> sf.subfolder;
+        stream >> sf.filename;
         stream >> r.responseCode;
         stream >> r.time;
         r.time = r.time.replace("_", " ");
-        r.filename = r.filename.replace("_", " ");
+        sf.subfolder = sf.subfolder.replace("_", " ");
+        sf.filename = sf.filename.replace("_", " ");
+        r.screenshotFile = sf;
         ret.append(r);
     }
 

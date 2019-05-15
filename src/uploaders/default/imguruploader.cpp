@@ -11,6 +11,7 @@
 #include <notifications.hpp>
 #include <settings.hpp>
 #include <utils.hpp>
+#include <logs/screenshotfile.h>
 
 struct SegfaultWorkaround { // I'm a scrub for doing this
     SegfaultWorkaround(QByteArray a, ImgurUploader *u, QString m) : byteArray(), dis(u), mime(m) {
@@ -25,14 +26,15 @@ struct SegfaultWorkaround { // I'm a scrub for doing this
         QUrl("https://api.imgur.com/oauth2/token"),
         QList<QPair<QString, QString>>({ QPair<QString, QString>("Content-Type", "applicaton/json") }),
         QJsonDocument::fromVariant(object.toVariantMap()).toJson(), [&](QJsonDocument response, QByteArray, QNetworkReply *r) {
+            ScreenshotFile sf;
             qDebug() << response;
             if (r->error() != QNetworkReply::NoError || !response.isObject()) {
-                dis->handleSend(QStringLiteral("Client-ID 8a98f183fc895da"), mime, byteArray);
+                dis->handleSend(QStringLiteral("Client-ID 8a98f183fc895da"), mime, byteArray, sf);
                 return;
             }
             QJsonObject res = response.object();
             if (res.value("success").toBool()) {
-                dis->handleSend(QStringLiteral("Client-ID 8a98f183fc895da"), mime, byteArray);
+                dis->handleSend(QStringLiteral("Client-ID 8a98f183fc895da"), mime, byteArray, sf);
                 return;
             }
 
@@ -41,7 +43,7 @@ struct SegfaultWorkaround { // I'm a scrub for doing this
             settings::settings().setValue("imgur/refresh", res["refresh_token"].toString());
             settings::settings().setValue("imgur/access", token);
 
-            dis->handleSend(token.prepend("Bearer "), mime, byteArray);
+            dis->handleSend(token.prepend("Bearer "), mime, byteArray, sf);
             QScopedPointer<SegfaultWorkaround>(this);
         });
     }
@@ -52,7 +54,7 @@ private:
     QString mime;
 }; // I feel terrible for making this. I am sorry, reader
 
-void ImgurUploader::doUpload(QByteArray byteArray, QString format, QString filename) {
+void ImgurUploader::doUpload(QByteArray byteArray, QString format, ScreenshotFile sf) {
     if (byteArray.size() > 1e+7) {
         notifications::notify(tr("KShare imgur Uploader"), tr("Failed upload! Image too big"));
         return;
@@ -69,32 +71,32 @@ void ImgurUploader::doUpload(QByteArray byteArray, QString format, QString filen
         if (QDateTime::currentDateTimeUtc() > expireTime) {
             new SegfaultWorkaround(byteArray, this, mime);
         } else
-            handleSend("Bearer " + settings::settings().value("imgur/access").toString(), mime, byteArray, filename);
+            handleSend("Bearer " + settings::settings().value("imgur/access").toString(), mime, byteArray, sf);
     } else
-        handleSend(QStringLiteral("Client-ID 8a98f183fc895da"), mime, byteArray, filename);
+        handleSend(QStringLiteral("Client-ID 8a98f183fc895da"), mime, byteArray, sf);
 }
 
 void ImgurUploader::showSettings() {
     (new ImgurSettingsDialog())->show();
 }
 
-void ImgurUploader::handleSend(QString auth, QString mime, QByteArray byteArray, QString filename) {
+void ImgurUploader::handleSend(QString auth, QString mime, QByteArray byteArray, ScreenshotFile sf) {
     ioutils::postJson(QUrl("https://api.imgur.com/3/image"),
                       QList<QPair<QString, QString>>() << QPair<QString, QString>("Content-Type", mime.toUtf8())
                                                        << QPair<QString, QString>("Authorization", auth),
-                      byteArray, [byteArray, this, mime, filename](QJsonDocument res, QByteArray data, QNetworkReply *r) {
+                      byteArray, [byteArray, this, mime, sf](QJsonDocument res, QByteArray data, QNetworkReply *r) {
                           QString result = res.object()["data"].toObject()["link"].toString();
                           if (r->error() == QNetworkReply::ContentAccessDenied) {
                               new SegfaultWorkaround(byteArray, this, mime);
                               return;
                           }
                           if (!result.isEmpty()) {
-                              ioutils::addLogEntry(r, data, result, filename);
+                              ioutils::addLogEntry(r, data, result, sf);
                               utils::toClipboard(result);
                               notifications::notify(tr("KShare imgur Uploader"), tr("Uploaded to imgur!"));
                               notifications::playSound(notifications::Sound::SUCCESS);
                           } else {
-                              ioutils::addLogEntry(r, data, result, filename);
+                              ioutils::addLogEntry(r, data, result, sf);
                               notifications::notify(tr("KShare imgur Uploader "),
                                                     QString(tr("Failed upload! imgur said: HTTP %1: %2"))
                                                     .arg(r->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt())
@@ -102,8 +104,4 @@ void ImgurUploader::handleSend(QString auth, QString mime, QByteArray byteArray,
                               notifications::playSound(notifications::Sound::ERROR);
                           }
                       });
-}
-
-void ImgurUploader::handleSend(QString auth, QString mime, QByteArray byteArray) {
-    handleSend(auth, mime, byteArray);
 }

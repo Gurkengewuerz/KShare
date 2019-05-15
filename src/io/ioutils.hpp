@@ -6,10 +6,11 @@
 #include <QNetworkAccessManager>
 #include <QUrl>
 #include <functional>
+#include <logs/screenshotfile.h>
 
 namespace ioutils {
     extern QNetworkAccessManager networkManager;
-    void addLogEntry(QNetworkReply* reply, QByteArray data, QString result, QString filename);
+    void addLogEntry(QNetworkReply* reply, QByteArray data, QString result, ScreenshotFile sf);
     void getJson(QUrl target,
                  QList<QPair<QString, QString>> headers,
                  std::function<void(QJsonDocument, QByteArray, QNetworkReply *)> callback);

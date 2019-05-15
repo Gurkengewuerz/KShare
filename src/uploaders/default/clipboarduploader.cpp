@@ -6,8 +6,9 @@
 #include <formats.hpp>
 #include <notifications.hpp>
 #include <QString>
+#include <logs/screenshotfile.h>
 
-void ClipboardUploader::doUpload(QByteArray imgData, QString format, QString filename) {
+void ClipboardUploader::doUpload(QByteArray imgData, QString format, ScreenshotFile sf) {
     auto f = formats::recordingFormatFromName(format);
     if (f != formats::Recording::None) {
         auto data = new QMimeData();

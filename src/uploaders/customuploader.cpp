@@ -12,6 +12,7 @@
 #include <formatter.hpp>
 #include <io/ioutils.hpp>
 #include <notifications.hpp>
+#include <logs/screenshotfile.h>
 
 using formats::normalFormatFromName;
 using formats::normalFormatMIME;
@@ -208,7 +209,7 @@ QString parsePathspec(QJsonDocument &response, QString &pathspec) {
     return "";
 }
 
-void CustomUploader::parseResult(QNetworkReply *r, QJsonDocument result, QByteArray data, QString returnPathspec, QString name, QString filename) {
+void CustomUploader::parseResult(QNetworkReply *r, QJsonDocument result, QByteArray data, QString returnPathspec, QString name, ScreenshotFile sf) {
     if (result.isObject()) {
         QString url
         = formatter::format(urlPrepend, "") + parsePathspec(result, returnPathspec) + formatter::format(urlAppend, "");
@@ -216,22 +217,22 @@ void CustomUploader::parseResult(QNetworkReply *r, QJsonDocument result, QByteAr
         if (!url.isEmpty()) {
             QApplication::clipboard()->setText(url);
             notifications::notify(tr("KShare Custom Uploader ") + name, tr("Copied upload link to clipboard!"));
-            ioutils::addLogEntry(r, data, url, filename);
+            ioutils::addLogEntry(r, data, url, sf);
         } else {
             notifications::notify(tr("KShare Custom Uploader ") + name, tr("Upload done, but result empty!"));
             QApplication::clipboard()->setText(data);
-            ioutils::addLogEntry(r, data, "", filename);
+            ioutils::addLogEntry(r, data, "", sf);
         }
     } else {
         notifications::playSound(notifications::Sound::ERROR);
         notifications::notify(tr("KShare Custom Uploader ") + name,
                               tr("Upload done, but result is not JSON Object! Result in clipboard."));
         QApplication::clipboard()->setText(data);
-        ioutils::addLogEntry(r, data, "", filename);
+        ioutils::addLogEntry(r, data, "", sf);
     }
 }
 
-QByteArray substituteArgs(QByteArray arr, QString format, QString filename, QByteArray imgData = QByteArray()) {
+QByteArray substituteArgs(QByteArray arr, QString format, ScreenshotFile sf, QByteArray imgData = QByteArray()) {
     QString mime = normalFormatMIME(normalFormatFromName(format));
     if (mime.isEmpty()) mime = recordingFormatMIME(recordingFormatFromName(format));
     if (arr.startsWith("/") && arr.endsWith("/")) {
@@ -241,7 +242,7 @@ QByteArray substituteArgs(QByteArray arr, QString format, QString filename, QByt
                                 { { "format", format.toLower() }, { "FORMAT", format }, { "contenttype", mime } })
               .toUtf8();
 
-        QByteArray fA = filename.toLocal8Bit();
+        QByteArray fA = sf.getFilename().toLocal8Bit();
         arr.replace("%filename", fA.data());
 
         if (imgData.isNull()) return arr;
@@ -251,17 +252,17 @@ QByteArray substituteArgs(QByteArray arr, QString format, QString filename, QByt
 }
 
 
-QJsonObject recurseAndReplace(QJsonObject &body, QByteArray &data, QString format, QString filename) {
+QJsonObject recurseAndReplace(QJsonObject &body, QByteArray &data, QString format, ScreenshotFile sf) {
     QJsonObject o;
     for (QString s : body.keys()) {
         QJsonValue v = body[s];
         if (v.isObject()) {
             QJsonObject vo = v.toObject();
-            o.insert(s, recurseAndReplace(vo, data, format, filename));
+            o.insert(s, recurseAndReplace(vo, data, format, sf));
         } else if (v.isString()) {
             QString str = v.toString();
             if (str.startsWith("/") && str.endsWith("/")) {
-                o.insert(s, QString::fromUtf8(substituteArgs(str.toUtf8(), format, filename, data)));
+                o.insert(s, QString::fromUtf8(substituteArgs(str.toUtf8(), format, sf, data)));
             } else
                 o.insert(s, v);
         } else
@@ -270,7 +271,7 @@ QJsonObject recurseAndReplace(QJsonObject &body, QByteArray &data, QString forma
     return o;
 }
 
-void CustomUploader::doUpload(QByteArray imgData, QString format, QString filename) {
+void CustomUploader::doUpload(QByteArray imgData, QString format, ScreenshotFile sf) {
     auto h = getHeaders(headers, format, this->rFormat);
     QByteArray data;
     if (base64) imgData = imgData.toBase64(QByteArray::Base64UrlEncoding);
@@ -281,10 +282,10 @@ void CustomUploader::doUpload(QByteArray imgData, QString format, QString filena
     } break;
     case RequestFormat::JSON: {
         if (body.isString()) {
-            data = substituteArgs(body.toString().toUtf8(), format, filename, imgData);
+            data = substituteArgs(body.toString().toUtf8(), format, sf, imgData);
         } else {
             QJsonObject vo = body.toObject();
-            data = QJsonDocument::fromVariant(recurseAndReplace(vo, imgData, format, filename).toVariantMap()).toJson();
+            data = QJsonDocument::fromVariant(recurseAndReplace(vo, imgData, format, sf).toVariantMap()).toJson();
         }
     } break;
     case RequestFormat::X_WWW_FORM_URLENCODED: {
@@ -292,7 +293,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format, QString filena
         for (QString key : body.keys()) {
             QJsonValue val = body[key];
             if (val.isString()) {
-                data.append(QUrl::toPercentEncoding(key)).append('=').append(substituteArgs(val.toString().toUtf8(), format, filename, imgData));
+                data.append(QUrl::toPercentEncoding(key)).append('=').append(substituteArgs(val.toString().toUtf8(), format, sf, imgData));
             } else {
                 if (!data.isEmpty()) data.append('&');
                 data.append(QUrl::toPercentEncoding(key))
@@ -311,7 +312,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format, QString filena
             QHttpPart part;
             QJsonValue bd = valo["body"];
             if (bd.isString()) {
-                QByteArray body = substituteArgs(bd.toString().toUtf8(), format, filename, imgData);
+                QByteArray body = substituteArgs(bd.toString().toUtf8(), format, sf, imgData);
                 QByteArray *bodyHeap = new QByteArray;
                 body.swap(*bodyHeap);
                 QBuffer *buffer = new QBuffer(bodyHeap);
@@ -321,7 +322,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format, QString filena
                 arraysToDelete.append(bodyHeap);
             } else {
                 auto bdo = bd.toObject();
-                QJsonObject result = recurseAndReplace(bdo, imgData, format, filename);
+                QJsonObject result = recurseAndReplace(bdo, imgData, format, sf);
                 part.setBody(QJsonDocument::fromVariant(result.toVariantMap()).toJson());
             }
             QByteArray cdh("form-data");
@@ -329,11 +330,11 @@ void CustomUploader::doUpload(QByteArray imgData, QString format, QString filena
                 if (headerVal.startsWith("__")) {
                     headerVal = headerVal.mid(2);
                     QByteArray str = valo["__" + headerVal].toString().toUtf8();
-                    if (str.startsWith("/") && str.endsWith("/")) str = substituteArgs(str, format, filename);
+                    if (str.startsWith("/") && str.endsWith("/")) str = substituteArgs(str, format, sf);
                     part.setRawHeader(headerVal.toLatin1(), str);
                 } else if (headerVal != "body")
                     cdh += "; " + headerVal + "=\""
-                           + substituteArgs(valo[headerVal].toString().toUtf8(), format, filename).replace("\"", "\\\"") + "\"";
+                           + substituteArgs(valo[headerVal].toString().toUtf8(), format, sf).replace("\"", "\\\"") + "\"";
             }
             part.setHeader(QNetworkRequest::ContentDispositionHeader, cdh);
             multipart->append(part);
@@ -342,8 +343,8 @@ void CustomUploader::doUpload(QByteArray imgData, QString format, QString filena
         case HttpMethod::POST:
             if (returnPathspec == "|") {
                 ioutils::postMultipartData(target, h, multipart,
-                                           [&, buffersToDelete, arraysToDelete, filename](QByteArray result, QNetworkReply *r) {
-                                               ioutils::addLogEntry(r, result, QString::fromUtf8(result), filename);
+                                           [&, buffersToDelete, arraysToDelete, sf](QByteArray result, QNetworkReply *r) {
+                                               ioutils::addLogEntry(r, result, QString::fromUtf8(result), sf);
                                                QApplication::clipboard()->setText(QString::fromUtf8(result));
                                                for (auto buffer : buffersToDelete) buffer->deleteLater();
                                                for (auto arr : arraysToDelete) delete arr;
@@ -353,10 +354,10 @@ void CustomUploader::doUpload(QByteArray imgData, QString format, QString filena
                                            });
             } else {
                 ioutils::postMultipart(target, h, multipart,
-                                       [&, buffersToDelete, arraysToDelete, filename](QJsonDocument result, QByteArray data, QNetworkReply *r) {
+                                       [&, buffersToDelete, arraysToDelete, sf](QJsonDocument result, QByteArray data, QNetworkReply *r) {
                                            for (auto buffer : buffersToDelete) buffer->deleteLater();
                                            for (auto arr : arraysToDelete) delete arr;
-                                           parseResult(r, result, data, returnPathspec, name(), filename);
+                                           parseResult(r, result, data, returnPathspec, name(), sf);
                                        });
             }
             break;
@@ -372,15 +373,15 @@ void CustomUploader::doUpload(QByteArray imgData, QString format, QString filena
     switch (method) {
     case HttpMethod::POST:
         if (returnPathspec == "|") {
-            ioutils::postData(target, h, data, [&, filename](QByteArray result, QNetworkReply *r) {
-                ioutils::addLogEntry(r, result, QString::fromUtf8(result), filename);
+            ioutils::postData(target, h, data, [&, sf](QByteArray result, QNetworkReply *r) {
+                ioutils::addLogEntry(r, result, QString::fromUtf8(result), sf);
                 QApplication::clipboard()->setText(QString::fromUtf8(result));
                 notifications::playSound(notifications::Sound::SUCCESS);
                 notifications::notify(tr("KShare Custom Uploader ") + name(), tr("Copied upload result to clipboard!"));
             });
         } else {
-            ioutils::postJson(target, h, data, [&, filename](QJsonDocument result, QByteArray data, QNetworkReply *r) {
-                parseResult(r, result, data, returnPathspec, name(), filename);
+            ioutils::postJson(target, h, data, [&, sf](QJsonDocument result, QByteArray data, QNetworkReply *r) {
+                parseResult(r, result, data, returnPathspec, name(), sf);
             });
         }
         break;

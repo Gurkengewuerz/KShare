@@ -9,6 +9,7 @@
 
 #include <recording/recordingcontroller.hpp>
 #include <uploaders/uploader.hpp>
+#include <logs/screenshotfile.h>
 
 namespace Ui {
     class MainWindow;
@@ -39,7 +40,7 @@ public:
     ~MainWindow();
     bool valid();
     void setTrayIcon(QIcon icon);
-    void addResponse(int httpCode, QString filename, QString result, QString url, QString time);
+    void addResponse(int httpCode, ScreenshotFile sf, QString result, QString url, QString time);
     RecordingController *controller = new RecordingController;
 
     QSystemTrayIcon *tray;

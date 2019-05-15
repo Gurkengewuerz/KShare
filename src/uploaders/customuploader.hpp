@@ -7,6 +7,7 @@
 #include <QMap>
 #include <QUrl>
 #include <QNetworkReply>
+#include <logs/screenshotfile.h>
 
 enum class HttpMethod { POST };
 
@@ -19,7 +20,7 @@ public:
     CustomUploader(QString absFilePath);
     QString name();
     QString description();
-    void doUpload(QByteArray imgData, QString format, QString filename);
+    void doUpload(QByteArray imgData, QString format, ScreenshotFile sf);
 
 private:
     double limit = -1;
@@ -33,7 +34,7 @@ private:
     bool base64 = false;
     QString returnPathspec;
     QString urlPrepend, urlAppend;
-    void parseResult(QNetworkReply *r, QJsonDocument result, QByteArray data, QString returnPathspec, QString name, QString filename);
+    void parseResult(QNetworkReply *r, QJsonDocument result, QByteArray data, QString returnPathspec, QString name, ScreenshotFile sf);
 };
 
 #endif // CUSTOMUPLOADER_HPP

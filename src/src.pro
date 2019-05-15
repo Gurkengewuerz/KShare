@@ -127,7 +127,8 @@ HEADERS  += mainwindow.hpp \
     screenoverlay/screenoverlaysettings.hpp \
     logger.hpp \
     clipboard/clipboardcopy.hpp \
-    systemnotification.h
+    systemnotification.h \
+    logs/screenshotfile.h
 
 nopkg {
 #    win32 {

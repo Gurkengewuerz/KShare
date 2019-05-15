@@ -14,6 +14,7 @@
 #include <notifications.hpp>
 #include <settings.hpp>
 #include "mainwindow.hpp"
+#include <logs/screenshotfile.h>
 
 UploaderSingleton::UploaderSingleton() : QObject() {
     updateSaveSettings();
@@ -73,8 +74,7 @@ void UploaderSingleton::upload(QPixmap pixmap) {
         notifications::playSound(notifications::Sound::CAPTURE);
         pixmap.save(file, format.toLocal8Bit().constData(), settings::settings().value("imageQuality", -1).toInt());
         file->seek(0);
-        QFileInfo fileInfo(file->fileName());
-        u->doUpload(file->readAll(), format, fileInfo.fileName());
+        u->doUpload(file->readAll(), format, getScreenshotFile(*file));
     } else
         notifications::notify(tr("KShare - Failed to save picture"), file->errorString(), QSystemTrayIcon::Warning);
     delete file;
@@ -96,9 +96,8 @@ void UploaderSingleton::upload(QByteArray img, QString format) {
         file->write(img);
         file->close();
     }
-    QFileInfo fileInfo(file->fileName());
+    uploaders.value(uploader)->doUpload(img, format, getScreenshotFile(*file));
     delete file;
-    uploaders.value(uploader)->doUpload(img, format, fileInfo.fileName());
 }
 
 void UploaderSingleton::upload(QFile &img, QString format) {
@@ -108,9 +107,8 @@ void UploaderSingleton::upload(QFile &img, QString format) {
             formatter::format(settings::settings().value("fileFormat", "Screenshot %(yyyy-MM-dd HH-mm-ss)date.%ext").toString(),
                               format.toLower())))) {
         notifications::playSound(notifications::Sound::CAPTURE);
-        QFileInfo fileInfo(img.fileName());
         if (img.open(QFile::ReadWrite))
-            uploaders.value(uploader)->doUpload(img.readAll(), format, fileInfo.fileName());
+            uploaders.value(uploader)->doUpload(img.readAll(), format, getScreenshotFile(img));
         else
             notifications::notify(tr("KShare - Failed to save picture"), img.errorString(), QSystemTrayIcon::Warning);
     } else
@@ -120,9 +118,8 @@ void UploaderSingleton::upload(QFile &img, QString format) {
 void UploaderSingleton::upload(QFile &img) {
     updateSaveSettings();
     if (img.size() <= 0) return;
-    QFileInfo fileInfo(img.fileName());
     if (img.open(QFile::ReadWrite))
-        uploaders.value(uploader)->doUpload(img.readAll(), "", fileInfo.fileName());
+        uploaders.value(uploader)->doUpload(img.readAll(), "", getScreenshotFile(img));
     else
         notifications::notify(tr("KShare - Failed to open File"), img.errorString(), QSystemTrayIcon::Warning);
 }
@@ -159,6 +156,18 @@ QString UploaderSingleton::currentUploader() {
     return uploader;
 }
 
+QString UploaderSingleton::getFormattedSubfolder() {
+    return formatter::format(settings::settings().value("folderFormat", "%(yyyy-MM)date").toString(), "");
+}
+
+ScreenshotFile UploaderSingleton::getScreenshotFile(QFile &f) {
+    ScreenshotFile sf;
+    sf.subfolder = getFormattedSubfolder();
+    QFileInfo fi(f);
+    sf.filename = fi.fileName();
+    return sf;
+}
+
 void UploaderSingleton::updateSaveSettings() {
     switch (settings::settings().value("saveLocation", 1).toInt()) {
     case 0:
@@ -179,6 +188,8 @@ void UploaderSingleton::updateSaveSettings() {
         saveImages = false;
         break;
     }
+
+    saveDir = QDir(saveDir.absolutePath() + QDir::separator() + getFormattedSubfolder());
 
     if (!saveDir.exists()) {
         if (!saveDir.mkpath(".")) {
