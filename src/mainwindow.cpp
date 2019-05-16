@@ -124,6 +124,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
             QTimer::singleShot(QApplication::doubleClickInterval(), [this] {
                 if(wasDoubleCLick) {
                     wasDoubleCLick = false;
+                    trayIconClicks = 0;
                     return;
                 }
                 if(trayIconClicks == 1)  {
