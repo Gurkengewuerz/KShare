@@ -27,8 +27,11 @@
 #include <monospacetextdialog.hpp>
 #include <clipboard/clipboardcopy.hpp>
 #include <logs/screenshotfile.h>
+#include <QDateTime>
 
 MainWindow *MainWindow::instance;
+qint8 trayIconClicks = 0;
+bool wasDoubleCLick = false;
 
 using requestlogging::LoggedRequest;
 
@@ -100,8 +103,39 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(shtoggle, &QAction::triggered, this, &MainWindow::toggleVisible);
     connect(picker, &QAction::triggered, [] { ColorPickerScene::showPicker(); });
     connect(tray, &QSystemTrayIcon::messageClicked, this, &QWidget::show);
+
     connect(tray, &QSystemTrayIcon::activated, this, [this](QSystemTrayIcon::ActivationReason reason) {
-        if (reason == QSystemTrayIcon::DoubleClick) toggleVisible();
+        if (reason == QSystemTrayIcon::MiddleClick) {
+            screenshotter::fullscreenDelayed();
+            return;
+        }
+
+
+        if (reason == QSystemTrayIcon::DoubleClick) {
+            wasDoubleCLick = true;
+            toggleVisible();
+            return;
+        }
+
+        if (reason != QSystemTrayIcon::Trigger) return;
+
+        trayIconClicks++;
+        if (trayIconClicks == 1) {
+            QTimer::singleShot(QApplication::doubleClickInterval(), [this] {
+                if(wasDoubleCLick) {
+                    wasDoubleCLick = false;
+                    return;
+                }
+                if(trayIconClicks == 1)  {
+                    // Single Click
+                    screenshotter::areaDelayed();
+                } else {
+                    // Double Click
+                    toggleVisible();
+                }
+                trayIconClicks = 0;
+            });
+        }
     });
     connect(fullscreen, &QAction::triggered, this, [] { screenshotter::fullscreenDelayed(); });
     connect(area, &QAction::triggered, this, [] { screenshotter::areaDelayed(); });
