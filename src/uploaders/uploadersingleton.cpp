@@ -53,7 +53,7 @@ void UploaderSingleton::registerUploader(Uploader *uploader) {
     emit newUploader(uploader);
 }
 
-void UploaderSingleton::upload(QPixmap pixmap) {
+void UploaderSingleton::upload(QPixmap pixmap, bool save) {
     updateSaveSettings();
     auto u = uploaders.value(uploader);
     if (!u->validate()) {
@@ -63,7 +63,7 @@ void UploaderSingleton::upload(QPixmap pixmap) {
     }
     QString format = settings::settings().value("captureformat", "PNG").toString();
     QFile *file = nullptr;
-    if (saveImages) {
+    if (saveImages && save) {
         file = new QFile(saveDir.absoluteFilePath(
         formatter::format(settings::settings().value("fileFormat", "Screenshot %(yyyy-MM-dd HH-mm-ss)date.%ext").toString(),
                           format.toLower())));
@@ -78,6 +78,10 @@ void UploaderSingleton::upload(QPixmap pixmap) {
     } else
         notifications::notify(tr("KShare - Failed to save picture"), file->errorString(), QSystemTrayIcon::Warning);
     delete file;
+}
+
+void UploaderSingleton::upload(QPixmap pixmap) {
+    UploaderSingleton::upload(pixmap, true);
 }
 
 void UploaderSingleton::upload(QByteArray img, QString format) {

@@ -23,6 +23,7 @@ void clipboardcopy::copyClipboard() {
 
     if(mimeData->hasImage()) {
         QPixmap map = qvariant_cast<QPixmap>(mimeData->imageData());
+        UploaderSingleton::inst().upload(map, false);
     } else if(mimeData->hasText()) {
 #ifdef Q_OS_WIN
         QUrl fileUrl(mimeData->text());
