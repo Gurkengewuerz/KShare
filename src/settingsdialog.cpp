@@ -69,6 +69,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Se
     ui->hideToTray->setChecked(settings::settings().value("hideOnClose", true).toBool());
     ui->captureCursor->setChecked(settings::settings().value("captureCursor", true).toBool());
     ui->saveLocation->setCurrentIndex(settings::settings().value("saveLocation", 1).toInt());
+    ui->themeSelection->setCurrentIndex(settings::settings().value("theme", 0).toInt());
     for (int i = 0; i < (int)formats::Recording::None; i++) {
         ui->formatBox->addItem(formats::recordingFormatName(static_cast<formats::Recording>(i)));
     }
@@ -173,6 +174,10 @@ void SettingsDialog::on_pushButton_clicked() {
 
 void SettingsDialog::on_saveLocation_currentIndexChanged(int index) {
     settings::settings().setValue("saveLocation", index);
+}
+
+void SettingsDialog::on_themeSelection_currentIndexChanged(int index) {
+    settings::settings().setValue("theme", index);
 }
 
 void SettingsDialog::on_cropX_valueChanged(int arg1) {

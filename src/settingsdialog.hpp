@@ -34,6 +34,7 @@ private slots:
     void newUploader(Uploader *u);
     void uploaderChanged(QString newName);
     void on_saveLocation_currentIndexChanged(int index);
+    void on_themeSelection_currentIndexChanged(int index);
     void on_cropX_valueChanged(int arg1);
     void on_cropY_valueChanged(int arg1);
     void on_fpsMax_valueChanged(int arg1);

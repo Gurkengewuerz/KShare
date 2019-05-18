@@ -19,6 +19,7 @@ extern "C" {
 #include <QColor>
 #include <notifications.hpp>
 #include <worker/worker.hpp>
+#include <settings.hpp>
 
 bool verbose = false;
 
@@ -78,6 +79,10 @@ int main(int argc, char *argv[]) {
     QString locale = QLocale::system().name();
     if (locale != "en_US") loadTranslation(locale);
 
+    int theme = settings::settings().value("theme", 0).toInt();
+
+    if(theme == 0) {
+        // System Default
 #ifdef Q_OS_WIN
     QSettings settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",QSettings::NativeFormat);
     if(settings.value("AppsUseLightTheme")==0){
@@ -108,6 +113,32 @@ int main(int argc, char *argv[]) {
         qApp->setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
     }
 #endif
+    } else {
+        QString path = "";
+
+        if(theme == 1) {
+            // QDarkStyle
+            path = ":qdarkstyle/style.qss";
+        } else if(theme == 2) {
+            // Breeze Light
+            path = ":/light.qss";
+        } else if(theme == 3) {
+            // Breeze Dark
+            path = ":/dark.qss";
+        }
+
+        QFile f(path);
+        if (!f.exists())
+        {
+            printf("Unable to set stylesheet, file not found\n");
+        }
+        else
+        {
+            f.open(QFile::ReadOnly | QFile::Text);
+            QTextStream ts(&f);
+            qApp->setStyleSheet(ts.readAll());
+        }
+    }
 
     QCommandLineParser parser;
     parser.addHelpOption();

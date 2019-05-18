@@ -195,7 +195,9 @@ FORMS    += mainwindow.ui \
 RESOURCES += \
     icon.qrc \
     sounds.qrc \
-    translations.qrc
+    translations.qrc \
+    ../themes/qdarkstyle/style.qrc \
+    ../themes/breeze/breeze.qrc
 
 QMAKE_CFLAGS_DEBUG += -g
 
