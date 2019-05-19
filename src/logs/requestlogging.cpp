@@ -4,7 +4,6 @@
 #include <io/ioutils.hpp>
 #include <logs/screenshotfile.h>
 #include <utils.hpp>
-#include <QTextCodec>
 
 #include "mainwindow.hpp"
 

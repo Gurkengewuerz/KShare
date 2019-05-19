@@ -5,6 +5,7 @@
 #include "ui_mainwindow.h"
 #include "utils.hpp"
 #include <QApplication>
+#include <QCoreApplication>
 #include <QClipboard>
 #include <QMessageBox>
 #include <QShortcut>
@@ -204,7 +205,7 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 }
 
 void MainWindow::quit() {
-    QCoreApplication::quit();
+    QApplication::quit();
 }
 
 void MainWindow::toggleVisible() {
