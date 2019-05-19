@@ -4,6 +4,7 @@
 #include <io/ioutils.hpp>
 #include <logs/screenshotfile.h>
 #include <utils.hpp>
+#include <QTextCodec>
 
 #include "mainwindow.hpp"
 
@@ -65,8 +66,20 @@ QList<LoggedRequest> requestlogging::getRequests() {
 
     QFile requestFile(requestPath);
     if (!requestFile.exists() || !requestFile.open(QIODevice::ReadOnly)) return ret;
-
     QByteArray line;
+
+    requestFile.seek(requestFile.size());
+    long int pos = requestFile.pos();
+    int count = 0;
+
+    while(pos) {
+        requestFile.seek(--pos);
+        QString s = requestFile.read(1);
+        if(s == '\n') {
+            if(count++ == 8) break;
+        }
+    }
+
     while ((line = requestFile.readLine()).size() != 0) {
         LoggedRequest r;
         QTextStream stream(&line);
@@ -84,6 +97,8 @@ QList<LoggedRequest> requestlogging::getRequests() {
         r.screenshotFile = sf;
         ret.append(r);
     }
+
+    requestFile.close();
 
     return ret;
 }
