@@ -23,7 +23,7 @@ sh
 resultfile="$(pwd)/KShare/build/src/KShare"
 else echo "Unsupported OS!" && exit 1; fi
 
-git clone --recursive https://github.com/ArsenArsen/KShare.git || exit 2
+git clone --recursive https://github.com/Gurkengewuerz/KShare.git || exit 2
 cd KShare
 mkdir build || exit 3
 cd build
