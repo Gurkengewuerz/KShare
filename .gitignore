@@ -38,13 +38,19 @@ CMakeLists.txt.user
 Makefile
 
 # Executable
-KShare
+./KShare
 
 # Other
 *.out
-
+tags
 *.Debug
-
+*.kdev*
+.clang
 vgcore.*
 
 *.Release
+
+.*_history
+
+.idea/
+build/

@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="capturesound.wav">sounds/CaptureSound.wav</file>
+        <file alias="errorsound.wav">sounds/ErrorSound.wav</file>
+        <file alias="successsound.wav">sounds/TaskCompletedSound.wav</file>
+    </qresource>
+</RCC>

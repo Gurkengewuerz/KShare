@@ -1,21 +1,25 @@
 # KShare
-A [ShareX](https://getsharex.com/) inspired cross platform utility written with Qt.
+A [ShareX](https://getsharex.com/) inspired cross platform utility written with Qt.  
+Originally written by [ArsenArsen](https://github.com/ArsenArsen) and here enhanced with [these](https://github.com/Gurkengewuerz/KShare/projects/1) features.
 
-|Linux|Windows|OS X|
-|:---:|:-----:|:--:|
-|[![Build Status](https://nativeci.arsenarsen.com/job/KShare/badge/icon)](https://nativeci.arsenarsen.com/job/KShare)| [![Build Status](https://nativeci.arsenarsen.com/job/KShare%20Windows%20x86_64/badge/icon)](https://nativeci.arsenarsen.com/job/KShare%20Windows%20x86_64/)| Soon |
+|  | Linux | Windows |
+|--------|-------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| master | [![CircleCI](https://circleci.com/gh/Gurkengewuerz/KShare/tree/master.svg?style=svg)](https://circleci.com/gh/Gurkengewuerz/KShare/tree/master) | [![Build status](https://ci.appveyor.com/api/projects/status/ujxmg1dk7f5p8ijh/branch/master?svg=true)](https://ci.appveyor.com/project/Gurkengewuerz/kshare/branch/master) |
+| dev | [![CircleCI](https://circleci.com/gh/Gurkengewuerz/KShare/tree/dev.svg?style=svg)](https://circleci.com/gh/Gurkengewuerz/KShare/tree/dev) | [![Build status](https://ci.appveyor.com/api/projects/status/ujxmg1dk7f5p8ijh/branch/dev?svg=true)](https://ci.appveyor.com/project/Gurkengewuerz/kshare/branch/dev) |
+
 ## Screenshot
-Made with KShare itself, of course :)
-
-![](http://i.imgur.com/ffWvCun.png)
+Made with KShare itself, of course :)  
+![](https://i.imgur.com/oJrCNkq.png)
 
 ## Usage
-See the [wiki](https://gitlab.com/ArsenArsen/KShare/wikis/home).
+See the [wiki](https://github.com/ArsenArsen/KShare/wiki).
+Please note that KShare is not compatiable with Wayland due to some permission issues. Please use X.Org instead.
 
 ## Dependencies
 * Qt 5 Widgets
 * Qt 5 GUI
 * Qt 5 Network
+* Qt 5 Multimedia
 * Qt 5 X11Extras | Winextras
 * [QHotkey](https://github.com/Skycoder42/QHotkey)
 * libavformat
@@ -23,42 +27,36 @@ See the [wiki](https://gitlab.com/ArsenArsen/KShare/wikis/home).
 * libavutil
 * libswscale
 
+Additionally, on Linux, you require:
+* XCB
+* XCB xfixes
+* XCB cursor
+* Notifications Daemon with org.freedesktop.notifications DBus support (like dunst)
+
 Despite the name implying so, this project does not depend on the KDE API at all.
 
-## Goals
-See the [project board](https://gitlab.com/ArsenArsen/KShare/boards)
-
 ## Install
-
-### **NOTE:** These links are temporarily down and will be fixed with the next release. Current (potentially unstable) development builds are available at [this location](https://nativeci.arsenarsen.com/job/KShare%20(dev))
-
 |Distro|Link|
 |:----:|:--:|
 |Arch Linux (development)|[kshare-git](https://aur.archlinux.org/packages/kshare-git/)|
-|Ubuntu (development)|[Ubuntu .deb](https://nativeci.arsenarsen.com/job/KShare/lastSuccessfulBuild/artifact/packages/simpleName.deb)|
+|Ubuntu/Debian (development)|[.deb](https://nativeci.arsenarsen.com/job/KShare%20\(dev\)/main=linux/lastSuccessfulBuild/artifact/packages/simpleName.deb)|
 |Arch Linux |[kshare](https://aur.archlinux.org/packages/kshare/)|
-|Ubuntu |[Ubuntu .deb](https://nativeci.arsenarsen.com/job/KShare%20Stable/lastSuccessfulBuild/artifact/packages/simpleName.deb)|
-
-I do plan to make a Debian packages.
+|Ubuntu/Debian |[.deb](https://nativeci.arsenarsen.com/job/KShare%20\(master\)/main=linux/lastSuccessfulBuild/artifact/packages/simpleName.deb)|
 
 For other UNIX-like platforms, and MSYS2 (for Windows):
 
 You have to obtain the dependencies though.
 ```bash
-git clone https://gitlab.com/ArsenArsen/KShare.git
+git clone --recursive https://github.com/ArsenArsen/KShare.git
 cd KShare
-qmake // Might be qmake-qt5 on your system
+qmake # Might be qmake-qt5 on your system
 make
 ```
 
-On systems with FFMpeg pre-3.1 you need to apply `OlderSystemFix.patch` to `recording/encoders/encoder.cpp`.
+On systems with FFMpeg pre-3.1 you need to apply `OlderSystemFix.patch` to `src/recording/encoders/encoder.cpp`.
 On systems with Qt pre-5.7 you need to install the Qt version from their website.
+You can attempt to `curl https://raw.githubusercontent.com/ArsenArsen/KShare/master/install.sh | bash`
 
-## Support (and contact)
-There's a few ways to get support, you can:
-* join `#kshare` on [Freenode](https://webchat.freenode.net/?channels=kshare)
-* open an issue
+You can find more details [here](https://blog.arsenarsen.com/posts/compiling-kshare-on-linux-mac-os-x-and-windows-final-revision)
 
-If someone can answer, they probably will.
-
-###### Started on 19th of April 2017 to bring some attention and improvement to Linux screenshotting.
+###### Started on 19th of April 2017 by [ArsenArsen](https://github.com/ArsenArsen) to bring some attention and improvement to Linux screenshotting.

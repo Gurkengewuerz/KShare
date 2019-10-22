@@ -1,0 +1,31 @@
+#ifndef SCREENOVERLAYSETTINGS_H
+#define SCREENOVERLAYSETTINGS_H
+
+#include "screenoverlay.hpp"
+#include <QDialog>
+
+namespace Ui {
+    class ScreenOverlaySettings;
+}
+
+class ScreenOverlaySettings : public QDialog {
+    Q_OBJECT
+
+public:
+    explicit ScreenOverlaySettings(ScreenOverlay *overlay, QWidget *parent = 0);
+    ~ScreenOverlaySettings();
+
+private slots:
+    void on_buttonBox_accepted();
+    void on_setHighlight_pressed();
+    void on_fgColor_pressed();
+    void on_overlayAlphaSpinner_valueChanged(int arg);
+    void on_overlayAlphaSlider_sliderMoved(int arg);
+
+private:
+    Ui::ScreenOverlaySettings *ui;
+    QColor fg, highlight;
+    ScreenOverlay *overlay;
+};
+
+#endif // SCREENOVERLAYSETTINGS_H

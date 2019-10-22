@@ -1,0 +1,67 @@
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build
+
+version: 2
+jobs:
+  build:
+    docker:
+      - image: buildpack-deps:bionic
+    steps:
+      - run:
+          name: Install pre deps
+          command: |
+            apt-get update -yqq \
+            && apt-get install -yqq \
+            build-essential \
+            cmake \
+            gcc \
+            g++ \
+            qt5-default \
+            qt5-qmake \
+            qtmultimedia5-dev \
+            libqt5svg5-dev \
+            libx11-dev \
+            libavformat-dev \
+            libavcodec-dev \
+            libavutil-dev \
+            libswscale-dev \
+            libqt5x11extras5-dev \
+            libxcb-util-dev \
+            libxcb-cursor-dev \
+            libxcb1-dev \
+      - run:
+          name: QMake Version
+          command: qmake --version
+      - checkout
+      - run: git submodule sync
+      - run: git submodule update --init
+      - run:
+          name: LS
+          command: ls -lahR ~/project
+      - run:
+          name: Create Build Env
+          command: mkdir build && pwd && ls
+      - run:
+          name: Build
+          command: |
+            cd build && pwd && ls;
+            qmake ..;
+            make -j2;
+            cd ..;
+      - run:
+          name: Create Artifact Path
+          command: mkdir /kshare
+      - run:
+          name: Store Build
+          command: cp build/src/kshare /kshare/
+      - run:
+          name: Build Debian Package
+          command: |
+            cd packages/;
+            ./makedeb.sh ci;
+            cp *.deb /kshare/
+      - store_artifacts:
+          path: /kshare/

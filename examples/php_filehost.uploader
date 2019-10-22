@@ -1,0 +1,15 @@
+{
+    "name": "Gurkengewuerz Share",
+    "target": "https://share.example.com/index.php?token=XXXXXXXXXXXXXXXXX",
+    "format": "multipart-form-data",
+    "body": [
+	    {
+	        "__Content-Type": "/%contenttype/",
+	        "filename": "/%filename/",
+	        "name": "file",
+	        "body": "/%imagedata/"
+	    }
+    ],
+    "return": "|"
+}
+
