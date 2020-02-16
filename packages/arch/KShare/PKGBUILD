@@ -1,6 +1,6 @@
 # Maintainer: Gurkengewuerz <niklas@mc8051.de>
 pkgname=kshare-git
-pkgver=v5.0.1+dev
+pkgver=v5.0.2+dev
 pkgrel=1
 pkgdesc="The free and open source and cross platform screen sharing software."
 arch=('i686' 'x86_64')
@@ -15,7 +15,7 @@ sha1sums=('SKIP')
 
 pkgver() {
   cd KShare
-  echo "v5.0.1+dev"
+  echo "v5.0.2+dev"
 }
 
 prepare() {

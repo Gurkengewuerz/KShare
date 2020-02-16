@@ -211,7 +211,7 @@
 <context>
     <name>ClipboardUploader</name>
     <message>
-        <location filename="../src/uploaders/default/clipboarduploader.cpp" line="18"/>
+        <location filename="../src/uploaders/default/clipboarduploader.cpp" line="19"/>
         <source>Copied to clipboard!</source>
         <translation>In die Zwischenablage kopiert!</translation>
     </message>
@@ -340,150 +340,150 @@
 <context>
     <name>CustomUploader</name>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="34"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="33"/>
         <source>Root not an object</source>
         <translation>Root (Wurzel) ist kein JSON Objekt</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="38"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="37"/>
         <source>name is not a string</source>
         <translation>&quot;name&quot; ist keine Zeichenkette</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="43"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="42"/>
         <source>desc not a string</source>
         <translation>&quot;desc&quot; ist keine Zeichenkette</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="51"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="50"/>
         <source>method not a string</source>
         <translation>&quot;method&quot; ist keine Zeichenkette</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="56"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="55"/>
         <source>method invalid</source>
         <translation>&quot;method&quot; ist ungültig</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="60"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="59"/>
         <source>target missing</source>
         <translation>Das Ziel fehlt</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="63"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="62"/>
         <source>target not URL</source>
         <translation>Das Ziel ist keine URL</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="78"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="77"/>
         <source>format invalid</source>
         <translation>&quot;format&quot; ist ungültig</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="81"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="80"/>
         <source>format provided but not string</source>
         <translation>&quot;format&quot; ist keine Zeichenkette</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="84"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="83"/>
         <source>body not set</source>
         <translation>Die Antwort hatte keinen &quot;body&quot;</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="88"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="87"/>
         <source>all elements of body must be objects</source>
         <translation>Alle Teile des &quot;body&quot;s müssen Objekte sein</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="90"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="89"/>
         <source>all parts must have a body which is object or string!</source>
         <translation>Alle Teile müssen einen &quot;body&quot; haben, welcher eine Zeichenkette oder ein Objekt ist!</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="94"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="93"/>
         <source>all parts of body must be string or object</source>
         <translation>Alle Teile des &quot;body&quot;s müssen eine Zeichenkette oder ein Objekt sein</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="98"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="97"/>
         <source>all __headers must be strings</source>
         <translation>Alle mit &quot;__&quot; beginnenden Kopfzeilen müssen Zeichenketten sein</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="102"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="101"/>
         <source>body not array (needed for multipart)</source>
         <translation>Der &quot;body&quot;ist kein Array (für &quot;multipart&quot; benötigt)</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="107"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="106"/>
         <source>body not object</source>
         <translation>Der &quot;body&quot; ist kein Objekt</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="114"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="113"/>
         <source>body not string (reason: format: PLAIN)</source>
         <extracomment>`format: PLAIN` should stay the same</extracomment>
         <translation>Antwort &quot;body&quot; ist keine Zeichenkette (Grund: &quot;format: PLAIN&quot;)</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="118"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="117"/>
         <source>headers must be object</source>
         <translation>&quot;headers&quot; ist kein JSON Objekt</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="126"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="125"/>
         <source>return invalid</source>
         <translation>Antwort ungültig</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="130"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="129"/>
         <source>fileLimit not decimal</source>
         <extracomment>fileLimit stays English</extracomment>
         <translation>&quot;fileLimit&quot; ist keine Dezimalzahl</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="135"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="134"/>
         <source>base64 must be boolean</source>
         <translation>Base64 muss ein Wahrheitswert sein</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="137"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="136"/>
         <source>base64 required with json</source>
         <translation>Base64 für JSON benötigt</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="220"/>
-        <location filename="../src/uploaders/customuploader.cpp" line="223"/>
-        <location filename="../src/uploaders/customuploader.cpp" line="229"/>
-        <location filename="../src/uploaders/customuploader.cpp" line="353"/>
-        <location filename="../src/uploaders/customuploader.cpp" line="371"/>
-        <location filename="../src/uploaders/customuploader.cpp" line="381"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="219"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="222"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="228"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="352"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="370"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="380"/>
         <source>KShare Custom Uploader </source>
         <translation>KShare benutzerdefinierter Uploader </translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="220"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="219"/>
         <source>Copied upload link to clipboard!</source>
         <translation>Link in die Zwischenablage kopiert!</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="223"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="222"/>
         <source>Upload done, but result empty!</source>
         <translation>Hochgeladen, aber eine leere Antwort erhalten!</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="230"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="229"/>
         <source>Upload done, but result is not JSON Object! Result in clipboard.</source>
         <translation>Hochgeladen, aber die Antwort war kein JSON-Objekt! Die Antwort wurde in die Zwischenablage kopiert.</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="354"/>
-        <location filename="../src/uploaders/customuploader.cpp" line="381"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="353"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="380"/>
         <source>Copied upload result to clipboard!</source>
         <translation>Ergebnis in die Zwischenablage kopiert!</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="371"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="370"/>
         <source>File limit exceeded!</source>
         <translation>Dateigröße überschritten!</translation>
     </message>
@@ -657,7 +657,7 @@ p, li { white-space: pre-wrap; }
     <name>ImgurUploader</name>
     <message>
         <location filename="../src/uploaders/default/imguruploader.cpp" line="59"/>
-        <location filename="../src/uploaders/default/imguruploader.cpp" line="96"/>
+        <location filename="../src/uploaders/default/imguruploader.cpp" line="95"/>
         <source>KShare imgur Uploader</source>
         <translation>KShare imgur Uploader</translation>
     </message>
@@ -667,17 +667,17 @@ p, li { white-space: pre-wrap; }
         <translation>Hochladen fehlgeschlagen! Das Bild überschreitet die maximale Größe</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/default/imguruploader.cpp" line="96"/>
+        <location filename="../src/uploaders/default/imguruploader.cpp" line="95"/>
         <source>Uploaded to imgur!</source>
         <translation>Auf imgur hochgeladen!</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/default/imguruploader.cpp" line="99"/>
+        <location filename="../src/uploaders/default/imguruploader.cpp" line="100"/>
         <source>KShare imgur Uploader </source>
         <translation>KShare imgur Uploader </translation>
     </message>
     <message>
-        <location filename="../src/uploaders/default/imguruploader.cpp" line="100"/>
+        <location filename="../src/uploaders/default/imguruploader.cpp" line="101"/>
         <source>Failed upload! imgur said: HTTP %1: %2</source>
         <translation>Hochladen fehlgeschlagen! Imgur hat hiermit geantwortet: &quot;HTTP %1:%2&quot;</translation>
     </message>
@@ -746,7 +746,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="85"/>
-        <location filename="../src/mainwindow.cpp" line="94"/>
+        <location filename="../src/mainwindow.cpp" line="99"/>
         <source>About</source>
         <translation type="unfinished">Über</translation>
     </message>
@@ -836,75 +836,75 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">&amp;Breche Aufnahme ab</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="39"/>
+        <location filename="../src/mainwindow.cpp" line="44"/>
         <source>Recording format not set in settings. Aborting.</source>
         <translation>Das Format für die Aufnahmen wurde nicht in den Einstellungen definiert. Aufnahme wird abgebrochen.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="93"/>
+        <location filename="../src/mainwindow.cpp" line="98"/>
         <source>Quit</source>
         <translation>Beenden</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="71"/>
+        <location filename="../src/mainwindow.cpp" line="76"/>
         <source>Show/Hide</source>
         <translation>Zeigen / Verstecken</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="72"/>
+        <location filename="../src/mainwindow.cpp" line="77"/>
         <source>Take fullscreen shot</source>
         <translation>Screenshot des ganzen Bildschirms</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="73"/>
+        <location filename="../src/mainwindow.cpp" line="78"/>
         <source>Take area shot</source>
         <translation>Screenshot eines Gebietes</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="76"/>
+        <location filename="../src/mainwindow.cpp" line="81"/>
         <source>Screenshot active window</source>
         <translation>Screenshot des aktiven Fensters</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="79"/>
+        <location filename="../src/mainwindow.cpp" line="84"/>
         <source>Copy from Clipbaord</source>
         <translation type="unfinished">Zwischenablage hochladen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="80"/>
+        <location filename="../src/mainwindow.cpp" line="85"/>
         <source>Show color picker</source>
         <translation>Zeige die Farbpipette</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="81"/>
+        <location filename="../src/mainwindow.cpp" line="86"/>
         <source>Record screen</source>
         <translation>Bildschirm aufnehmen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="82"/>
+        <location filename="../src/mainwindow.cpp" line="87"/>
         <source>Stop recording</source>
         <translation>Stoppe Aufnahme</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="83"/>
+        <location filename="../src/mainwindow.cpp" line="88"/>
         <source>Abort recording</source>
         <translation>Breche Aufnahme ab</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="238"/>
-        <location filename="../src/mainwindow.cpp" line="272"/>
+        <location filename="../src/mainwindow.cpp" line="275"/>
+        <location filename="../src/mainwindow.cpp" line="309"/>
         <source>Cannot determine location for pictures</source>
         <translation type="unfinished">Die Position des Ordners für Bilder kann nicht bestimmt werden</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="243"/>
-        <location filename="../src/mainwindow.cpp" line="277"/>
+        <location filename="../src/mainwindow.cpp" line="280"/>
+        <location filename="../src/mainwindow.cpp" line="314"/>
         <source>Cannot determine location of your home directory</source>
         <translation type="unfinished">Die Position des Benutzerverzeichnisses kann nicht bestimmt werden</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="248"/>
-        <location filename="../src/mainwindow.cpp" line="282"/>
+        <location filename="../src/mainwindow.cpp" line="285"/>
+        <location filename="../src/mainwindow.cpp" line="319"/>
         <source>Invalid config [saveLocation not int or is not in range]</source>
         <translation type="unfinished">Ungültige Config (Speicherziel ist keine natürliche Zahl oder nicht in einem gültigen Bereich)</translation>
     </message>
@@ -923,7 +923,7 @@ p, li { white-space: pre-wrap; }
         <translation>Konnte den Ordner für die Konfigurationsdateien nicht erstellen</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/customuploader.cpp" line="25"/>
+        <location filename="../src/uploaders/customuploader.cpp" line="24"/>
         <source>Invalid file: </source>
         <translation>Ungültige Datei: </translation>
     </message>
@@ -969,6 +969,11 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/utils.cpp" line="170"/>
         <source>Failed to take external screenshot: 
 </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/notifications.cpp" line="56"/>
+        <source>KShare: No sound driver</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1098,164 +1103,234 @@ Stopptaste: %3</translation>
         <translation>Zuschneideeditor Einstellungen</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="39"/>
+        <location filename="../src/settingsdialog.ui" line="34"/>
+        <source>General</source>
+        <translatorcomment>Allgemein</translatorcomment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/settingsdialog.ui" line="42"/>
+        <source>Theme</source>
+        <translatorcomment>Erscheinungsbild</translatorcomment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/settingsdialog.ui" line="50"/>
+        <source>System Default</source>
+        <translation type="unfinished">System</translation>
+    </message>
+    <message>
+        <location filename="../src/settingsdialog.ui" line="55"/>
+        <source>QDarkStyle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settingsdialog.ui" line="60"/>
+        <source>Breeze Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settingsdialog.ui" line="65"/>
+        <source>Breeze Dark</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settingsdialog.ui" line="73"/>
         <source>Quick mode (mouse release screenshots)</source>
         <translation>Schneller Modus (Maus loslassen reicht)</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="70"/>
+        <location filename="../src/settingsdialog.ui" line="94"/>
         <source>Delay before taking a screenshot</source>
         <translation>Verzögerung vor einem Screenshot</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="26"/>
+        <location filename="../src/settingsdialog.ui" line="101"/>
         <source>In seconds</source>
         <translation>In Sekunden</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="29"/>
+        <location filename="../src/settingsdialog.ui" line="104"/>
         <source>A delay before taking a screenshot, in seconds</source>
         <translation>Verzögerung vor einem Screenshot in Sekunden</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="46"/>
+        <location filename="../src/settingsdialog.ui" line="124"/>
+        <source>Hoster</source>
+        <translation type="unfinished">Hoster</translation>
+    </message>
+    <message>
+        <location filename="../src/settingsdialog.ui" line="152"/>
+        <source>Paths</source>
+        <translation type="unfinished">Pfade</translation>
+    </message>
+    <message>
+        <location filename="../src/settingsdialog.ui" line="160"/>
+        <source>File name scheme</source>
+        <translation type="unfinished">Dateibennenung</translation>
+    </message>
+    <message>
+        <location filename="../src/settingsdialog.ui" line="180"/>
+        <source>Screenshot Subfolder</source>
+        <translation type="unfinished">Unterordnermuster</translation>
+    </message>
+    <message>
+        <location filename="../src/settingsdialog.ui" line="187"/>
+        <source>%(yyyy-MM)date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settingsdialog.ui" line="223"/>
+        <source>Recording</source>
+        <translatorcomment>Aufzeichnung</translatorcomment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/settingsdialog.ui" line="348"/>
         <source>Fullscreen capture command (save to %FILE_PATH or print to stdout)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="53"/>
+        <location filename="../src/settingsdialog.ui" line="138"/>
         <source>Hotkeys</source>
         <translation>Hotkeys</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="60"/>
+        <location filename="../src/settingsdialog.ui" line="297"/>
         <source>Still image format</source>
         <translation>Format für Bilder</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="77"/>
+        <location filename="../src/settingsdialog.ui" line="290"/>
         <source>Recording format</source>
         <translation>Aufnahmeformate</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="84"/>
+        <location filename="../src/settingsdialog.ui" line="87"/>
         <source>Capture cursor</source>
         <translation>Mauszeiger aufnehmen</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="91"/>
+        <location filename="../src/settingsdialog.ui" line="170"/>
         <source>%(date format)date and %ext are supported</source>
         <translation>%(Datumsformat)Datum ujnd %ext werden unterstützt</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="108"/>
         <source>File name scheme:</source>
-        <translation>Benennungsschema:</translation>
+        <translation type="vanished">Benennungsschema:</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="115"/>
+        <location filename="../src/settingsdialog.ui" line="80"/>
         <source>Pressing &lt;X&gt; hides to tray</source>
         <translation>Drücke &lt;X&gt; um dieses Fenster in die Taskleiste zu minimieren</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="133"/>
+        <location filename="../src/settingsdialog.ui" line="212"/>
         <source>Do not save</source>
-        <translation type="unfinished"></translation>
+        <translation>Nicht speichern</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="141"/>
+        <location filename="../src/settingsdialog.ui" line="116"/>
         <source>Open settings directory</source>
         <translation>Öffne Konfigurationsordner</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="148"/>
         <source>Destination:</source>
-        <translation>Speicherziel:</translation>
+        <translation type="vanished">Speicherziel:</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="244"/>
+        <location filename="../src/settingsdialog.ui" line="355"/>
         <source>Focused capture command (save to %FILE_PATH or print to stdout)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="123"/>
+        <location filename="../src/settingsdialog.ui" line="202"/>
         <source>Pictures folder</source>
         <translation>Ordner für Bilder</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="128"/>
+        <location filename="../src/settingsdialog.ui" line="207"/>
         <source>Screenshots folder (In your user folder)</source>
         <translation>Screenshot ordner (In deinem Benutzerordner)</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="165"/>
+        <location filename="../src/settingsdialog.ui" line="194"/>
         <source>File save location</source>
         <translation>Speicherort für Bilder</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="172"/>
+        <location filename="../src/settingsdialog.ui" line="229"/>
+        <location filename="../src/settingsdialog.ui" line="340"/>
         <source>Advanced</source>
         <translation>Erweiterte Einstellungen</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="207"/>
+        <location filename="../src/settingsdialog.ui" line="264"/>
         <source>Editor Position (tweak if the editor does not cover the entire screen)</source>
         <translation>Editor Position (Ändern, wenn nicht der ganzen Bildschirm ausgefüllt ist)</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="214"/>
+        <location filename="../src/settingsdialog.ui" line="271"/>
         <source>Encoder settings</source>
         <translation>Kodierer Einstellungen</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="224"/>
+        <location filename="../src/settingsdialog.ui" line="314"/>
         <source>FPS</source>
-        <translation type="unfinished"></translation>
+        <translation>FPS</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="234"/>
+        <location filename="../src/settingsdialog.ui" line="307"/>
         <source>Frames Per Second For Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>FPS für Aufnahmen</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.cpp" line="56"/>
+        <location filename="../src/settingsdialog.cpp" line="58"/>
         <source>Fullscreen image</source>
         <translation>Screenshot des ganzen Bildschirms</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.cpp" line="57"/>
+        <location filename="../src/settingsdialog.cpp" line="59"/>
         <source>Area image</source>
         <translation>Screenshot eines Gebietes</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.cpp" line="59"/>
+        <location filename="../src/settingsdialog.cpp" line="61"/>
         <source>Active window</source>
         <translation>Screenshot des aktiven Fensters</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.cpp" line="61"/>
+        <location filename="../src/settingsdialog.cpp" line="63"/>
         <source>Copy from Clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.cpp" line="62"/>
+        <location filename="../src/settingsdialog.cpp" line="64"/>
         <source>Color picker</source>
         <translation>Farbpipette</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.cpp" line="63"/>
+        <location filename="../src/settingsdialog.cpp" line="65"/>
         <source>Stop Recording</source>
         <translation>Stoppe Aufnahme</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.cpp" line="64"/>
+        <location filename="../src/settingsdialog.cpp" line="66"/>
         <source>Start Recording</source>
         <translation>Starte Aufnahme</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.cpp" line="86"/>
+        <location filename="../src/settingsdialog.cpp" line="89"/>
         <source>Capture cursor (disabled: implementation missing)</source>
         <translation>Mauszeiger aufnehmen (Deaktiviert: Implementierung fehlt)</translation>
+    </message>
+</context>
+<context>
+    <name>SystemNotification</name>
+    <message>
+        <location filename="../src/systemnotification.cpp" line="29"/>
+        <source>KShare Info</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1274,39 +1349,39 @@ Stopptaste: %3</translation>
 <context>
     <name>UploaderSingleton</name>
     <message>
-        <location filename="../src/uploaders/uploadersingleton.cpp" line="127"/>
+        <location filename="../src/uploaders/uploadersingleton.cpp" line="128"/>
         <source>KShare - Failed to open File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/uploaders/uploadersingleton.cpp" line="167"/>
+        <location filename="../src/uploaders/uploadersingleton.cpp" line="180"/>
         <source>Cannot determine location for pictures</source>
         <translation>Die Position des Ordners für Bilder kann nicht bestimmt werden</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/uploadersingleton.cpp" line="172"/>
+        <location filename="../src/uploaders/uploadersingleton.cpp" line="185"/>
         <source>Cannot determine location of your home directory</source>
         <translation>Die Position des Benutzerverzeichnisses kann nicht bestimmt werden</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/uploadersingleton.cpp" line="177"/>
+        <location filename="../src/uploaders/uploadersingleton.cpp" line="190"/>
         <source>Invalid config [saveLocation not int or is not in range]</source>
         <translation>Ungültige Config (Speicherziel ist keine natürliche Zahl oder nicht in einem gültigen Bereich)</translation>
     </message>
     <message>
-        <location filename="../src/uploaders/uploadersingleton.cpp" line="50"/>
+        <location filename="../src/uploaders/uploadersingleton.cpp" line="51"/>
         <source>Ambigious uploader </source>
         <translation>Unklarer Uploadername </translation>
     </message>
     <message>
-        <location filename="../src/uploaders/uploadersingleton.cpp" line="61"/>
+        <location filename="../src/uploaders/uploadersingleton.cpp" line="62"/>
         <source>Currently selected uploader is not set up properly! Falling back to imgur</source>
         <translation>Ausgewählter Uploader ist nicht korrekt eingestellt! Nutze imgur als Ersatz</translation>
     </message>
     <message>
         <location filename="../src/uploaders/uploadersingleton.cpp" line="79"/>
-        <location filename="../src/uploaders/uploadersingleton.cpp" line="115"/>
         <location filename="../src/uploaders/uploadersingleton.cpp" line="117"/>
+        <location filename="../src/uploaders/uploadersingleton.cpp" line="119"/>
         <source>KShare - Failed to save picture</source>
         <translation>KShare - Speichern des Bildes fehlgeschlagen</translation>
     </message>
