@@ -12,7 +12,6 @@ Made with KShare itself, of course :)
 ![](https://i.imgur.com/oJrCNkq.png)
 
 ## Usage
-See the [wiki](https://github.com/ArsenArsen/KShare/wiki).
 Please note that KShare is not compatiable with Wayland due to some permission issues. Please use X.Org instead.
 
 ## Dependencies
@@ -38,16 +37,18 @@ Despite the name implying so, this project does not depend on the KDE API at all
 ## Install
 |Distro|Link|
 |:----:|:--:|
-|Arch Linux (development)|[kshare-git](https://aur.archlinux.org/packages/kshare-git/)|
-|Ubuntu/Debian (development)|[.deb](https://nativeci.arsenarsen.com/job/KShare%20\(dev\)/main=linux/lastSuccessfulBuild/artifact/packages/simpleName.deb)|
-|Arch Linux |[kshare](https://aur.archlinux.org/packages/kshare/)|
-|Ubuntu/Debian |[.deb](https://nativeci.arsenarsen.com/job/KShare%20\(master\)/main=linux/lastSuccessfulBuild/artifact/packages/simpleName.deb)|
+|Arch Linux (development)|[kshare-git](https://github.com/Gurkengewuerz/KShare/blob/master/packages/arch/KShare/PKGBUILD)|
+|Ubuntu/Debian (development)|[.deb](https://circleci.com/gh/Gurkengewuerz/KShare/tree/dev)|
+|Windows (development)|[Installer](https://ci.appveyor.com/project/Gurkengewuerz/kshare/branch/dev/artifacts)|
+|Arch Linux |[kshare](https://github.com/Gurkengewuerz/KShare/blob/master/packages/arch/Stable-KShare/PKGBUILD)|
+|Ubuntu/Debian |[.deb](https://circleci.com/gh/Gurkengewuerz/KShare/tree/master)|
+|Windows |[Installer](https://ci.appveyor.com/project/Gurkengewuerz/kshare/branch/master/artifacts)|
 
 For other UNIX-like platforms, and MSYS2 (for Windows):
 
 You have to obtain the dependencies though.
 ```bash
-git clone --recursive https://github.com/ArsenArsen/KShare.git
+git clone --recursive https://github.com/Gurkengewuerz/KShare.git
 cd KShare
 qmake # Might be qmake-qt5 on your system
 make
@@ -55,8 +56,6 @@ make
 
 On systems with FFMpeg pre-3.1 you need to apply `OlderSystemFix.patch` to `src/recording/encoders/encoder.cpp`.
 On systems with Qt pre-5.7 you need to install the Qt version from their website.
-You can attempt to `curl https://raw.githubusercontent.com/ArsenArsen/KShare/master/install.sh | bash`
-
-You can find more details [here](https://blog.arsenarsen.com/posts/compiling-kshare-on-linux-mac-os-x-and-windows-final-revision)
+You can attempt to `curl https://raw.githubusercontent.com/Gurkengewuerz/KShare/master/install.sh | bash`
 
 ###### Started on 19th of April 2017 by [ArsenArsen](https://github.com/ArsenArsen) to bring some attention and improvement to Linux screenshotting.
