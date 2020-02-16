@@ -92,9 +92,9 @@ void ImgurUploader::handleSend(QString auth, QString mime, QByteArray byteArray,
                           }
                           if (!result.isEmpty()) {
                               ioutils::addLogEntry(r, data, result, sf);
-                              utils::toClipboard(result);
                               notifications::notify(tr("KShare imgur Uploader"), tr("Uploaded to imgur!"));
                               notifications::playSound(notifications::Sound::SUCCESS);
+                              utils::toClipboard(result);
                           } else {
                               ioutils::addLogEntry(r, data, result, sf);
                               notifications::notify(tr("KShare imgur Uploader "),
