@@ -55,5 +55,6 @@ echo -----------------
 
 cat installer.iss.pattern.bottom >> installer.iss
 "C:\Program Files (x86)\Inno Setup 5\ISCC.exe" installer.iss
-cp Output/setup.exe ../../installer.exe || exit 1
-cp portable.zip ../../ || exit 2
+cp Output/setup.exe ../../win_kshare_v${ver}_installer.exe || exit 1
+cp ../../KShare.exe ../../KShare_v${ver}.exe || exit 1
+cp portable.zip ../../win_kshare_v${ver}_portable.zip || exit 2

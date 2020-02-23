@@ -24,9 +24,6 @@ build_script:
   - cd ..
   - bash AppVeyor\make_installer.sh
 artifacts:
-  - path: KShare.exe
-    name: Shared link
-  - path: installer.exe
-    name: Installer
-  - path: portable.zip
+  - path: '*_v*.exe'
+  - path: '*_v*.zip'
     name: Portable version
