@@ -14,7 +14,7 @@
 #include <logs/screenshotfile.h>
 
 struct SegfaultWorkaround { // I'm a scrub for doing this
-    SegfaultWorkaround(QByteArray a, ImgurUploader *u, QString m) : byteArray(), dis(u), mime(m) {
+    SegfaultWorkaround(QByteArray a, ImgurUploader *u, QString m, ScreenshotFile f) : byteArray(), dis(u), mime(m), sf(f) {
         a.swap(byteArray);
         QJsonObject object;
         object.insert("client_id", settings::settings().value("imgur/cid").toString());
@@ -26,7 +26,6 @@ struct SegfaultWorkaround { // I'm a scrub for doing this
         QUrl("https://api.imgur.com/oauth2/token"),
         QList<QPair<QString, QString>>({ QPair<QString, QString>("Content-Type", "applicaton/json") }),
         QJsonDocument::fromVariant(object.toVariantMap()).toJson(), [&](QJsonDocument response, QByteArray, QNetworkReply *r) {
-            ScreenshotFile sf;
             qDebug() << response;
             if (r->error() != QNetworkReply::NoError || !response.isObject()) {
                 dis->handleSend(QStringLiteral("Client-ID 8a98f183fc895da"), mime, byteArray, sf);
@@ -52,6 +51,7 @@ private:
     QByteArray byteArray;
     ImgurUploader *dis;
     QString mime;
+    ScreenshotFile sf;
 }; // I feel terrible for making this. I am sorry, reader
 
 void ImgurUploader::doUpload(QByteArray byteArray, QString format, ScreenshotFile sf) {
@@ -69,7 +69,7 @@ void ImgurUploader::doUpload(QByteArray byteArray, QString format, ScreenshotFil
         && settings::settings().contains("imgur/access")) {
         QDateTime expireTime = settings::settings().value("imgur/expire").toDateTime();
         if (QDateTime::currentDateTimeUtc() > expireTime) {
-            new SegfaultWorkaround(byteArray, this, mime);
+            new SegfaultWorkaround(byteArray, this, mime, sf);
         } else
             handleSend("Bearer " + settings::settings().value("imgur/access").toString(), mime, byteArray, sf);
     } else
@@ -87,7 +87,7 @@ void ImgurUploader::handleSend(QString auth, QString mime, QByteArray byteArray,
                       byteArray, [byteArray, this, mime, sf](QJsonDocument res, QByteArray data, QNetworkReply *r) {
                           QString result = res.object()["data"].toObject()["link"].toString();
                           if (r->error() == QNetworkReply::ContentAccessDenied) {
-                              new SegfaultWorkaround(byteArray, this, mime);
+                              new SegfaultWorkaround(byteArray, this, mime, sf);
                               return;
                           }
                           if (!result.isEmpty()) {
