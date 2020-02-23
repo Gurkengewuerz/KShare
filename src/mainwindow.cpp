@@ -205,6 +205,7 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 }
 
 void MainWindow::quit() {
+    hotkeying::clearAll();
     QApplication::quit();
 }
 
