@@ -8,7 +8,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: buildpack-deps:bionic
+      - image: buildpack-deps:19.10
     steps:
       - run:
           name: Install pre deps
