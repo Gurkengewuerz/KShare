@@ -68,6 +68,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Se
     ui->quickMode->setChecked(settings::settings().value("quickMode", false).toBool());
     ui->hideToTray->setChecked(settings::settings().value("hideOnClose", true).toBool());
     ui->captureCursor->setChecked(settings::settings().value("captureCursor", true).toBool());
+    ui->playSound->setChecked(settings::settings().value("playSound", true).toBool());
     ui->saveLocation->setCurrentIndex(settings::settings().value("saveLocation", 1).toInt());
     ui->themeSelection->setCurrentIndex(settings::settings().value("theme", 0).toInt());
     for (int i = 0; i < (int)formats::Recording::None; i++) {
@@ -156,6 +157,10 @@ void SettingsDialog::on_hideToTray_clicked(bool checked) {
 
 void SettingsDialog::on_captureCursor_clicked(bool checked) {
     settings::settings().setValue("captureCursor", checked);
+}
+
+void SettingsDialog::on_playSound_clicked(bool checked) {
+    settings::settings().setValue("playSound", checked);
 }
 
 void SettingsDialog::on_formatBox_currentIndexChanged(int index) {

@@ -26,6 +26,7 @@ private slots:
     void on_quickMode_clicked(bool checked);
     void on_hideToTray_clicked(bool checked);
     void on_captureCursor_clicked(bool checked);
+    void on_playSound_clicked(bool checked);
     void on_formatBox_currentIndexChanged(int index);
     void on_imageFormatBox_currentIndexChanged(int index);
     void on_pushButton_clicked();

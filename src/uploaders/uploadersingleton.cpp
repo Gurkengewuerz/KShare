@@ -2,6 +2,7 @@
 #include "customuploader.hpp"
 #include "default/clipboarduploader.hpp"
 #include "default/imguruploader.hpp"
+#include "default/gdriveuploader.hpp"
 #include <QBuffer>
 #include <QDir>
 #include <QFile>
@@ -33,6 +34,7 @@ UploaderSingleton::UploaderSingleton() : QObject() {
 
     // UPLOADERS
     registerUploader(new ImgurUploader);
+    registerUploader(new GDriveUploader);
     registerUploader(new ClipboardUploader);
     // ---------
 

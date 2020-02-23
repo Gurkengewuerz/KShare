@@ -9,6 +9,7 @@ namespace hotkeying {
     void hotkey(QString seqName, QKeySequence seq, std::function<void()> func);
     bool valid(QString seq);
     void load(QString seqName, std::function<void()> func, QString def = QString());
+    void clearAll();
     QString sequence(QString seqName);
 } // namespace hotkeying
 

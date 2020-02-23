@@ -34,6 +34,7 @@ SOURCES += main.cpp\
     screenshotter.cpp \
     utils.cpp \
     uploaders/default/imguruploader.cpp \
+    uploaders/default/gdriveuploader.cpp \
     io/ioutils.cpp \
     settings.cpp \
     uploaders/default/clipboarduploader.cpp \
@@ -65,6 +66,7 @@ SOURCES += main.cpp\
     hotkeyinputdialog.cpp \
     cropeditor/drawing/arrowitem.cpp \
     uploaders/default/imgursettingsdialog.cpp \
+    uploaders/default/gdrivesettingsdialog.cpp \
     filenamevalidator.cpp \
     logs/requestlogging.cpp \
     monospacetextdialog.cpp \
@@ -85,6 +87,7 @@ HEADERS  += mainwindow.hpp \
     screenshotter.hpp \
     utils.hpp \
     uploaders/default/imguruploader.hpp \
+    uploaders/default/gdriveuploader.hpp \
     io/ioutils.hpp \
     settings.hpp \
     uploaders/default/clipboarduploader.hpp \
@@ -118,6 +121,7 @@ HEADERS  += mainwindow.hpp \
     hotkeyinputdialog.hpp \
     cropeditor/drawing/arrowitem.hpp \
     uploaders/default/imgursettingsdialog.hpp \
+    uploaders/default/gdrivesettingsdialog.hpp \
     filenamevalidator.hpp \
     logs/requestlogging.hpp \
     monospacetextdialog.hpp \
@@ -189,6 +193,7 @@ FORMS    += mainwindow.ui \
     aboutbox.ui \
     hotkeyinputdialog.ui \
     uploaders/default/imgursettingsdialog.ui \
+    uploaders/default/gdrivesettingsdialog.ui \
     monospacetextdialog.ui \
     screenoverlay/screenoverlaysettings.ui
 

@@ -41,6 +41,13 @@ void hotkeying::load(QString seqName, std::function<void()> func, QString def) {
     ;
 }
 
+void hotkeying::clearAll() {
+    for(QString e : hotkeys.keys()) {
+        QHotkey *hk = hotkeys.value(e);
+        hk->setRegistered(false);
+    }
+}
+
 bool hotkeying::valid(QString seq) {
     return seq.isEmpty() || !QKeySequence(seq).toString().isEmpty();
 }
