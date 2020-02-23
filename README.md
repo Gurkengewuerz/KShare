@@ -11,6 +11,19 @@ Originally written by [ArsenArsen](https://github.com/ArsenArsen) and here enhan
 Made with KShare itself, of course :)  
 ![](https://i.imgur.com/oJrCNkq.png)
 
+## 🎉 Features
+* 💻 open source
+* 🪶 lightweight
+* 🖧 cross-platform
+* 🔍 magnifying lense for image capture
+* ⌨️ customizable keyboard shortcuts
+* ✒️ image annotation (_rectangle_, _ellipse_, _freehand_, _line_, _arrow_, _text_)
+* 📂 upload screenshots, files, clipboard or text
+* 🤏 color picker
+* 📤 multiple destinations implemented (_imgur_, _gdrive_, _clipboard_)
+* 🔧 custom uploader (_works perfectly with ![**php_filehost**](https://github.com/Gurkengewuerz/php_filehost)_)
+* 🖌️ themes (_dark_, ![_breeze dark_, _breeze light_](https://github.com/Alexhuszagh/BreezeStyleSheets), ![_qdarkstyle_](https://github.com/ColinDuquesnoy/QDarkStyleSheet))
+
 ## Usage
 Please note that KShare is not compatiable with Wayland due to some permission issues. Please use X.Org instead.
 
