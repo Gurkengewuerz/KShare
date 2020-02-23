@@ -205,6 +205,7 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 }
 
 void MainWindow::quit() {
+    ioutils::deleteNetworkManger();
     hotkeying::clearAll();
     QApplication::quit();
 }

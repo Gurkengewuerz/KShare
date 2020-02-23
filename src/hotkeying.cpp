@@ -45,6 +45,7 @@ void hotkeying::clearAll() {
     for(QString e : hotkeys.keys()) {
         QHotkey *hk = hotkeys.value(e);
         hk->setRegistered(false);
+        delete hk;
     }
 }
 

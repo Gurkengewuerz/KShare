@@ -9,7 +9,7 @@
 #include <logs/screenshotfile.h>
 
 namespace ioutils {
-    extern QNetworkAccessManager networkManager;
+    extern QNetworkAccessManager* networkManager;
     void addLogEntry(QNetworkReply* reply, QByteArray data, QString result, ScreenshotFile sf);
     void getJson(QUrl target,
                  QList<QPair<QString, QString>> headers,
@@ -28,6 +28,7 @@ namespace ioutils {
                            QList<QPair<QString, QString>> headers,
                            QHttpMultiPart *body,
                            std::function<void(QByteArray, QNetworkReply *)> callback);
+    void deleteNetworkManger();
     QString methodString(QNetworkAccessManager::Operation operation);
     QString httpString(int responseCode);
 } // namespace ioutils

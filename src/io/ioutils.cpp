@@ -3,11 +3,10 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
-#include <thread>
 #include <logs/requestlogging.hpp>
 #include <logs/screenshotfile.h>
 
-QNetworkAccessManager ioutils::networkManager;
+QNetworkAccessManager* ioutils::networkManager= new QNetworkAccessManager();
 
 void ioutils::addLogEntry(QNetworkReply* reply, QByteArray data, QString result, ScreenshotFile sf) {
     requestlogging::RequestContext ctx;
@@ -38,13 +37,13 @@ void ioutils::postMultipart(QUrl target,
     for (auto header : headers) {
         if (header.first.toLower() != "content-type") req.setRawHeader(header.first.toUtf8(), header.second.toUtf8());
     }
-    QNetworkReply *reply = networkManager.post(req, body);
+    QNetworkReply *reply = networkManager->post(req, body);
     addTask();
     QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
         removeTask();
         QByteArray data = reply->readAll();
         callback(QJsonDocument::fromJson(data), data, reply);
-        delete reply;
+        reply->deleteLater();
     });
 }
 
@@ -56,13 +55,13 @@ void ioutils::postMultipartData(QUrl target,
     for (auto header : headers) {
         if (header.first.toLower() != "content-type") req.setRawHeader(header.first.toUtf8(), header.second.toUtf8());
     }
-    QNetworkReply *reply = networkManager.post(req, body);
+    QNetworkReply *reply = networkManager->post(req, body);
     addTask();
     QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
         removeTask();
         QByteArray data = reply->readAll();
         callback(data, reply);
-        delete reply;
+        reply->deleteLater();
     });
 }
 
@@ -73,7 +72,7 @@ void ioutils::getJson(QUrl target,
     for (auto header : headers) {
         req.setRawHeader(header.first.toUtf8(), header.second.toUtf8());
     }
-    QNetworkReply *reply = networkManager.get(req);
+    QNetworkReply *reply = networkManager->get(req);
     addTask();
     QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
         removeTask();
@@ -91,13 +90,13 @@ void ioutils::postJson(QUrl target,
     for (auto header : headers) {
         req.setRawHeader(header.first.toUtf8(), header.second.toUtf8());
     }
-    QNetworkReply *reply = networkManager.post(req, body);
+    QNetworkReply *reply = networkManager->post(req, body);
     addTask();
     QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
         removeTask();
         QByteArray data = reply->readAll();
         callback(QJsonDocument::fromJson(data), data, reply);
-        delete reply;
+        reply->deleteLater();
     });
 }
 
@@ -106,13 +105,13 @@ void ioutils::getData(QUrl target, QList<QPair<QString, QString>> headers, std::
     for (auto header : headers) {
         req.setRawHeader(header.first.toUtf8(), header.second.toUtf8());
     }
-    QNetworkReply *reply = networkManager.get(req);
+    QNetworkReply *reply = networkManager->get(req);
     addTask();
     QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
         removeTask();
         QByteArray data = reply->readAll();
         callback(data, reply);
-        delete reply;
+        reply->deleteLater();
     });
 }
 
@@ -124,16 +123,19 @@ void ioutils::postData(QUrl target,
     for (auto header : headers) {
         req.setRawHeader(header.first.toUtf8(), header.second.toUtf8());
     }
-    QNetworkReply *reply = networkManager.post(req, body);
+    QNetworkReply *reply = networkManager->post(req, body);
     addTask();
     QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
         removeTask();
         QByteArray data = reply->readAll();
         callback(data, reply);
-        delete reply;
+        reply->deleteLater();
     });
 }
 
+void ioutils::deleteNetworkManger() {
+    delete networkManager;
+}
 
 QString ioutils::methodString(QNetworkAccessManager::Operation operation) {
     switch (operation) {
