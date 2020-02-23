@@ -50,11 +50,11 @@ Despite the name implying so, this project does not depend on the KDE API at all
 ## Install
 |Distro|Link|
 |:----:|:--:|
-|Arch Linux (development)|[kshare-git](https://github.com/Gurkengewuerz/KShare/blob/master/packages/arch/KShare/PKGBUILD)|
-|Ubuntu/Debian (development)|[.deb](https://circleci.com/gh/Gurkengewuerz/KShare/tree/dev)|
+|Arch Linux (development)|[kshare-git](https://app.circleci.com/github/Gurkengewuerz/KShare/pipelines?branch=master)|
+|Ubuntu/Debian (development)|[.deb](https://app.circleci.com/github/Gurkengewuerz/KShare/pipelines?branch=dev)|
 |Windows (development)|[Installer](https://ci.appveyor.com/project/Gurkengewuerz/kshare/branch/dev/artifacts)|
 |Arch Linux |[kshare](https://github.com/Gurkengewuerz/KShare/blob/master/packages/arch/Stable-KShare/PKGBUILD)|
-|Ubuntu/Debian |[.deb](https://circleci.com/gh/Gurkengewuerz/KShare/tree/master)|
+|Ubuntu/Debian |[.deb](https://app.circleci.com/github/Gurkengewuerz/KShare/pipelines?branch=master)|
 |Windows |[Installer](https://ci.appveyor.com/project/Gurkengewuerz/kshare/branch/master/artifacts)|
 
 For other UNIX-like platforms, and MSYS2 (for Windows):
