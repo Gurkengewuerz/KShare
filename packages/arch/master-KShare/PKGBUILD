@@ -8,7 +8,7 @@ arch=('i686' 'x86_64')
 url="https://github.com/Gurkengewuerz/KShare"
 license=('MIT')
 provides=('kshare=$pkgver')
-depends=(qt5-base qt5-x11extras qt5-svg xcb-util-cursor ffmpeg libxfixes)
+depends=(qt5-base qt5-x11extras qt5-svg qt5-multimedia xcb-util-cursor ffmpeg libxfixes)
 makedepends=(git pkg-config)
 source=(git+https://github.com/Gurkengewuerz/KShare.git)
 sha1sums=('SKIP')
