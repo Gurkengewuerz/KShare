@@ -16,7 +16,7 @@
 #include <uploaders/default/gdrivesettingsdialog.hpp>
 
 struct SegfaultWorkaround { // I'm a scrub for doing this
-    SegfaultWorkaround(QByteArray a, GDriveUploader *u, QString m, bool isPublic, ScreenshotFile sf) : byteArray(), dis(u), mime(m) {
+    SegfaultWorkaround(QByteArray a, GDriveUploader *u, QString m, bool ip, ScreenshotFile f) : byteArray(), dis(u), mime(m), isPublic(ip), sf(f) {
         a.swap(byteArray);
         QJsonObject object;
         object.insert("client_id", settings::settings().value("google/cid").toString());
@@ -43,6 +43,7 @@ struct SegfaultWorkaround { // I'm a scrub for doing this
             settings::settings().setValue("google/access", token);
 
             dis->handleSend(token.prepend("Bearer "), isPublic, mime, byteArray, sf);
+
             QScopedPointer<SegfaultWorkaround>(this);
         });
     }
