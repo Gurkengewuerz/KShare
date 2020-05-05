@@ -7,6 +7,8 @@
 #include <QApplication>
 #include <QMediaPlayer>
 
+QMediaPlayer *mediaPlayer = nullptr;
+
 void notifications::notify(QString title, QString body, QSystemTrayIcon::MessageIcon icon) {
     if (!MainWindow::inst() || !MainWindow::inst()->valid()) return;
     notifyNolog(title, body, icon);
@@ -28,7 +30,9 @@ void notifications::playSound(notifications::Sound soundType) {
     if(!settings::settings().value("playSound", true).toBool()) return;
 
     try {
-        QMediaPlayer*mediaPlayer = new QMediaPlayer(MainWindow::inst());
+        if (mediaPlayer == nullptr) {
+            mediaPlayer = new QMediaPlayer(MainWindow::inst());
+        }
 
         switch (soundType) {
         case notifications::Sound::CAPTURE:
