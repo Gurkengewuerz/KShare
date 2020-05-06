@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
     a.setQuitOnLastWindowClosed(false);
     a.setApplicationName("KShare");
     a.setOrganizationName("ArsenArsen");
-    a.setApplicationVersion("5.0.3");
+    a.setApplicationVersion("5.0.4");
 
     QString locale = QLocale::system().name();
     if (locale != "en_US") loadTranslation(locale);
