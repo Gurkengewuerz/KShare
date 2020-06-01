@@ -1,8 +1,9 @@
-#!/usr/bin/env bash
+#!/bin/bash
 VERSION=$(grep setApplicationVersion ../src/main.cpp | head -n1 | cut -d \" -f2)
 echo "Make Debian package for v$VERSION" >&2
 
-cp deb work -r
+mkdir work/ || true
+cp deb/* work -r
 sed "s/%ver/$VERSION/g" deb/DEBIAN/control > work/DEBIAN/control
 mkdir -p work/usr/bin
 
