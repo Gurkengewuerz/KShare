@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 VERSION=$(grep setApplicationVersion ../src/main.cpp | head -n1 | cut -d \" -f2)
 echo "Make Debian package for v$VERSION" >&2
 

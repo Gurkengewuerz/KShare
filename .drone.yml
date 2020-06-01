@@ -7,21 +7,6 @@ platform:
   arch: amd64
 
 steps:
-  - name: build-arch
-    image: archlinux/base:latest
-    volumes:
-      - name: cache
-        path: /release
-    commands:
-      - pacman -Sy && pacman -S --noconfirm base-devel git sudo wget
-      - "echo 'Set disable_coredump false' >> /etc/sudo.conf"
-      - "mkdir /home/build && useradd --home /home/build --shell=/bin/false build && usermod -L build && chown build:build /home/build && echo 'build ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers && echo 'root ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
-      - cd /home/build && sudo -u build wget https://raw.githubusercontent.com/Gurkengewuerz/KShare/${DRONE_COMMIT_BRANCH}/packages/arch/${DRONE_COMMIT_BRANCH}-KShare/PKGBUILD
-      - cd /home/build && pwd && ls -lah
-      - cd /home/build && sudo -u build makepkg --syncdeps --noconfirm
-      - mkdir /release || true
-      - cp /home/build/*.pkg.tar.xz /release/
-
   - name: build-ubuntu
     image: buildpack-deps:19.10
     volumes:
@@ -36,8 +21,23 @@ steps:
       - cd build && pwd && ls; qmake ..; make -j2; cd ..
       - mkdir /release || true
       - cp build/src/kshare /release/
-      - cd packages/; ./makedeb.sh ci; cp *.deb /release/; cd..
+      - cd packages/; ./makedeb.sh ci; cp *.deb /release/; cd ..
       - rm -rf build/
+
+  - name: build-arch
+    image: archlinux/base:latest
+    volumes:
+      - name: cache
+        path: /release
+    commands:
+      - pacman -Sy && pacman -S --noconfirm base-devel git sudo wget
+      - "echo 'Set disable_coredump false' >> /etc/sudo.conf"
+      - "mkdir /home/build && useradd --home /home/build --shell=/bin/false build && usermod -L build && chown build:build /home/build && echo 'build ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers && echo 'root ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
+      - cd /home/build && sudo -u build wget https://raw.githubusercontent.com/Gurkengewuerz/KShare/dev/packages/arch/dev-KShare/PKGBUILD
+      - cd /home/build && pwd && ls -lah
+      - cd /home/build && sudo -u build makepkg --syncdeps --noconfirm
+      - mkdir /release || true
+      - cp /home/build/*.pkg.tar.xz /release/
 
   - name: artifacts
     image: alpine:latest
