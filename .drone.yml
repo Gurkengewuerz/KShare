@@ -1,0 +1,71 @@
+kind: pipeline
+type: docker
+name: build
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: build-arch
+    image: archlinux/base:latest
+    volumes:
+      - name: cache
+        path: /release
+    commands:
+      - pacman -Sy && pacman -S --noconfirm base-devel git sudo wget
+      - "echo 'Set disable_coredump false' >> /etc/sudo.conf"
+      - "mkdir /home/build && useradd --home /home/build --shell=/bin/false build && usermod -L build && chown build:build /home/build && echo 'build ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers && echo 'root ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
+      - cd /home/build && sudo -u build wget https://raw.githubusercontent.com/Gurkengewuerz/KShare/${DRONE_COMMIT_BRANCH}/packages/arch/${DRONE_COMMIT_BRANCH}-KShare/PKGBUILD
+      - cd /home/build && pwd && ls -lah
+      - cd /home/build && sudo -u build makepkg --syncdeps --noconfirm
+      - mkdir /release || true
+      - cp /home/build/*.pkg.tar.xz /release/
+
+  - name: build-ubuntu
+    image: buildpack-deps:19.10
+    volumes:
+      - name: cache
+        path: /release
+    commands:
+      - apt-get update -yqq && apt-get install -yqq build-essential cmake \gcc g++ qt5-default qt5-qmake qtmultimedia5-dev libqt5svg5-dev libx11-dev libavformat-dev libavcodec-dev libavutil-dev libswscale-dev libqt5x11extras5-dev libxcb-util-dev libxcb-cursor-dev libxcb1-dev 
+      - qmake --version
+      - git submodule sync
+      - git submodule update --init
+      - mkdir build && pwd && ls -lahR .
+      - cd build && pwd && ls; qmake ..; make -j2; cd ..
+      - mkdir /release || true
+      - cp build/src/kshare /release/
+      - cd packages/; ./makedeb.sh ci; cp *.deb /release/; cd..
+      - rm -rf build/
+
+  - name: artifacts
+    image: alpine:latest
+    volumes:
+      - name: cache
+        path: /release
+    commands:
+      - cat /etc/issue
+      - apk add --no-cache openssh-client ca-certificates sshpass
+      - mkdir -p ~/.ssh
+      - chmod 700 ~/.ssh
+      - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+      - export REMOTE_PATH=/data/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME}/${DRONE_REPO_BRANCH}/$(date +'%Y%m%d-%H%M%S')-${DRONE_COMMIT_SHA:0:9}/
+      - export SSHPASS=$${REMOTE_PASSWORD}
+      - sshpass -e ssh $${REMOTE_USERNAME}@$${REMOTE_HOST} "mkdir -p $REMOTE_PATH"
+      - "sshpass -e scp -r /release/* $${REMOTE_USERNAME}@$${REMOTE_HOST}:$REMOTE_PATH"
+    environment:
+      REMOTE_USERNAME:
+        from_secret: remote_username
+      REMOTE_PASSWORD:
+        from_secret: remote_password
+      REMOTE_HOST:
+        from_secret: remote_host
+    when:
+      event:
+        - push
+        - tag
+
+volumes:
+  - name: cache
+    temp: {}

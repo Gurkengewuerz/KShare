@@ -29,8 +29,10 @@ else
 fi
 
 cd work
+echo "md5sum" >&2
 md5sum usr/bin/kshare usr/share/applications/KShare.desktop > DEBIAN/md5sums
 cd ..
+echo "dpkg-deb" >&2
 dpkg-deb -b work/
 mv work.deb kshare_v${VERSION}.deb
 rm -rf work
