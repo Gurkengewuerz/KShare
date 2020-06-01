@@ -4,8 +4,10 @@ Originally written by [ArsenArsen](https://github.com/ArsenArsen) and here enhan
 
 |  | Linux | Windows |
 |--------|-------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| master | [![CircleCI](https://circleci.com/gh/Gurkengewuerz/KShare/tree/master.svg?style=svg)](https://circleci.com/gh/Gurkengewuerz/KShare/tree/master) | [![Build status](https://ci.appveyor.com/api/projects/status/ujxmg1dk7f5p8ijh/branch/master?svg=true)](https://ci.appveyor.com/project/Gurkengewuerz/kshare/branch/master) |
-| dev | [![CircleCI](https://circleci.com/gh/Gurkengewuerz/KShare/tree/dev.svg?style=svg)](https://circleci.com/gh/Gurkengewuerz/KShare/tree/dev) | [![Build status](https://ci.appveyor.com/api/projects/status/ujxmg1dk7f5p8ijh/branch/dev?svg=true)](https://ci.appveyor.com/project/Gurkengewuerz/kshare/branch/dev) |
+| master | [![Build Status](https://giteaci.mc8051.de/api/badges/Gurkengewuerz/KShare/status.svg?ref=refs/heads/master)](https://giteaci.mc8051.de/Gurkengewuerz/KShare) | [![Build status](https://ci.appveyor.com/api/projects/status/ujxmg1dk7f5p8ijh/branch/master?svg=true)](https://ci.appveyor.com/project/Gurkengewuerz/kshare/branch/master) |
+| dev | [![Build Status](https://giteaci.mc8051.de/api/badges/Gurkengewuerz/KShare/status.svg?ref=refs/heads/dev)](https://giteaci.mc8051.de/Gurkengewuerz/KShare) | [![Build status](https://ci.appveyor.com/api/projects/status/ujxmg1dk7f5p8ijh/branch/dev?svg=true)](https://ci.appveyor.com/project/Gurkengewuerz/kshare/branch/dev) |
+
+[Artifacts](https://artifacts.mc8051.de/Gurkengewuerz/KShare)
 
 ## Screenshot
 Made with KShare itself, of course :)  
