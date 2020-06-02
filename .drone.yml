@@ -7,6 +7,11 @@ platform:
   arch: amd64
 
 steps:
+  - name: submodules
+    image: alpine/git
+    commands:
+    - git submodule update --recursive --remote
+
   - name: build-mxe
     image: ubuntu:bionic
     volumes:
@@ -15,8 +20,6 @@ steps:
     commands:
       - rm -rf build/ || true
       - apt-get update && apt-get install -yqq wget gnupg2 curl rsync p7zip git
-      - git submodule sync
-      - git submodule update --init
       - export VER=$(cat src/main.cpp | grep setApplicationVersion | sed "s/\\s*a.setApplicationVersion(\"//g" | sed "s/\");//g")
       - mkdir build && pwd && ls -lahR .
       - cd build
@@ -46,8 +49,6 @@ steps:
       - rm -rf build/ || true
       - apt-get update -yqq && apt-get install -yqq build-essential cmake \gcc g++ qt5-default qt5-qmake qtmultimedia5-dev libqt5svg5-dev libx11-dev libavformat-dev libavcodec-dev libavutil-dev libswscale-dev libqt5x11extras5-dev libxcb-util-dev libxcb-cursor-dev libxcb1-dev 
       - qmake --version
-      - git submodule sync
-      - git submodule update --init
       - mkdir build && pwd && ls -lahR .
       - cd build && pwd && ls; qmake ..; make -j2; cd ..
       - mkdir /release || true
