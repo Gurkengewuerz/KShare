@@ -18,9 +18,9 @@ steps:
       - name: cache
         path: /release
     commands:
+      - export KSHAREVER=$(cat src/main.cpp | grep setApplicationVersion | sed "s/\\s*a.setApplicationVersion(\"//g" | sed "s/\");//g")
       - rm -rf build/ || true
       - apt-get update && apt-get install -yqq wget gnupg2 curl rsync p7zip git
-      - export VER=$(cat src/main.cpp | grep setApplicationVersion | sed "s/\\s*a.setApplicationVersion(\"//g" | sed "s/\");//g")
       - mkdir build && pwd && ls -lahR .
       - cd build
       - wget -qO - https://pkg.mxe.cc/repos/apt/client-conf/mxeapt.gpg | apt-key add -
@@ -37,7 +37,7 @@ steps:
       - cp src/release/kshare.exe dist/KShare.exe
       - /usr/lib/mxe/tools/copydlldeps.sh --infile dist/KShare.exe --destdir dist/ --recursivesrcdir /usr/lib/mxe/usr/x86_64-w64-mingw32.shared/ --srcdir ../src/ --copy --enforcedir /usr/lib/mxe/usr/x86_64-w64-mingw32.shared/qt5/plugins/platforms/ --objdump /usr/lib/mxe/usr/bin/x86_64-w64-mingw32.shared-objdump
       - mkdir dist/mediaservice; cp /usr/lib/mxe/usr/x86_64-w64-mingw32.shared/qt5/plugins/mediaservice/dsengine.dll dist/mediaservice
-      - cd dist/; cp KShare.exe /release/KShare_v${VER}.exe; zip -r /release/win_kshare_v${VER}_portable.zip *
+      - cd dist/; cp KShare.exe /release/KShare_v${KSHAREVER}.exe; zip -r /release/win_kshare_v${KSHAREVER}_portable.zip *
 
   - name: build-ubuntu
     image: buildpack-deps:19.10
@@ -45,14 +45,14 @@ steps:
       - name: cache
         path: /release
     commands:
-      - export VER=$(cat src/main.cpp | grep setApplicationVersion | sed "s/\\s*a.setApplicationVersion(\"//g" | sed "s/\");//g")
+      - export KSHAREVER=$(cat src/main.cpp | grep setApplicationVersion | sed "s/\\s*a.setApplicationVersion(\"//g" | sed "s/\");//g")
       - rm -rf build/ || true
       - apt-get update -yqq && apt-get install -yqq build-essential cmake \gcc g++ qt5-default qt5-qmake qtmultimedia5-dev libqt5svg5-dev libx11-dev libavformat-dev libavcodec-dev libavutil-dev libswscale-dev libqt5x11extras5-dev libxcb-util-dev libxcb-cursor-dev libxcb1-dev 
       - qmake --version
       - mkdir build && pwd && ls -lahR .
       - cd build && pwd && ls; qmake ..; make -j2; cd ..
       - mkdir /release || true
-      - cp build/src/kshare /release/kshare_v${VER}
+      - cp build/src/kshare /release/kshare_v${KSHAREVER}
       - cd packages/; ./makedeb.sh ci; cp *.deb /release/; cd ..
 
   - name: build-arch
