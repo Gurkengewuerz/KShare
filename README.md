@@ -2,10 +2,10 @@
 A [ShareX](https://getsharex.com/) inspired cross platform utility written with Qt.  
 Originally written by [ArsenArsen](https://github.com/ArsenArsen) and here enhanced with [these](https://github.com/Gurkengewuerz/KShare/projects/1) features.
 
-|  | Linux | Windows |
-|--------|-------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| master | [![Build Status](https://giteaci.mc8051.de/api/badges/Gurkengewuerz/KShare/status.svg?ref=refs/heads/master)](https://giteaci.mc8051.de/Gurkengewuerz/KShare) | [![Build status](https://ci.appveyor.com/api/projects/status/ujxmg1dk7f5p8ijh/branch/master?svg=true)](https://ci.appveyor.com/project/Gurkengewuerz/kshare/branch/master) |
-| dev | [![Build Status](https://giteaci.mc8051.de/api/badges/Gurkengewuerz/KShare/status.svg?ref=refs/heads/dev)](https://giteaci.mc8051.de/Gurkengewuerz/KShare) | [![Build status](https://ci.appveyor.com/api/projects/status/ujxmg1dk7f5p8ijh/branch/dev?svg=true)](https://ci.appveyor.com/project/Gurkengewuerz/kshare/branch/dev) |
+## Buildstatus (Arch, Ubuntu/Debian and Windows (MXE))
+**master**|**dev**
+:-----:|:-----:
+[![Build Status](https://giteaci.mc8051.de/api/badges/Gurkengewuerz/KShare/status.svg?ref=refs/heads/master)](https://giteaci.mc8051.de/Gurkengewuerz/KShare)| [![Build Status](https://giteaci.mc8051.de/api/badges/Gurkengewuerz/KShare/status.svg?ref=refs/heads/dev)](https://giteaci.mc8051.de/Gurkengewuerz/KShare)
 
 [Artifacts](https://artifacts.mc8051.de/Gurkengewuerz/KShare)
 

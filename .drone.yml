@@ -7,22 +7,52 @@ platform:
   arch: amd64
 
 steps:
+  - name: submodules
+    image: alpine/git
+    commands:
+    - git submodule update --init --recursive
+
+  - name: build-mxe
+    image: ubuntu:bionic
+    volumes:
+      - name: cache
+        path: /release
+    commands:
+      - rm -rf build/ || true
+      - apt-get update && apt-get install -yqq wget gnupg2 curl rsync p7zip git
+      - mkdir build && pwd && ls -lahR .
+      - cd build
+      - wget -qO - https://pkg.mxe.cc/repos/apt/client-conf/mxeapt.gpg | apt-key add -
+      - echo 'deb https://pkg.mxe.cc/repos/apt/ bionic main' >> /etc/apt/sources.list
+      - apt-get update && apt-get install -yqq mxe-x86-64-w64-mingw32.shared-qtbase mxe-x86-64-w64-mingw32.shared-qtmultimedia mxe-x86-64-w64-mingw32.shared-qttools mxe-x86-64-w64-mingw32.shared-qtwinextras
+      - apt-get install -yqq mxe-x86-64-w64-mingw32.shared-ffmpeg
+      - export PATH=/usr/lib/mxe/usr/x86_64-w64-mingw32.shared/qt5/bin:$PATH
+      - export PATH=/usr/lib/mxe/usr/bin:$PATH
+      - cp /usr/lib/mxe/usr/x86_64-w64-mingw32.shared/include/lmcons.h /usr/lib/mxe/usr/x86_64-w64-mingw32.shared/include/Lmcons.h
+      - qmake --version
+      - qmake CONFIG+=nopkg ../KShare.pro
+      - make -j2
+      - mkdir dist
+      - cp src/release/kshare.exe dist/KShare.exe
+      - /usr/lib/mxe/tools/copydlldeps.sh --infile dist/KShare.exe --destdir dist/ --recursivesrcdir /usr/lib/mxe/usr/x86_64-w64-mingw32.shared/ --srcdir ../src/ --copy --enforcedir /usr/lib/mxe/usr/x86_64-w64-mingw32.shared/qt5/plugins/platforms/ --objdump /usr/lib/mxe/usr/bin/x86_64-w64-mingw32.shared-objdump
+      - mkdir dist/mediaservice; cp /usr/lib/mxe/usr/x86_64-w64-mingw32.shared/qt5/plugins/mediaservice/dsengine.dll dist/mediaservice
+      - cd dist/; cp KShare.exe "/release/KShare_v${DRONE_COMMIT_SHA:0:9}.exe"; zip -r "/release/win_kshare_v${DRONE_COMMIT_SHA:0:9}_portable.zip" *
+      - ls -lahR /release/
+
   - name: build-ubuntu
     image: buildpack-deps:19.10
     volumes:
       - name: cache
         path: /release
     commands:
+      - rm -rf build/ || true
       - apt-get update -yqq && apt-get install -yqq build-essential cmake \gcc g++ qt5-default qt5-qmake qtmultimedia5-dev libqt5svg5-dev libx11-dev libavformat-dev libavcodec-dev libavutil-dev libswscale-dev libqt5x11extras5-dev libxcb-util-dev libxcb-cursor-dev libxcb1-dev 
       - qmake --version
-      - git submodule sync
-      - git submodule update --init
       - mkdir build && pwd && ls -lahR .
       - cd build && pwd && ls; qmake ..; make -j2; cd ..
       - mkdir /release || true
-      - cp build/src/kshare /release/
+      - cp build/src/kshare "/release/kshare_v${DRONE_COMMIT_SHA:0:9}"
       - cd packages/; ./makedeb.sh ci; cp *.deb /release/; cd ..
-      - rm -rf build/
 
   - name: build-arch
     image: archlinux/base:latest
@@ -30,6 +60,7 @@ steps:
       - name: cache
         path: /release
     commands:
+      - rm -rf build/ || true
       - pacman -Sy && pacman -S --noconfirm base-devel git sudo wget
       - "echo 'Set disable_coredump false' >> /etc/sudo.conf"
       - "mkdir /home/build && useradd --home /home/build --shell=/bin/false build && usermod -L build && chown build:build /home/build && echo 'build ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers && echo 'root ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
